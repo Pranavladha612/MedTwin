@@ -15,9 +15,13 @@ from core.ingestion import mark_missing
 from core.metrics import calculate_fidelity_score
 from research.adversarial_audit import calculate_privacy_score
 
-# Dataset: set MEDTWIN_CONFIG to a settings file to show another dataset,
-# e.g.  MEDTWIN_CONFIG=configs/diabetes.yaml streamlit run app/dashboard.py
-cfg = config.active()
+# Dataset: pass a settings file after "--", like the other scripts' --config:
+#   streamlit run app/dashboard.py -- --config configs/diabetes.yaml
+# (or set the MEDTWIN_CONFIG environment variable)
+if "--config" in sys.argv[:-1]:
+    cfg = config.use(sys.argv[sys.argv.index("--config") + 1])
+else:
+    cfg = config.active()
 ui = cfg.dashboard
 
 # --- PAGE CONFIG ---

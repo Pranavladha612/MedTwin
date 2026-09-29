@@ -83,6 +83,10 @@ class DatasetConfig:
     def report_target(self):
         return self.report_name(self.target)
 
+    @property
+    def fidelity_report(self):
+        return [self.report_name(c) for c in self.fidelity_columns]
+
     # ---- missing values ----------------------------------------------------
     @cached_property
     def flagged(self):

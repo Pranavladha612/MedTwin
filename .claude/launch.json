@@ -6,6 +6,12 @@
       "runtimeExecutable": "venv/Scripts/streamlit.exe",
       "runtimeArgs": ["run", "app/dashboard.py", "--server.headless", "true"],
       "port": 8501
+    },
+    {
+      "name": "medtwin-dashboard-diabetes",
+      "runtimeExecutable": "venv/Scripts/streamlit.exe",
+      "runtimeArgs": ["run", "app/dashboard.py", "--server.headless", "true", "--server.port", "8502", "--", "--config", "configs/diabetes.yaml"],
+      "port": 8502
     }
   ]
 }

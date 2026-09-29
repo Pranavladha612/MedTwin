@@ -104,7 +104,9 @@ def score(raw_df, train_raw, holdout_raw, synth):
     evaluation = evaluate_synthetic(train_raw, holdout_raw, synth)
     return {
         "fidelity_pct": calculate_fidelity_score(
-            mark_missing(raw_df), synth, config.active().fidelity_columns
+            mark_missing(raw_df).rename(columns=config.active().rename),
+            synth,
+            config.active().fidelity_report,
         ),
         "discriminator_pct": calculate_privacy_score(raw_df, synth),
         **evaluation,

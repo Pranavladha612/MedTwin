@@ -125,7 +125,7 @@ def run_pipeline():
     # zero placeholders (172 cholesterol readings for heart disease) distort
     # the real distribution.
     fidelity_score = calculate_fidelity_score(
-        mark_missing(raw_df), final_report, cfg.fidelity_columns
+        mark_missing(raw_df).rename(columns=cfg.rename), final_report, cfg.fidelity_report
     )
 
     # 10. PRIVACY VALIDATION

@@ -28,6 +28,13 @@ CFG = config.use(config.DEFAULT)
 RAW = pd.read_csv(CFG.data_file)
 
 
+@pytest.fixture(scope="module", autouse=True)
+def heart_settings():
+    """Other test files switch dataset; make sure these tests run on heart
+    disease whatever order pytest runs the files in."""
+    config.use(config.DEFAULT)
+
+
 @pytest.fixture(scope="module")
 def split():
     return split_real_data(RAW, seed=0)

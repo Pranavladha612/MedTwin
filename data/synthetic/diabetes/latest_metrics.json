@@ -1,0 +1,28 @@
+{
+  "timestamp": "2026-09-29_18-53",
+  "generated": 2000,
+  "kept_after_filter": 2000,
+  "fidelity_pct": 92.62,
+  "discriminator_pct": 61.04,
+  "utility": {
+    "trtr": {
+      "accuracy": 74.03,
+      "f1": 60.78,
+      "auc": 0.81
+    },
+    "tstr": {
+      "accuracy": 70.78,
+      "f1": 55.45,
+      "auc": 0.789
+    },
+    "auc_ratio": 0.974
+  },
+  "privacy": {
+    "dcr_closer_to_train_pct": 49.45,
+    "median_dcr_train": 0.2563,
+    "median_dcr_holdout": 0.2575,
+    "exact_copies_of_train": 0,
+    "mia_auc": 0.538,
+    "n_per_real_set": 154
+  }
+}

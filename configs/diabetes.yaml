@@ -1,0 +1,76 @@
+# Pima Indians Diabetes (OpenML dataset 37, "diabetes", version 1):
+# 768 women of Pima heritage, aged 21+, one clinic.
+# data/diabetes_pima_raw_openml.csv is the file as downloaded;
+# data/diabetes_pima.csv is the same data with the text label
+# "tested_positive"/"tested_negative" turned into outcome = 1/0.
+# Run with:  python main.py --config configs/diabetes.yaml
+
+name: diabetes
+data_file: data/diabetes_pima.csv
+
+output_dir: data/synthetic/diabetes
+model_file: core/diabetes_gen.pth
+
+# --- Columns -------------------------------------------------------------
+# Every column is numeric; there are no categorical columns and no
+# hospital/site column, so the model runs unconditioned.
+numeric: [preg, plas, pres, skin, insu, mass, pedi, age, outcome]
+
+rename:
+  preg: pregnancies
+  plas: glucose
+  pres: blood_pressure
+  skin: skin_thickness
+  insu: insulin
+  mass: bmi
+  pedi: pedigree
+
+# --- Data quirks -----------------------------------------------------------
+# A glucose, blood pressure, skin fold, insulin or BMI of 0 is impossible in
+# a living person: these zeros mean "not measured" (insulin: 374 of 768).
+# Pregnancies = 0 is a real value and is NOT listed.
+zero_means_missing: [plas, pres, skin, insu, mass]
+
+# --- Clinical rules --------------------------------------------------------
+# Physiologically possible ranges, each covering every measured value in the
+# data (e.g. diastolic BP 24, insulin 846).
+plausible_ranges:
+  age: [18, 100]
+  plas: [40, 400]     # 2-hour glucose, mg/dL (data: 44-199)
+  pres: [20, 150]     # diastolic BP, mmHg (data: 24-122)
+  skin: [5, 100]      # triceps skin fold, mm (data: 7-99)
+  insu: [10, 900]     # 2-hour serum insulin, mu U/ml (data: 14-846)
+  mass: [15, 70]      # BMI (data: 18.2-67.1)
+  pedi: [0, 3]        # diabetes pedigree function (data: 0.078-2.42)
+
+discrete_numeric:
+  preg: [0, 17]
+  outcome: [0, 1]
+
+decimals:
+  mass: 1
+  pedi: 3
+
+# --- Evaluation ------------------------------------------------------------
+predict:
+  column: outcome
+  positive_above: 0
+
+fidelity_columns: [plas, pres, mass, age]
+
+# --- Display (keyed by report names) -------------------------------------
+labels:
+  pregnancies: Pregnancies
+  glucose: Glucose (mg/dL)
+  blood_pressure: Diastolic BP (mmHg)
+  skin_thickness: Skin fold (mm)
+  insulin: Insulin (mu U/ml)
+  bmi: BMI
+  pedigree: Diabetes pedigree
+  age: Age (years)
+  outcome: Diabetes (1 = yes)
+
+dashboard:
+  filter_range: age
+  headline_average: glucose
+  headline_unit: mg/dL

@@ -131,8 +131,18 @@ def fig_continuous(real, synth):
 
 
 def shared_legend(fig, ax):
-    """One legend for the whole figure, top right, clear of every panel."""
-    fig.legend(*ax.get_legend_handles_labels(), loc="upper right", ncol=2, fontsize=9)
+    """One legend for the whole figure, centred below the panels, where it
+    can't collide with the title however narrow the figure is."""
+    fig.legend(*ax.get_legend_handles_labels(), loc="upper center",
+               bbox_to_anchor=(0.5, 0.0), ncol=2, fontsize=9)
+
+
+def category_order(value):
+    """Numbers in numeric order (2 before 10), then text, "not measured" last."""
+    try:
+        return (0, float(value), "")
+    except ValueError:
+        return (1 if value != NOT_MEASURED else 2, 0.0, value)
 
 
 def proportions(series):
@@ -153,7 +163,7 @@ def fig_categorical(real, synth):
     fig, axes = panel_grid(len(cols), 5, 3.2, 3.2)
     for ax, col in zip(axes, cols):
         r, s = proportions(real[col]), proportions(synth[col])
-        cats = sorted(set(r.index) | set(s.index), key=lambda c: (c == NOT_MEASURED, c))
+        cats = sorted(set(r.index) | set(s.index), key=category_order)
         x = np.arange(len(cats))
         w = 0.38
         ax.bar(x - w / 2 - 0.01, r.reindex(cats, fill_value=0), w, color=REAL, label="Real")
@@ -164,7 +174,7 @@ def fig_categorical(real, synth):
         ax.yaxis.set_major_formatter(matplotlib.ticker.PercentFormatter(1.0, decimals=0))
         ax.grid(axis="x", visible=False)
     shared_legend(fig, axes[0])
-    fig.suptitle("Categorical columns: share of patients, including \"not measured\"", x=0.01, ha="left")
+    fig.suptitle("Categories and counts: share of patients, including \"not measured\"", x=0.01, ha="left")
     fig.tight_layout()
     save(fig, "fig_categorical.png")
 
@@ -232,6 +242,10 @@ def fig_correlation(real, synth):
 
 
 def fig_benchmark(runs_path):
+    if not os.path.exists(runs_path):
+        print(f"⏭️ No multi-seed results yet ({os.path.relpath(runs_path, BASE_DIR)}); "
+              "run research/multi_seed.py for this dataset first.")
+        return
     runs = pd.read_csv(runs_path)
     models = ["MedTwin WGAN-GP"] + sorted(m for m in runs.model.unique() if m != "MedTwin WGAN-GP")
     metrics = [
