@@ -1,0 +1,31 @@
+
+🏗️ seed 4 | MedTwin WGAN-GP
+🚀 Training Boosted GAN (600 Epochs)...
+🧠 Initializing Advanced WGAN-GP Architecture with Correlation Loss...
+Epoch [50/600] | Critic Loss: -1.0289 | Gen Loss: 0.4957 | Corr Error: 0.0285
+Epoch [100/600] | Critic Loss: -0.3364 | Gen Loss: -1.0697 | Corr Error: 0.0216
+Epoch [150/600] | Critic Loss: -0.2368 | Gen Loss: -1.1161 | Corr Error: 0.0304
+Epoch [200/600] | Critic Loss: -0.1138 | Gen Loss: -1.2747 | Corr Error: 0.0247
+Epoch [250/600] | Critic Loss: -0.1537 | Gen Loss: -1.1255 | Corr Error: 0.0281
+Epoch [300/600] | Critic Loss: -0.1938 | Gen Loss: -0.9757 | Corr Error: 0.0254
+Epoch [350/600] | Critic Loss: -0.2612 | Gen Loss: -1.2110 | Corr Error: 0.0230
+Epoch [400/600] | Critic Loss: -0.1512 | Gen Loss: -1.0472 | Corr Error: 0.0280
+Epoch [450/600] | Critic Loss: -0.0890 | Gen Loss: -1.0304 | Corr Error: 0.0310
+Epoch [500/600] | Critic Loss: -0.1265 | Gen Loss: -1.1126 | Corr Error: 0.0323
+Epoch [550/600] | Critic Loss: -0.0984 | Gen Loss: -1.0601 | Corr Error: 0.0282
+Epoch [600/600] | Critic Loss: -0.2075 | Gen Loss: -1.0387 | Corr Error: 0.0209
+
+--- Phase 4: Generating Synthetic Population ---
+🛡️ Applying Clinical Reality Checks...
+✅ Refined data: 1898/2000 records kept.
+🎯 Quantizing values for High Statistical Fidelity...
+🧹 Cleaning columns for Clinical Report...
+🛡️ Applying Clinical Reality Checks...
+✅ Refined data: 632/736 records kept.
+🛡️ Applying Clinical Reality Checks...
+✅ Refined data: 155/184 records kept.
+🛡️ Applying Clinical Reality Checks...
+✅ Refined data: 787/920 records kept.
+✅ seed 4 | MedTwin WGAN-GP: saved
+🛡️ Applying Clinical Reality Checks...
+✅ Refined data: 632/736 records kept.

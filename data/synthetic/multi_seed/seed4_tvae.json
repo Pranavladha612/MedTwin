@@ -1,0 +1,14 @@
+{
+  "model": "TVAE",
+  "rows_kept": 1987,
+  "fidelity_pct": 81.07,
+  "discriminator_pct": 79.55,
+  "tstr_auc": 0.908,
+  "trtr_auc": 0.913,
+  "auc_ratio": 0.995,
+  "dcr_closer_to_train_pct": 52.59,
+  "mia_auc": 0.519,
+  "exact_copies": 0,
+  "train_seconds": 14.5,
+  "seed": 4
+}

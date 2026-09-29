@@ -1,0 +1,14 @@
+{
+  "model": "MedTwin WGAN-GP",
+  "rows_kept": 1897,
+  "fidelity_pct": 87.59,
+  "discriminator_pct": 77.0,
+  "tstr_auc": 0.848,
+  "trtr_auc": 0.89,
+  "auc_ratio": 0.953,
+  "dcr_closer_to_train_pct": 47.34,
+  "mia_auc": 0.521,
+  "exact_copies": 0,
+  "train_seconds": 289.5,
+  "seed": 0
+}

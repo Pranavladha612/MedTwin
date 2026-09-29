@@ -1,0 +1,5 @@
+model,rows_kept,fidelity_pct,discriminator_pct,tstr_auc,trtr_auc,auc_ratio,dcr_closer_to_train_pct,mia_auc,exact_copies,train_seconds
+MedTwin WGAN-GP,1895,86.61,72.84,0.884,0.917,0.964,54.09,0.5,0,
+CTGAN,1423,74.87,81.47,0.863,0.917,0.941,51.79,0.522,0,6111.3
+TVAE,1988,85.14,78.59,0.905,0.917,0.987,53.17,0.521,0,44.5
+TabDDPM,1950,84.0,61.34,0.841,0.917,0.917,66.87,0.747,0,1033.0

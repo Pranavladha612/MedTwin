@@ -1,0 +1,1538 @@
+age,gender,chest_pain,trestbps,chol,thalch,oldpeak,num,origin_study
+50,Male,asymptomatic,108,277,168,0.7,0,Cleveland
+57,Female,asymptomatic,145,371,169,1.2,1,Cleveland
+33,Male,asymptomatic,98,136,149,0.0,1,Cleveland
+68,Male,non-anginal,130,219,137,1.5,1,Cleveland
+44,Male,non-anginal,121,125,85,0.0,0,Hungary
+71,Male,asymptomatic,138,151,112,0.0,1,VA Long Beach
+45,Male,asymptomatic,127,154,170,0.8,1,Cleveland
+65,Male,asymptomatic,159,120,162,2.0,1,VA Long Beach
+55,Female,atypical angina,176,304,137,0.0,0,Hungary
+72,Male,asymptomatic,165,125,99,2.7,1,VA Long Beach
+38,Male,asymptomatic,121,307,129,0.7,1,Hungary
+69,Male,asymptomatic,145,220,92,1.6,1,VA Long Beach
+62,Female,asymptomatic,136,360,122,0.3,0,Hungary
+72,Male,asymptomatic,160,232,124,0.5,1,VA Long Beach
+56,Male,asymptomatic,143,235,106,0.7,0,Hungary
+41,Male,atypical angina,134,228,162,0.0,0,Hungary
+49,Female,atypical angina,120,136,181,0.0,1,Cleveland
+55,Male,non-anginal,133,246,137,0.0,1,Cleveland
+50,Male,atypical angina,144,294,181,0.0,0,Cleveland
+43,Female,atypical angina,109,289,104,1.3,1,Cleveland
+56,Male,atypical angina,98,157,128,0.0,0,Hungary
+50,Female,atypical angina,124,266,167,0.3,0,Hungary
+58,Male,asymptomatic,145,165,132,1.2,1,VA Long Beach
+46,Male,asymptomatic,142,195,160,0.0,1,Cleveland
+44,Male,atypical angina,146,216,135,1.1,1,Hungary
+68,Male,asymptomatic,138,220,121,1.3,1,VA Long Beach
+65,Female,atypical angina,108,290,115,0.4,1,Cleveland
+57,Male,asymptomatic,115,178,171,1.1,0,Cleveland
+58,Male,asymptomatic,144,186,118,1.3,1,VA Long Beach
+62,Male,atypical angina,153,166,150,0.2,0,Cleveland
+67,Male,asymptomatic,170,112,143,4.1,1,VA Long Beach
+62,Male,non-anginal,143,324,96,1.1,0,Hungary
+36,Male,asymptomatic,116,198,175,1.3,1,Cleveland
+69,Female,asymptomatic,103,210,143,0.0,0,VA Long Beach
+52,Female,asymptomatic,115,138,171,1.8,1,Cleveland
+55,Male,asymptomatic,120,188,94,0.4,1,Cleveland
+43,Male,asymptomatic,126,267,140,0.0,0,Hungary
+49,Male,atypical angina,135,237,166,0.4,1,Hungary
+72,Male,asymptomatic,141,292,150,1.9,1,VA Long Beach
+63,Female,non-anginal,156,248,149,1.5,0,Cleveland
+59,Female,typical angina,122,331,152,0.6,1,Cleveland
+57,Male,asymptomatic,99,137,120,1.9,1,Hungary
+40,Female,atypical angina,135,279,157,0.1,0,Hungary
+61,Female,asymptomatic,136,111,124,2.0,1,Cleveland
+55,Male,asymptomatic,153,314,162,0.7,1,VA Long Beach
+68,Male,asymptomatic,161,177,157,0.7,1,VA Long Beach
+34,Female,asymptomatic,127,314,160,1.5,1,Hungary
+69,Male,asymptomatic,139,372,81,3.9,1,Hungary
+67,Male,asymptomatic,163,193,137,0.9,1,Cleveland
+49,Male,asymptomatic,143,200,134,0.0,0,Hungary
+63,Male,asymptomatic,138,489,183,0.6,1,Cleveland
+57,Male,typical angina,132,228,166,0.7,0,Cleveland
+56,Female,asymptomatic,142,198,152,0.7,1,Cleveland
+38,Male,asymptomatic,128,295,151,0.0,0,Hungary
+61,Male,asymptomatic,125,315,139,2.4,1,VA Long Beach
+59,Male,asymptomatic,140,127,130,0.0,1,Cleveland
+56,Male,asymptomatic,129,374,187,0.3,1,Cleveland
+61,Male,asymptomatic,140,213,128,0.0,1,Hungary
+67,Male,atypical angina,147,248,104,0.0,1,Hungary
+47,Male,non-anginal,112,222,178,1.3,1,VA Long Beach
+38,Female,non-anginal,127,189,174,0.0,0,Hungary
+54,Male,non-anginal,122,234,115,1.3,1,Cleveland
+55,Female,non-anginal,142,238,142,0.9,0,Cleveland
+52,Female,non-anginal,122,184,130,1.2,0,Hungary
+47,Male,atypical angina,115,144,154,0.3,1,VA Long Beach
+53,Male,non-anginal,126,245,119,0.0,0,Hungary
+47,Male,atypical angina,140,246,154,0.4,0,Hungary
+50,Male,asymptomatic,153,325,148,0.0,1,Hungary
+40,Female,atypical angina,109,257,154,0.2,0,Hungary
+58,Male,non-anginal,151,307,162,1.4,0,Hungary
+65,Male,asymptomatic,168,284,105,4.0,1,Hungary
+68,Male,non-anginal,162,141,113,0.6,1,VA Long Beach
+60,Male,non-anginal,128,151,158,0.0,1,Cleveland
+49,Female,non-anginal,145,117,175,0.6,0,Cleveland
+48,Female,atypical angina,131,258,132,1.3,0,Hungary
+46,Male,atypical angina,127,308,111,1.1,1,Hungary
+44,Male,asymptomatic,147,195,153,0.3,1,Cleveland
+39,Male,atypical angina,128,358,133,0.1,0,Hungary
+62,Male,asymptomatic,114,147,100,2.7,1,Cleveland
+35,Male,asymptomatic,115,264,180,0.9,1,Cleveland
+34,Male,asymptomatic,122,115,117,1.2,1,Hungary
+65,Male,asymptomatic,141,270,111,0.3,1,Hungary
+47,Male,non-anginal,120,222,166,1.1,0,Cleveland
+35,Male,non-anginal,144,189,189,0.0,0,Hungary
+69,Male,asymptomatic,137,333,129,1.6,1,Cleveland
+44,Female,non-anginal,107,289,178,1.1,1,Cleveland
+72,Male,asymptomatic,138,367,157,2.0,1,Cleveland
+38,Female,non-anginal,148,221,183,0.5,0,Hungary
+70,Male,non-anginal,118,211,137,0.0,1,VA Long Beach
+57,Male,non-anginal,139,230,175,0.2,0,Cleveland
+42,Female,asymptomatic,139,384,183,1.2,0,Cleveland
+49,Male,asymptomatic,170,274,119,3.6,1,VA Long Beach
+47,Female,non-anginal,114,461,186,1.1,0,Cleveland
+71,Female,asymptomatic,147,320,96,1.9,1,Hungary
+52,Male,asymptomatic,123,248,126,1.7,1,VA Long Beach
+57,Male,atypical angina,126,240,150,0.5,1,Cleveland
+49,Male,atypical angina,133,464,75,1.7,1,Hungary
+46,Male,asymptomatic,155,254,156,0.0,0,Hungary
+57,Male,atypical angina,156,187,128,0.9,0,Cleveland
+43,Male,non-anginal,137,314,167,0.8,0,Cleveland
+34,Male,atypical angina,120,235,146,0.0,0,Hungary
+58,Female,asymptomatic,122,285,107,2.0,1,Hungary
+60,Male,atypical angina,140,382,141,2.2,1,Hungary
+62,Male,asymptomatic,95,244,148,1.4,1,Cleveland
+55,Male,asymptomatic,150,304,72,2.5,1,VA Long Beach
+61,Male,non-anginal,126,110,146,1.6,1,VA Long Beach
+44,Female,atypical angina,132,236,140,0.3,0,Hungary
+66,Male,asymptomatic,175,386,130,1.9,1,VA Long Beach
+64,Female,atypical angina,138,223,156,1.6,0,Cleveland
+57,Male,atypical angina,148,141,179,1.7,1,VA Long Beach
+50,Male,atypical angina,139,263,119,0.4,0,Hungary
+49,Male,asymptomatic,150,157,148,0.0,1,VA Long Beach
+41,Female,asymptomatic,147,357,151,0.0,0,Hungary
+42,Male,atypical angina,135,217,170,0.0,1,Hungary
+56,Male,atypical angina,117,175,142,0.2,1,VA Long Beach
+59,Female,asymptomatic,155,287,165,1.0,1,Cleveland
+47,Male,asymptomatic,116,212,166,0.0,0,Hungary
+64,Male,asymptomatic,130,223,126,1.4,1,VA Long Beach
+64,Female,asymptomatic,129,399,136,1.4,1,Cleveland
+54,Male,atypical angina,128,372,136,0.0,1,Hungary
+59,Male,non-anginal,155,312,105,1.2,1,Hungary
+47,Male,asymptomatic,129,280,133,1.0,1,Hungary
+42,Male,non-anginal,156,158,183,0.0,0,Hungary
+44,Male,asymptomatic,124,226,139,3.0,1,Hungary
+63,Male,asymptomatic,161,357,145,2.8,1,VA Long Beach
+46,Female,asymptomatic,141,444,187,0.0,0,Cleveland
+49,Male,asymptomatic,119,296,161,0.0,0,Cleveland
+46,Female,asymptomatic,113,306,101,1.4,1,Hungary
+59,Female,non-anginal,139,182,174,0.9,0,Cleveland
+35,Male,asymptomatic,150,287,145,0.5,0,Hungary
+50,Male,asymptomatic,112,337,171,1.9,0,Hungary
+62,Male,non-anginal,146,215,156,0.6,0,Cleveland
+60,Female,asymptomatic,113,264,162,0.4,0,Cleveland
+69,Male,atypical angina,153,118,159,0.5,1,VA Long Beach
+46,Female,asymptomatic,145,315,97,0.6,1,Hungary
+64,Male,asymptomatic,149,305,159,3.2,1,Cleveland
+70,Male,asymptomatic,114,141,93,2.1,1,VA Long Beach
+54,Male,asymptomatic,120,166,96,1.9,1,Hungary
+44,Male,asymptomatic,103,124,158,2.1,1,Hungary
+62,Male,non-anginal,155,154,91,1.7,0,VA Long Beach
+43,Male,asymptomatic,145,214,152,1.4,1,Hungary
+62,Male,asymptomatic,146,248,110,1.7,1,Cleveland
+42,Female,atypical angina,113,266,130,0.0,0,Hungary
+62,Male,asymptomatic,122,311,119,0.0,1,Hungary
+57,Male,asymptomatic,141,181,165,0.0,0,Cleveland
+68,Female,asymptomatic,115,433,188,1.8,1,Cleveland
+72,Female,atypical angina,149,205,106,0.3,0,Hungary
+66,Male,asymptomatic,148,352,151,0.5,1,Cleveland
+33,Male,non-anginal,141,235,147,1.3,0,Hungary
+50,Male,asymptomatic,145,318,129,2.3,1,Hungary
+47,Female,asymptomatic,144,243,160,1.4,1,Cleveland
+46,Male,asymptomatic,117,146,104,1.7,1,Cleveland
+61,Male,asymptomatic,150,203,158,0.0,0,Cleveland
+63,Male,asymptomatic,110,207,160,0.8,0,VA Long Beach
+51,Male,atypical angina,139,270,153,0.0,0,Cleveland
+35,Male,asymptomatic,119,263,181,0.0,0,Cleveland
+49,Male,asymptomatic,160,268,144,0.0,0,Hungary
+60,Male,asymptomatic,141,388,96,0.8,1,Hungary
+67,Male,asymptomatic,124,421,147,1.4,1,Cleveland
+63,Female,non-anginal,152,234,174,0.0,0,Cleveland
+64,Female,non-anginal,133,250,129,0.0,0,Cleveland
+64,Male,asymptomatic,138,197,142,0.0,1,Cleveland
+59,Male,atypical angina,135,347,169,0.0,0,Cleveland
+65,Male,non-anginal,130,252,116,1.5,1,Cleveland
+66,Male,asymptomatic,135,189,103,1.6,1,VA Long Beach
+51,Male,asymptomatic,127,235,83,0.4,1,VA Long Beach
+33,Male,non-anginal,119,148,182,0.0,0,Cleveland
+56,Male,asymptomatic,131,384,137,2.5,1,Hungary
+56,Male,asymptomatic,112,347,134,1.4,1,Cleveland
+66,Female,atypical angina,141,321,114,0.6,0,Hungary
+62,Male,asymptomatic,150,168,112,2.9,1,VA Long Beach
+60,Male,asymptomatic,161,137,113,2.5,1,VA Long Beach
+60,Male,non-anginal,146,128,115,0.8,1,Hungary
+69,Male,asymptomatic,129,145,85,0.3,1,VA Long Beach
+49,Male,asymptomatic,100,217,148,2.4,1,Cleveland
+35,Female,non-anginal,106,214,155,0.9,0,Hungary
+69,Male,asymptomatic,155,391,119,2.9,1,Cleveland
+43,Female,asymptomatic,116,159,131,0.0,1,VA Long Beach
+65,Female,asymptomatic,124,244,167,1.0,1,Cleveland
+55,Female,asymptomatic,108,217,123,0.0,1,Hungary
+60,Male,asymptomatic,155,124,132,2.4,1,Cleveland
+56,Male,asymptomatic,160,288,91,1.7,1,Cleveland
+58,Male,asymptomatic,151,133,116,1.0,1,VA Long Beach
+51,Female,atypical angina,142,142,177,2.1,0,Cleveland
+63,Female,typical angina,128,209,134,0.3,1,Cleveland
+52,Female,atypical angina,129,215,112,0.1,0,Hungary
+64,Male,asymptomatic,139,120,113,0.5,1,Cleveland
+57,Male,asymptomatic,121,244,149,0.2,1,VA Long Beach
+32,Male,non-anginal,129,181,151,0.4,0,Hungary
+64,Female,asymptomatic,145,260,144,1.4,0,Hungary
+59,Male,asymptomatic,136,186,133,0.6,1,VA Long Beach
+47,Male,atypical angina,113,286,122,0.5,1,Hungary
+56,Female,atypical angina,103,245,147,0.9,0,Hungary
+57,Male,asymptomatic,143,298,112,1.6,1,Hungary
+50,Male,asymptomatic,132,209,133,2.2,1,Cleveland
+51,Male,asymptomatic,127,289,108,1.9,1,Hungary
+60,Female,atypical angina,132,257,128,1.0,0,Cleveland
+75,Male,asymptomatic,139,142,91,1.6,1,VA Long Beach
+33,Male,atypical angina,141,212,171,0.0,0,Hungary
+59,Male,non-anginal,124,178,165,0.0,0,Cleveland
+41,Male,asymptomatic,117,322,178,2.0,1,Cleveland
+58,Male,asymptomatic,128,329,174,3.2,1,Cleveland
+53,Female,asymptomatic,141,221,120,0.0,0,Hungary
+62,Male,asymptomatic,175,270,126,0.1,1,VA Long Beach
+39,Male,atypical angina,126,334,187,1.0,0,Hungary
+41,Male,typical angina,137,409,167,0.5,1,Cleveland
+37,Male,asymptomatic,109,216,161,1.8,1,Cleveland
+55,Male,asymptomatic,120,422,164,2.5,1,Cleveland
+44,Female,non-anginal,133,208,185,1.2,0,Cleveland
+61,Male,asymptomatic,114,353,139,2.9,1,Cleveland
+56,Male,atypical angina,123,218,139,0.0,0,Hungary
+73,Male,asymptomatic,153,264,127,2.0,1,Cleveland
+44,Male,asymptomatic,158,278,138,1.8,1,Hungary
+56,Female,atypical angina,157,329,131,0.4,0,Hungary
+57,Male,asymptomatic,175,243,127,0.0,1,Hungary
+39,Female,asymptomatic,111,180,173,0.0,0,Hungary
+70,Male,asymptomatic,160,247,100,2.4,1,VA Long Beach
+41,Female,atypical angina,162,236,155,0.2,1,Hungary
+72,Male,non-anginal,136,253,99,2.4,1,Cleveland
+66,Male,asymptomatic,126,126,112,0.1,1,VA Long Beach
+66,Male,asymptomatic,132,232,116,1.2,1,Cleveland
+57,Male,non-anginal,145,255,152,0.4,0,Hungary
+64,Male,asymptomatic,163,288,180,0.9,0,Cleveland
+43,Male,atypical angina,108,198,159,0.3,0,Hungary
+55,Male,non-anginal,106,224,181,1.6,1,Hungary
+71,Male,typical angina,115,291,143,0.8,1,Cleveland
+53,Male,asymptomatic,141,374,156,3.6,1,Cleveland
+63,Male,asymptomatic,129,205,183,1.8,1,VA Long Beach
+49,Male,asymptomatic,136,271,90,1.2,0,Hungary
+46,Male,non-anginal,121,126,155,2.2,1,Hungary
+57,Male,asymptomatic,156,226,144,1.5,1,VA Long Beach
+34,Female,asymptomatic,128,287,178,0.8,0,Hungary
+54,Male,asymptomatic,139,132,174,0.4,1,Cleveland
+50,Male,atypical angina,152,290,188,0.0,0,Cleveland
+45,Male,non-anginal,126,151,138,0.1,1,Hungary
+67,Male,asymptomatic,121,233,171,0.0,1,Cleveland
+45,Male,atypical angina,150,315,142,0.9,0,Hungary
+51,Female,asymptomatic,120,228,175,1.4,1,Hungary
+44,Male,asymptomatic,165,357,142,0.0,0,Hungary
+64,Male,asymptomatic,137,193,116,1.1,1,VA Long Beach
+44,Male,non-anginal,127,200,161,0.5,1,Cleveland
+40,Female,atypical angina,102,233,131,0.8,0,Hungary
+51,Female,atypical angina,113,179,141,0.4,0,Hungary
+50,Male,non-anginal,125,198,181,1.2,0,Cleveland
+63,Male,atypical angina,130,253,148,0.4,0,Cleveland
+58,Female,asymptomatic,158,272,138,0.0,0,Hungary
+48,Male,asymptomatic,108,134,160,0.1,1,Cleveland
+61,Male,asymptomatic,151,288,155,2.4,1,Hungary
+48,Female,non-anginal,132,193,153,0.0,0,Cleveland
+73,Female,asymptomatic,150,180,134,2.1,1,Cleveland
+45,Male,non-anginal,115,207,161,0.0,0,Cleveland
+59,Male,asymptomatic,152,336,153,2.2,1,Cleveland
+58,Male,typical angina,164,262,132,0.7,1,Hungary
+53,Male,asymptomatic,110,176,168,0.6,0,Cleveland
+62,Male,non-anginal,140,212,152,2.4,1,Cleveland
+48,Male,asymptomatic,131,233,130,1.7,1,Cleveland
+41,Male,asymptomatic,141,391,124,0.0,0,Hungary
+68,Male,asymptomatic,112,251,97,1.5,1,Cleveland
+68,Male,asymptomatic,107,186,140,1.2,1,VA Long Beach
+64,Male,asymptomatic,165,294,129,0.0,1,Hungary
+60,Male,atypical angina,144,212,122,0.0,0,VA Long Beach
+52,Male,asymptomatic,152,173,171,0.0,0,Hungary
+53,Female,atypical angina,118,291,166,0.7,0,Cleveland
+47,Male,asymptomatic,148,235,167,1.2,1,VA Long Beach
+47,Male,asymptomatic,136,413,187,0.1,0,Cleveland
+55,Male,non-anginal,105,136,157,1.5,1,VA Long Beach
+52,Male,asymptomatic,151,387,120,2.8,1,Cleveland
+47,Male,asymptomatic,100,155,101,0.1,1,Cleveland
+57,Male,non-anginal,133,121,105,0.0,0,VA Long Beach
+60,Male,non-anginal,135,323,123,0.3,0,Cleveland
+34,Female,non-anginal,141,134,194,0.4,0,Cleveland
+67,Male,asymptomatic,145,328,130,2.7,1,Hungary
+57,Male,atypical angina,103,286,136,1.2,1,Hungary
+64,Male,asymptomatic,156,163,151,1.9,1,VA Long Beach
+54,Female,non-anginal,131,224,142,0.4,1,Hungary
+57,Male,non-anginal,98,175,136,0.7,1,Hungary
+66,Male,asymptomatic,150,272,119,2.1,1,Cleveland
+53,Male,asymptomatic,141,239,133,1.1,1,Hungary
+51,Male,non-anginal,129,227,164,0.8,0,Cleveland
+47,Female,atypical angina,145,124,191,0.2,0,Cleveland
+54,Male,asymptomatic,133,216,179,0.2,0,VA Long Beach
+64,Male,non-anginal,141,373,152,1.4,1,Cleveland
+42,Male,asymptomatic,125,247,159,2.4,1,Hungary
+51,Female,asymptomatic,96,245,167,0.8,0,Cleveland
+41,Female,asymptomatic,138,278,131,0.6,0,Hungary
+62,Male,asymptomatic,157,298,150,1.8,1,Cleveland
+47,Male,non-anginal,148,277,154,0.8,0,Cleveland
+47,Male,asymptomatic,134,255,96,3.5,1,Cleveland
+37,Male,atypical angina,114,211,189,1.0,0,Cleveland
+60,Male,non-anginal,115,371,157,1.1,0,Cleveland
+59,Male,asymptomatic,124,317,118,0.8,1,Cleveland
+70,Male,non-anginal,142,291,141,0.0,0,Hungary
+59,Male,non-anginal,119,204,169,1.6,1,Cleveland
+53,Male,asymptomatic,129,176,163,0.4,1,Cleveland
+71,Male,atypical angina,129,208,115,0.0,0,Hungary
+48,Male,asymptomatic,129,293,163,0.0,1,Cleveland
+47,Female,non-anginal,116,148,178,0.5,0,Cleveland
+59,Male,non-anginal,147,294,130,0.0,0,Hungary
+63,Female,atypical angina,135,355,175,0.9,0,Cleveland
+43,Male,non-anginal,134,165,166,1.0,0,Hungary
+61,Male,non-anginal,127,192,117,0.6,1,VA Long Beach
+46,Male,asymptomatic,112,191,147,2.2,1,Hungary
+67,Male,asymptomatic,126,393,119,0.0,1,Cleveland
+48,Male,non-anginal,141,255,177,0.0,0,Hungary
+65,Male,asymptomatic,141,263,124,1.0,1,Cleveland
+67,Female,asymptomatic,127,193,126,1.7,1,Cleveland
+70,Male,asymptomatic,160,184,143,4.0,1,VA Long Beach
+68,Male,asymptomatic,144,313,123,0.1,1,Cleveland
+72,Female,asymptomatic,123,350,189,0.0,0,Cleveland
+55,Male,asymptomatic,146,239,151,1.0,0,Hungary
+60,Male,atypical angina,116,340,164,0.2,0,Cleveland
+50,Male,asymptomatic,121,183,169,0.2,1,Cleveland
+36,Male,asymptomatic,115,255,167,0.6,0,Hungary
+53,Male,asymptomatic,130,341,142,0.0,1,Cleveland
+53,Male,asymptomatic,146,279,101,2.4,1,VA Long Beach
+43,Male,non-anginal,132,138,160,0.7,0,Cleveland
+50,Male,asymptomatic,134,296,181,1.6,1,Hungary
+43,Male,atypical angina,139,283,157,0.6,0,Hungary
+57,Male,atypical angina,162,388,153,3.1,1,Hungary
+63,Male,asymptomatic,137,302,156,2.3,1,Cleveland
+54,Female,non-anginal,97,235,189,1.2,0,Cleveland
+58,Female,atypical angina,162,196,137,0.9,0,Hungary
+71,Female,non-anginal,117,309,126,0.3,1,Cleveland
+56,Male,non-anginal,124,167,156,3.4,1,VA Long Beach
+61,Male,asymptomatic,146,127,169,0.6,1,VA Long Beach
+40,Male,asymptomatic,119,290,119,0.5,1,Hungary
+41,Female,atypical angina,130,223,105,1.0,0,Hungary
+55,Male,asymptomatic,117,314,101,2.3,1,Cleveland
+45,Female,non-anginal,101,302,173,1.2,0,Cleveland
+57,Female,atypical angina,110,221,144,0.2,0,Hungary
+57,Male,asymptomatic,120,264,115,1.0,1,Cleveland
+61,Male,atypical angina,125,306,175,2.2,0,Cleveland
+51,Male,asymptomatic,126,263,124,0.1,1,Hungary
+52,Male,asymptomatic,140,141,139,0.0,0,VA Long Beach
+53,Male,asymptomatic,170,314,118,0.0,1,Hungary
+71,Male,non-anginal,121,263,120,3.3,1,Cleveland
+64,Male,non-anginal,144,235,145,1.1,1,Cleveland
+56,Male,asymptomatic,107,345,170,0.9,0,Cleveland
+49,Male,asymptomatic,129,298,137,0.7,0,Hungary
+39,Female,atypical angina,116,173,156,0.9,0,Hungary
+42,Female,asymptomatic,99,298,157,0.0,0,Cleveland
+57,Male,asymptomatic,133,236,129,0.3,1,VA Long Beach
+68,Male,asymptomatic,130,292,125,1.9,1,VA Long Beach
+35,Female,atypical angina,119,265,140,0.0,1,Hungary
+54,Male,asymptomatic,143,214,141,1.7,1,Hungary
+49,Male,non-anginal,128,148,157,0.0,0,Cleveland
+46,Male,asymptomatic,152,223,128,1.4,1,Cleveland
+67,Male,non-anginal,137,173,83,1.9,1,VA Long Beach
+60,Male,asymptomatic,145,263,125,2.7,1,Hungary
+63,Male,asymptomatic,139,277,108,1.7,1,VA Long Beach
+63,Female,asymptomatic,129,297,146,1.3,1,Cleveland
+56,Male,non-anginal,132,296,140,0.9,0,Cleveland
+52,Female,non-anginal,149,211,181,0.0,0,Cleveland
+44,Female,atypical angina,127,185,165,0.4,0,Hungary
+41,Male,asymptomatic,126,192,188,1.6,0,Cleveland
+62,Male,asymptomatic,171,252,121,0.2,1,Hungary
+42,Female,asymptomatic,125,331,119,0.6,1,Cleveland
+64,Female,atypical angina,131,220,148,0.0,1,Cleveland
+58,Male,asymptomatic,132,169,150,1.3,1,VA Long Beach
+45,Male,asymptomatic,126,221,150,0.9,1,Cleveland
+53,Male,typical angina,101,157,166,1.4,1,VA Long Beach
+60,Female,asymptomatic,100,420,190,1.0,0,Cleveland
+69,Female,non-anginal,128,116,148,1.6,1,Cleveland
+57,Female,asymptomatic,175,422,133,0.5,1,Hungary
+68,Male,asymptomatic,159,244,150,4.3,1,VA Long Beach
+69,Female,non-anginal,133,141,114,1.0,1,Cleveland
+38,Male,atypical angina,131,169,161,0.2,0,Hungary
+70,Male,asymptomatic,123,338,120,0.4,1,Cleveland
+51,Female,asymptomatic,159,253,147,0.2,0,Cleveland
+54,Male,atypical angina,127,191,138,0.6,1,Cleveland
+50,Male,asymptomatic,121,120,135,0.0,1,Cleveland
+42,Male,asymptomatic,128,187,97,0.6,1,VA Long Beach
+68,Male,asymptomatic,145,255,113,1.8,1,VA Long Beach
+48,Male,asymptomatic,125,314,107,1.9,1,VA Long Beach
+35,Male,non-anginal,124,136,179,0.0,0,Cleveland
+51,Female,asymptomatic,142,217,96,0.5,1,Hungary
+49,Male,atypical angina,116,241,150,0.0,0,Hungary
+60,Male,asymptomatic,148,210,132,0.2,1,Cleveland
+56,Male,atypical angina,110,243,161,0.4,1,Cleveland
+67,Male,atypical angina,149,248,134,0.0,0,Cleveland
+56,Male,asymptomatic,127,246,157,1.6,1,Hungary
+40,Male,asymptomatic,112,317,98,0.0,0,Hungary
+48,Male,typical angina,143,365,174,0.5,1,Cleveland
+35,Female,non-anginal,101,221,111,0.0,0,Cleveland
+63,Male,atypical angina,124,283,153,0.0,0,Hungary
+39,Male,non-anginal,153,243,156,0.4,0,Cleveland
+54,Male,atypical angina,128,343,134,0.0,0,Cleveland
+38,Female,atypical angina,122,249,123,0.7,0,Hungary
+55,Female,atypical angina,138,184,157,0.0,0,Hungary
+58,Female,asymptomatic,135,336,180,0.0,0,Cleveland
+55,Female,asymptomatic,151,242,180,0.9,1,Cleveland
+60,Male,asymptomatic,166,217,145,4.1,1,Cleveland
+43,Male,non-anginal,145,208,164,0.2,0,Hungary
+39,Male,asymptomatic,132,243,79,2.8,1,Hungary
+47,Female,non-anginal,149,226,142,1.3,0,Cleveland
+45,Male,asymptomatic,111,192,144,1.2,1,Hungary
+46,Male,asymptomatic,110,144,98,2.5,1,Switzerland
+41,Female,non-anginal,105,231,154,0.0,0,Cleveland
+60,Male,non-anginal,180,312,84,2.0,1,Hungary
+69,Female,atypical angina,129,200,190,0.6,0,Cleveland
+56,Male,asymptomatic,145,272,126,0.8,1,Cleveland
+44,Male,asymptomatic,108,137,162,0.2,1,Hungary
+61,Male,non-anginal,114,180,144,0.0,1,Hungary
+43,Male,atypical angina,136,122,95,2.5,1,Cleveland
+40,Male,atypical angina,150,174,173,0.3,0,Hungary
+39,Male,atypical angina,142,289,105,0.0,0,Hungary
+43,Female,asymptomatic,149,321,95,0.0,0,Hungary
+39,Male,non-anginal,118,248,139,0.7,0,Hungary
+41,Male,asymptomatic,125,446,101,2.3,1,Hungary
+73,Female,asymptomatic,112,478,181,3.1,1,Cleveland
+55,Female,atypical angina,136,218,134,0.0,0,Cleveland
+58,Female,non-anginal,162,254,171,0.5,0,Cleveland
+65,Male,asymptomatic,113,269,104,1.1,1,VA Long Beach
+41,Male,atypical angina,159,251,162,0.3,0,Hungary
+47,Female,asymptomatic,137,433,75,2.7,1,Hungary
+72,Male,atypical angina,143,165,116,0.3,1,VA Long Beach
+70,Male,asymptomatic,142,378,168,2.3,1,Cleveland
+44,Male,asymptomatic,115,299,123,2.0,1,Hungary
+44,Male,asymptomatic,128,111,141,3.2,1,Hungary
+54,Male,atypical angina,128,181,172,0.8,1,Hungary
+59,Female,non-anginal,123,264,135,0.9,0,Cleveland
+66,Male,atypical angina,133,204,152,1.8,1,VA Long Beach
+41,Male,non-anginal,134,178,174,0.3,0,Cleveland
+56,Male,typical angina,165,110,102,0.4,1,Cleveland
+63,Male,asymptomatic,123,330,125,1.3,1,Cleveland
+43,Male,asymptomatic,123,213,135,1.3,1,Hungary
+67,Female,non-anginal,113,388,141,1.5,1,Cleveland
+39,Male,asymptomatic,104,136,150,1.2,1,Hungary
+58,Female,asymptomatic,97,275,160,0.8,1,Cleveland
+49,Male,non-anginal,116,213,158,0.1,0,Cleveland
+41,Male,asymptomatic,132,136,122,0.0,1,VA Long Beach
+39,Male,asymptomatic,116,284,173,1.7,1,Cleveland
+40,Female,asymptomatic,149,264,167,0.3,0,Hungary
+51,Male,asymptomatic,115,256,162,0.4,1,Cleveland
+57,Female,asymptomatic,149,247,141,1.0,0,Cleveland
+57,Male,asymptomatic,141,118,118,3.1,1,VA Long Beach
+68,Female,asymptomatic,125,302,117,1.0,0,Cleveland
+41,Male,asymptomatic,113,246,133,0.0,1,Hungary
+41,Male,atypical angina,139,267,164,0.0,0,Hungary
+47,Male,asymptomatic,132,276,165,0.1,0,Hungary
+36,Female,non-anginal,129,221,190,1.5,0,Hungary
+40,Male,atypical angina,113,294,128,0.0,0,Hungary
+44,Male,asymptomatic,143,296,169,1.7,0,Hungary
+64,Male,asymptomatic,122,246,110,0.2,1,Cleveland
+50,Male,non-anginal,140,132,122,0.0,0,VA Long Beach
+70,Female,asymptomatic,133,312,154,0.0,0,Cleveland
+37,Male,asymptomatic,160,156,129,2.4,1,Hungary
+63,Male,asymptomatic,172,239,110,4.8,1,Cleveland
+54,Female,non-anginal,142,230,143,1.1,0,Cleveland
+50,Female,non-anginal,146,284,120,0.6,0,Hungary
+41,Male,asymptomatic,145,431,141,0.0,1,Hungary
+57,Male,asymptomatic,109,170,120,0.3,1,VA Long Beach
+40,Male,non-anginal,151,209,157,0.0,0,Hungary
+54,Male,asymptomatic,145,193,154,0.6,0,Cleveland
+42,Male,atypical angina,154,234,151,0.3,0,Hungary
+33,Male,asymptomatic,155,191,151,0.0,0,Hungary
+47,Male,asymptomatic,135,215,162,1.3,1,VA Long Beach
+46,Male,asymptomatic,138,142,107,0.6,1,Cleveland
+48,Male,asymptomatic,98,280,84,1.0,1,VA Long Beach
+50,Male,asymptomatic,103,123,113,0.1,1,Cleveland
+42,Male,asymptomatic,105,264,119,0.3,1,VA Long Beach
+59,Male,asymptomatic,134,133,128,0.7,1,Cleveland
+39,Male,non-anginal,130,117,126,0.0,0,Cleveland
+69,Male,asymptomatic,133,218,78,1.2,1,VA Long Beach
+43,Female,atypical angina,124,300,164,0.0,0,Hungary
+53,Male,asymptomatic,103,155,131,0.8,1,Cleveland
+38,Female,atypical angina,113,301,155,0.4,0,Hungary
+65,Male,atypical angina,141,176,141,0.8,0,VA Long Beach
+58,Male,asymptomatic,103,318,150,1.7,1,Hungary
+45,Male,asymptomatic,115,190,134,2.1,1,Hungary
+54,Male,asymptomatic,162,226,73,2.1,1,VA Long Beach
+59,Male,asymptomatic,138,252,92,0.0,0,VA Long Beach
+44,Male,non-anginal,133,150,131,0.0,0,Hungary
+58,Male,typical angina,118,183,109,0.9,1,Cleveland
+62,Female,non-anginal,159,196,115,0.0,0,Cleveland
+40,Male,atypical angina,110,205,159,1.1,0,Cleveland
+35,Female,asymptomatic,117,306,134,1.0,1,Hungary
+37,Male,atypical angina,130,238,186,0.6,0,Cleveland
+55,Male,asymptomatic,140,195,153,0.5,1,Cleveland
+42,Female,atypical angina,142,257,150,0.5,0,Hungary
+49,Female,asymptomatic,112,174,114,0.9,1,Hungary
+60,Male,asymptomatic,153,114,165,2.3,1,Cleveland
+49,Female,non-anginal,134,209,169,1.6,1,Cleveland
+42,Female,atypical angina,146,189,183,0.5,0,Cleveland
+58,Male,atypical angina,119,286,162,0.0,0,Cleveland
+33,Female,atypical angina,135,196,156,1.2,0,Hungary
+48,Male,asymptomatic,112,223,80,1.0,1,Hungary
+36,Male,atypical angina,131,161,138,0.0,0,Hungary
+48,Female,atypical angina,137,215,137,0.0,0,Hungary
+60,Male,non-anginal,143,125,151,0.9,1,VA Long Beach
+34,Male,asymptomatic,124,261,176,1.5,1,Cleveland
+60,Male,asymptomatic,155,291,83,4.6,1,Hungary
+40,Male,non-anginal,150,243,184,0.0,0,Hungary
+43,Male,atypical angina,121,243,191,1.5,0,Cleveland
+48,Male,asymptomatic,133,239,110,2.3,1,Hungary
+52,Male,asymptomatic,132,221,153,1.1,1,Hungary
+56,Male,asymptomatic,157,292,99,4.9,1,Hungary
+42,Male,asymptomatic,146,133,159,0.5,1,Cleveland
+30,Male,atypical angina,118,202,168,0.5,0,Hungary
+40,Male,atypical angina,125,253,170,0.0,1,Hungary
+69,Male,asymptomatic,133,295,117,0.1,0,Hungary
+65,Male,asymptomatic,157,186,160,0.3,1,VA Long Beach
+69,Male,asymptomatic,147,200,132,3.2,1,VA Long Beach
+53,Male,non-anginal,120,137,149,0.7,1,Cleveland
+55,Male,typical angina,134,446,185,0.1,0,Cleveland
+59,Female,atypical angina,129,297,183,0.0,0,Cleveland
+60,Male,non-anginal,162,235,114,1.5,1,Hungary
+46,Male,non-anginal,108,243,163,0.0,0,Cleveland
+72,Female,asymptomatic,122,238,142,0.6,1,Cleveland
+48,Female,asymptomatic,123,125,141,0.7,0,Cleveland
+50,Male,asymptomatic,155,276,117,0.4,0,Hungary
+48,Male,asymptomatic,165,459,89,1.6,1,Hungary
+60,Female,non-anginal,135,205,148,0.8,0,Cleveland
+64,Male,asymptomatic,159,249,100,0.0,1,VA Long Beach
+62,Female,atypical angina,136,278,147,2.1,1,Hungary
+60,Female,typical angina,137,259,172,0.0,1,Cleveland
+52,Male,non-anginal,155,247,142,0.0,0,Hungary
+45,Female,asymptomatic,121,268,168,0.5,1,Cleveland
+57,Male,typical angina,141,202,155,0.9,1,Cleveland
+51,Male,asymptomatic,134,218,146,0.5,0,Hungary
+45,Male,asymptomatic,128,126,165,1.2,1,Cleveland
+55,Male,asymptomatic,124,184,109,2.9,1,VA Long Beach
+53,Female,asymptomatic,166,269,123,1.9,1,Hungary
+54,Male,asymptomatic,131,360,154,1.9,1,Cleveland
+43,Male,asymptomatic,104,353,163,1.1,1,VA Long Beach
+38,Male,atypical angina,155,146,128,0.4,1,Hungary
+61,Male,atypical angina,146,241,141,0.0,0,Hungary
+56,Male,asymptomatic,162,433,87,0.0,0,Hungary
+57,Male,asymptomatic,122,294,150,1.2,0,Cleveland
+49,Male,atypical angina,128,245,166,0.2,0,Hungary
+48,Male,asymptomatic,155,239,143,0.6,1,Cleveland
+45,Male,atypical angina,142,258,111,0.0,0,Hungary
+57,Male,asymptomatic,156,225,150,0.1,1,Cleveland
+61,Female,non-anginal,156,117,169,2.0,1,Cleveland
+56,Male,asymptomatic,120,221,137,0.9,1,Cleveland
+38,Female,typical angina,101,245,151,1.1,1,Cleveland
+68,Female,asymptomatic,111,213,156,1.9,0,Cleveland
+50,Male,asymptomatic,116,150,114,1.3,1,Cleveland
+52,Male,asymptomatic,106,141,177,0.2,1,Cleveland
+48,Male,typical angina,120,276,157,1.8,1,Cleveland
+73,Male,non-anginal,167,111,103,0.8,1,VA Long Beach
+59,Female,asymptomatic,146,166,158,0.7,1,Hungary
+57,Male,asymptomatic,153,294,105,2.5,1,Hungary
+57,Female,asymptomatic,128,248,111,0.1,1,Hungary
+46,Male,asymptomatic,122,137,144,0.4,0,Hungary
+59,Female,asymptomatic,148,244,149,0.1,1,Cleveland
+41,Male,atypical angina,125,348,87,0.1,0,Hungary
+41,Female,asymptomatic,126,302,146,1.1,1,Hungary
+65,Male,asymptomatic,163,293,165,2.9,1,VA Long Beach
+37,Female,atypical angina,135,183,149,1.3,0,Hungary
+55,Male,atypical angina,156,315,114,0.0,0,Hungary
+61,Male,asymptomatic,149,283,140,1.0,1,Cleveland
+42,Male,asymptomatic,152,255,131,1.3,1,Cleveland
+56,Male,typical angina,136,208,151,0.2,1,Cleveland
+40,Male,atypical angina,151,147,176,0.0,0,Cleveland
+64,Male,asymptomatic,147,139,93,1.1,1,VA Long Beach
+68,Male,atypical angina,151,153,145,0.8,1,VA Long Beach
+60,Male,non-anginal,153,201,158,1.0,1,VA Long Beach
+61,Male,asymptomatic,159,211,95,0.5,0,VA Long Beach
+59,Male,atypical angina,127,312,150,1.4,1,Cleveland
+71,Male,asymptomatic,156,294,96,1.3,1,VA Long Beach
+38,Male,asymptomatic,132,221,164,0.0,1,Hungary
+43,Female,atypical angina,111,277,152,0.2,0,Hungary
+46,Male,non-anginal,105,139,154,0.8,1,Cleveland
+52,Female,asymptomatic,136,196,140,0.2,0,Hungary
+62,Male,asymptomatic,144,310,131,1.2,1,Hungary
+61,Male,asymptomatic,149,347,99,0.2,1,Cleveland
+56,Male,asymptomatic,121,260,178,0.2,0,Cleveland
+42,Male,asymptomatic,153,328,169,0.7,0,Hungary
+57,Female,asymptomatic,120,237,130,0.4,1,Cleveland
+57,Male,non-anginal,139,187,175,0.7,0,Cleveland
+68,Female,asymptomatic,110,220,122,0.0,0,Cleveland
+48,Female,asymptomatic,148,335,110,0.0,1,Hungary
+64,Female,asymptomatic,131,143,155,1.3,1,Cleveland
+52,Female,non-anginal,161,190,176,0.3,0,Cleveland
+63,Male,non-anginal,129,158,105,0.3,0,Cleveland
+73,Female,non-anginal,151,390,160,2.5,1,Cleveland
+49,Male,asymptomatic,133,298,156,0.7,1,Cleveland
+36,Male,non-anginal,160,375,153,0.4,0,Hungary
+42,Female,atypical angina,129,197,163,1.3,0,Hungary
+50,Female,non-anginal,141,292,180,2.6,0,Cleveland
+63,Male,asymptomatic,148,214,168,0.1,0,Cleveland
+56,Male,atypical angina,124,303,126,0.4,1,Cleveland
+48,Male,asymptomatic,160,186,114,2.3,1,Hungary
+46,Male,non-anginal,126,113,144,0.0,1,Cleveland
+50,Male,asymptomatic,150,231,179,1.8,1,Cleveland
+38,Male,atypical angina,113,171,171,0.0,0,Hungary
+39,Male,non-anginal,106,222,172,0.8,0,Cleveland
+42,Male,atypical angina,110,139,173,0.2,0,VA Long Beach
+72,Female,non-anginal,128,422,162,1.3,0,Cleveland
+52,Female,asymptomatic,141,181,136,0.0,0,Cleveland
+64,Male,non-anginal,154,264,125,0.1,0,Cleveland
+42,Male,non-anginal,166,243,148,0.0,0,Hungary
+32,Male,asymptomatic,133,288,187,1.5,0,Cleveland
+35,Female,atypical angina,114,201,194,1.1,0,Cleveland
+43,Female,asymptomatic,128,120,139,2.3,0,Hungary
+45,Male,atypical angina,138,252,166,0.0,0,Hungary
+40,Female,non-anginal,122,281,129,0.6,0,Cleveland
+43,Male,atypical angina,137,248,133,1.0,1,Hungary
+64,Male,asymptomatic,135,205,168,1.2,1,VA Long Beach
+70,Male,atypical angina,127,219,130,0.1,0,Hungary
+54,Female,non-anginal,127,311,154,0.7,0,Cleveland
+59,Female,asymptomatic,120,234,102,0.0,0,Cleveland
+57,Male,asymptomatic,146,247,173,0.0,0,Hungary
+45,Male,asymptomatic,135,309,128,0.0,1,Hungary
+62,Female,atypical angina,175,359,165,1.0,1,Cleveland
+59,Male,non-anginal,150,241,119,0.0,0,Hungary
+52,Male,non-anginal,122,154,165,0.0,1,Cleveland
+70,Female,asymptomatic,147,227,91,0.3,1,Cleveland
+60,Male,non-anginal,116,252,124,0.7,1,Cleveland
+45,Male,asymptomatic,132,166,115,1.5,1,Cleveland
+53,Male,asymptomatic,169,308,114,0.8,0,Hungary
+73,Female,atypical angina,142,350,144,0.2,0,Cleveland
+50,Female,non-anginal,131,264,153,1.6,0,Cleveland
+60,Male,asymptomatic,152,205,144,1.7,1,Cleveland
+61,Male,asymptomatic,137,293,130,2.6,1,Cleveland
+53,Male,non-anginal,136,403,138,0.7,1,Cleveland
+70,Male,asymptomatic,140,293,117,2.6,1,Cleveland
+60,Male,asymptomatic,149,234,176,1.7,1,Cleveland
+56,Male,asymptomatic,122,306,126,0.2,0,Hungary
+64,Male,asymptomatic,153,325,115,0.7,1,Hungary
+38,Male,non-anginal,144,248,150,1.3,0,Hungary
+44,Male,non-anginal,130,124,169,0.0,0,Cleveland
+61,Male,non-anginal,135,161,152,0.0,0,Cleveland
+61,Male,asymptomatic,150,236,130,3.0,1,VA Long Beach
+43,Female,non-anginal,116,255,169,0.5,0,Cleveland
+60,Male,non-anginal,114,161,170,0.8,1,Cleveland
+45,Female,atypical angina,101,241,140,0.7,0,Hungary
+64,Male,asymptomatic,165,203,163,1.8,1,Cleveland
+60,Male,asymptomatic,130,143,108,0.7,1,VA Long Beach
+55,Male,non-anginal,155,163,179,0.0,0,Cleveland
+39,Male,asymptomatic,127,363,130,2.0,1,Hungary
+59,Male,asymptomatic,114,283,111,0.0,1,Cleveland
+66,Male,asymptomatic,148,439,175,1.9,1,Cleveland
+45,Male,typical angina,118,156,155,0.4,1,Hungary
+61,Male,asymptomatic,128,121,92,0.0,1,Cleveland
+54,Male,atypical angina,129,267,178,0.0,0,Cleveland
+41,Male,asymptomatic,158,444,93,2.8,1,Hungary
+59,Male,atypical angina,147,265,149,0.0,0,Hungary
+56,Male,asymptomatic,102,301,122,0.0,0,Hungary
+51,Female,non-anginal,126,186,171,0.4,0,Hungary
+56,Male,asymptomatic,153,393,117,3.2,1,Hungary
+70,Male,asymptomatic,136,144,119,2.5,1,Cleveland
+59,Male,asymptomatic,125,312,145,1.9,1,Cleveland
+50,Male,asymptomatic,142,301,156,0.0,0,Hungary
+54,Female,atypical angina,127,238,166,1.0,1,Cleveland
+50,Male,non-anginal,150,166,164,0.9,0,Hungary
+61,Male,asymptomatic,146,343,162,1.7,1,Hungary
+46,Male,non-anginal,152,221,161,0.6,0,Hungary
+51,Male,typical angina,144,211,153,0.6,0,Cleveland
+52,Female,non-anginal,139,280,166,1.6,0,Cleveland
+67,Male,non-anginal,127,166,139,2.6,1,Cleveland
+56,Female,atypical angina,132,143,156,0.0,0,Hungary
+70,Female,asymptomatic,159,316,78,0.4,0,Hungary
+53,Male,asymptomatic,130,374,187,0.0,0,Cleveland
+47,Male,asymptomatic,126,225,163,2.7,1,Hungary
+68,Female,non-anginal,149,234,144,0.0,0,Cleveland
+61,Female,asymptomatic,163,291,124,1.9,1,Cleveland
+48,Male,asymptomatic,117,184,149,0.2,1,Cleveland
+49,Male,atypical angina,135,222,178,0.3,0,Cleveland
+69,Male,asymptomatic,118,331,109,0.0,0,VA Long Beach
+47,Male,asymptomatic,117,317,130,1.1,0,Hungary
+42,Male,asymptomatic,117,142,169,0.4,0,Cleveland
+42,Male,asymptomatic,113,303,137,2.2,1,VA Long Beach
+71,Male,non-anginal,132,140,91,0.8,1,VA Long Beach
+60,Male,asymptomatic,129,230,157,2.3,1,VA Long Beach
+53,Male,asymptomatic,137,176,128,1.5,1,Hungary
+42,Male,non-anginal,136,235,158,1.5,1,Hungary
+52,Male,asymptomatic,131,165,155,2.6,1,Hungary
+62,Male,non-anginal,157,149,151,0.4,0,VA Long Beach
+60,Male,atypical angina,130,241,148,0.0,0,Hungary
+53,Female,atypical angina,140,263,146,0.0,0,Cleveland
+39,Female,atypical angina,147,236,157,1.7,1,Hungary
+65,Male,typical angina,145,225,164,1.6,1,VA Long Beach
+63,Female,asymptomatic,114,359,117,1.0,1,Hungary
+64,Female,asymptomatic,116,274,167,1.0,0,Cleveland
+33,Male,atypical angina,134,251,176,0.8,0,Cleveland
+66,Female,asymptomatic,130,310,193,0.7,1,Cleveland
+64,Female,atypical angina,147,321,174,0.4,1,Cleveland
+52,Male,asymptomatic,107,255,158,1.3,1,Cleveland
+57,Male,asymptomatic,113,120,133,0.2,1,VA Long Beach
+46,Male,asymptomatic,99,196,140,1.2,1,VA Long Beach
+45,Male,asymptomatic,145,267,108,4.1,1,Cleveland
+71,Male,atypical angina,155,391,169,0.6,1,Cleveland
+52,Male,asymptomatic,144,198,118,0.2,1,VA Long Beach
+72,Male,asymptomatic,156,214,104,4.3,1,Cleveland
+52,Male,non-anginal,143,236,127,0.0,0,Hungary
+58,Male,asymptomatic,109,291,181,0.0,0,Cleveland
+43,Male,asymptomatic,134,311,184,2.5,1,Hungary
+53,Male,asymptomatic,156,411,161,0.3,0,Cleveland
+57,Male,asymptomatic,124,325,86,2.4,1,Hungary
+42,Female,asymptomatic,149,233,115,0.8,1,Hungary
+66,Male,asymptomatic,143,348,110,1.2,1,Cleveland
+61,Female,asymptomatic,156,403,163,0.0,1,Cleveland
+40,Male,atypical angina,120,244,157,0.4,0,Hungary
+54,Male,asymptomatic,137,255,127,0.2,1,VA Long Beach
+56,Male,typical angina,140,219,166,1.3,1,Hungary
+46,Male,asymptomatic,103,144,145,0.0,1,VA Long Beach
+42,Male,non-anginal,103,270,145,0.0,0,Cleveland
+60,Male,asymptomatic,155,261,124,2.7,1,VA Long Beach
+53,Male,asymptomatic,135,256,101,0.6,1,VA Long Beach
+51,Female,asymptomatic,105,173,149,0.1,0,Cleveland
+50,Female,atypical angina,158,307,134,0.5,0,Hungary
+41,Male,non-anginal,150,265,171,0.7,0,Hungary
+65,Male,non-anginal,114,243,122,1.8,1,Cleveland
+57,Female,atypical angina,154,252,148,0.0,0,Hungary
+38,Male,non-anginal,140,194,176,1.8,1,Hungary
+39,Female,atypical angina,149,205,149,1.0,0,Cleveland
+48,Male,asymptomatic,108,304,144,1.1,1,Cleveland
+45,Male,asymptomatic,147,433,110,2.2,1,Hungary
+60,Male,asymptomatic,118,197,152,1.3,1,VA Long Beach
+34,Male,atypical angina,124,351,140,0.8,0,Hungary
+63,Male,asymptomatic,144,241,117,1.6,1,Cleveland
+52,Female,atypical angina,127,146,119,1.6,1,Cleveland
+70,Female,non-anginal,158,286,170,0.8,1,Cleveland
+65,Male,non-anginal,173,184,148,0.0,0,Cleveland
+50,Female,asymptomatic,134,251,158,0.0,1,Hungary
+63,Male,atypical angina,102,196,153,0.3,0,Cleveland
+53,Male,non-anginal,145,262,154,0.2,0,Hungary
+30,Male,asymptomatic,137,240,186,1.3,0,Hungary
+53,Male,non-anginal,141,291,120,0.4,1,Hungary
+58,Male,asymptomatic,150,174,161,1.1,1,Hungary
+45,Male,asymptomatic,111,332,129,1.3,1,VA Long Beach
+36,Male,atypical angina,139,206,172,0.0,0,Hungary
+40,Male,asymptomatic,123,181,121,1.2,1,Hungary
+53,Male,asymptomatic,146,264,171,1.1,1,Cleveland
+52,Female,atypical angina,123,278,115,0.2,1,Hungary
+54,Male,atypical angina,136,278,160,0.6,1,Hungary
+53,Female,atypical angina,134,284,146,0.0,0,Cleveland
+50,Male,typical angina,121,214,176,0.4,1,Cleveland
+57,Male,asymptomatic,151,220,123,2.9,1,VA Long Beach
+63,Male,asymptomatic,130,155,153,1.3,1,Cleveland
+56,Male,asymptomatic,141,328,160,0.0,1,Cleveland
+54,Female,asymptomatic,138,274,104,0.3,1,Hungary
+54,Male,asymptomatic,145,213,181,1.5,1,Cleveland
+46,Female,non-anginal,102,256,129,1.1,0,Cleveland
+45,Male,asymptomatic,161,208,152,1.2,1,Hungary
+47,Male,non-anginal,116,256,160,1.9,1,Cleveland
+44,Male,asymptomatic,122,113,101,0.3,1,Switzerland
+39,Male,asymptomatic,148,180,182,0.7,0,Cleveland
+54,Male,atypical angina,146,157,150,0.1,1,VA Long Beach
+54,Female,atypical angina,99,360,151,1.2,0,Hungary
+43,Male,atypical angina,134,210,139,1.6,1,Hungary
+56,Male,typical angina,121,198,156,0.3,0,Cleveland
+54,Male,asymptomatic,131,112,177,1.4,1,Hungary
+42,Male,atypical angina,157,376,149,0.4,0,Hungary
+50,Male,asymptomatic,120,194,122,0.3,1,VA Long Beach
+53,Male,asymptomatic,160,175,148,0.5,1,VA Long Beach
+50,Male,non-anginal,112,162,159,0.3,0,Cleveland
+68,Male,asymptomatic,159,304,116,2.2,1,Cleveland
+41,Male,atypical angina,140,350,154,0.0,0,Hungary
+58,Female,non-anginal,131,294,176,0.8,0,Cleveland
+54,Male,atypical angina,130,204,179,0.0,0,Hungary
+63,Female,atypical angina,135,214,150,0.0,1,Cleveland
+67,Female,atypical angina,139,380,146,0.5,1,Cleveland
+60,Male,asymptomatic,152,268,113,2.7,1,Cleveland
+64,Male,atypical angina,134,215,192,0.7,0,Cleveland
+59,Male,asymptomatic,120,320,142,0.6,1,Cleveland
+49,Male,non-anginal,140,136,137,0.0,0,VA Long Beach
+54,Male,non-anginal,146,404,192,0.3,0,Cleveland
+62,Male,non-anginal,124,258,96,0.8,1,VA Long Beach
+61,Male,asymptomatic,140,262,118,0.1,0,Cleveland
+49,Male,asymptomatic,123,350,174,0.7,0,Cleveland
+46,Male,atypical angina,153,164,164,0.6,1,Cleveland
+39,Male,atypical angina,145,218,161,0.0,0,Hungary
+48,Female,non-anginal,145,290,155,0.7,0,Cleveland
+63,Female,atypical angina,128,176,139,0.2,0,Hungary
+75,Male,asymptomatic,152,272,79,2.3,1,VA Long Beach
+31,Female,atypical angina,120,377,136,0.3,0,Hungary
+35,Male,non-anginal,160,271,170,0.0,0,Hungary
+72,Male,asymptomatic,160,226,113,2.4,1,Cleveland
+74,Female,non-anginal,149,253,156,1.1,0,Cleveland
+58,Male,atypical angina,96,354,104,0.0,0,Hungary
+48,Male,non-anginal,106,211,162,0.1,0,Cleveland
+47,Male,asymptomatic,158,228,138,0.6,1,Hungary
+64,Male,asymptomatic,139,198,173,0.8,1,VA Long Beach
+47,Male,typical angina,122,288,163,1.5,1,Cleveland
+72,Male,asymptomatic,148,124,113,1.4,1,VA Long Beach
+55,Male,atypical angina,118,182,182,0.3,0,Hungary
+57,Male,asymptomatic,118,200,115,3.5,1,VA Long Beach
+49,Male,asymptomatic,117,329,136,0.6,1,Hungary
+62,Male,atypical angina,147,228,158,1.0,1,Hungary
+44,Male,non-anginal,158,255,168,0.0,0,Hungary
+61,Female,atypical angina,105,287,165,1.5,0,Cleveland
+55,Male,non-anginal,173,125,109,1.8,1,VA Long Beach
+54,Male,asymptomatic,167,168,83,1.2,1,VA Long Beach
+52,Male,non-anginal,152,230,126,0.3,0,Hungary
+58,Female,typical angina,113,228,173,1.1,1,VA Long Beach
+43,Male,non-anginal,102,251,174,0.4,0,Cleveland
+51,Female,typical angina,169,197,124,0.5,1,Hungary
+46,Male,atypical angina,141,281,128,0.0,0,Hungary
+64,Male,asymptomatic,138,450,159,0.3,1,Cleveland
+74,Male,asymptomatic,103,235,120,1.0,1,Cleveland
+62,Male,asymptomatic,147,234,158,0.9,1,Cleveland
+63,Male,asymptomatic,174,341,126,2.1,1,Hungary
+50,Male,atypical angina,141,170,142,0.0,0,Hungary
+60,Male,asymptomatic,116,309,165,0.3,1,Cleveland
+55,Male,atypical angina,132,367,137,0.0,0,Hungary
+52,Female,asymptomatic,148,331,109,0.1,1,Hungary
+49,Male,asymptomatic,124,137,131,2.1,1,Switzerland
+70,Male,non-anginal,131,131,112,1.1,1,VA Long Beach
+57,Female,atypical angina,144,316,196,1.0,0,Cleveland
+48,Male,asymptomatic,154,137,99,1.7,1,VA Long Beach
+69,Male,asymptomatic,116,233,90,1.1,1,Cleveland
+44,Male,non-anginal,130,188,169,1.1,0,Cleveland
+72,Female,asymptomatic,172,218,103,0.0,1,Hungary
+69,Female,non-anginal,125,297,177,1.8,1,Cleveland
+53,Male,atypical angina,128,247,155,0.0,0,Hungary
+52,Female,non-anginal,101,211,186,0.3,1,Cleveland
+56,Male,asymptomatic,107,156,139,0.0,1,Cleveland
+49,Male,asymptomatic,100,304,163,0.6,0,Hungary
+50,Male,atypical angina,123,291,145,1.9,1,Hungary
+58,Male,non-anginal,121,263,146,1.2,0,Cleveland
+61,Male,asymptomatic,144,278,158,3.2,1,Cleveland
+52,Female,asymptomatic,121,257,154,0.3,1,Cleveland
+54,Male,asymptomatic,136,220,147,0.7,0,VA Long Beach
+50,Female,non-anginal,138,173,124,0.5,0,Hungary
+58,Male,asymptomatic,139,292,114,0.8,0,VA Long Beach
+59,Male,asymptomatic,139,171,97,1.3,1,Hungary
+34,Male,asymptomatic,108,252,171,1.8,1,Cleveland
+53,Male,asymptomatic,111,164,171,1.8,1,Hungary
+46,Female,asymptomatic,151,290,143,0.9,1,Hungary
+62,Male,non-anginal,126,211,141,1.5,1,Cleveland
+38,Male,asymptomatic,120,306,175,0.7,1,Cleveland
+57,Male,asymptomatic,125,218,151,0.8,0,VA Long Beach
+50,Female,asymptomatic,167,286,159,2.5,1,Hungary
+49,Male,atypical angina,129,334,115,0.7,1,Hungary
+31,Male,asymptomatic,124,278,156,0.0,0,Hungary
+67,Male,asymptomatic,141,221,162,0.0,1,VA Long Beach
+62,Male,asymptomatic,142,416,162,0.0,1,Cleveland
+36,Female,atypical angina,127,242,168,0.8,0,Hungary
+39,Male,atypical angina,170,113,187,0.5,0,Hungary
+50,Female,atypical angina,102,220,93,0.0,0,Hungary
+52,Male,asymptomatic,139,157,131,1.7,1,Cleveland
+56,Male,typical angina,144,392,172,2.3,0,Cleveland
+58,Female,atypical angina,144,205,139,0.2,0,Cleveland
+59,Female,asymptomatic,130,268,141,0.0,0,Cleveland
+52,Male,non-anginal,117,142,113,2.0,1,Cleveland
+49,Male,atypical angina,112,362,123,0.0,0,Hungary
+64,Male,asymptomatic,162,272,83,4.4,1,VA Long Beach
+70,Female,non-anginal,143,287,182,0.7,0,Cleveland
+65,Female,non-anginal,125,281,138,0.9,0,Cleveland
+51,Male,atypical angina,144,154,169,0.0,0,VA Long Beach
+36,Female,atypical angina,112,251,148,0.3,0,Hungary
+60,Male,asymptomatic,156,231,114,2.1,1,VA Long Beach
+48,Female,asymptomatic,135,207,151,1.2,1,Hungary
+54,Male,asymptomatic,139,290,147,0.2,1,Hungary
+69,Female,asymptomatic,153,348,171,0.0,1,Cleveland
+42,Male,non-anginal,137,366,188,0.0,0,Cleveland
+61,Male,non-anginal,114,263,132,0.4,0,Cleveland
+66,Male,non-anginal,161,181,89,1.9,1,VA Long Beach
+60,Female,atypical angina,129,293,112,0.4,0,Hungary
+40,Male,atypical angina,127,323,144,0.0,0,Hungary
+62,Male,asymptomatic,141,141,153,0.4,0,VA Long Beach
+59,Male,asymptomatic,119,356,156,1.4,1,Cleveland
+40,Male,atypical angina,132,201,128,0.2,0,Hungary
+36,Male,atypical angina,112,175,157,0.0,0,Hungary
+39,Male,asymptomatic,129,183,186,0.9,0,Cleveland
+56,Male,non-anginal,131,145,169,0.3,1,VA Long Beach
+47,Male,asymptomatic,107,303,113,0.2,1,Cleveland
+42,Male,asymptomatic,152,336,160,0.7,0,Hungary
+51,Male,non-anginal,145,221,148,2.2,1,Hungary
+71,Male,non-anginal,145,204,149,0.0,0,Cleveland
+42,Male,typical angina,153,269,155,2.1,1,Hungary
+62,Male,asymptomatic,99,163,163,1.6,1,VA Long Beach
+72,Male,asymptomatic,138,245,75,2.7,1,VA Long Beach
+67,Male,asymptomatic,144,269,149,1.1,1,VA Long Beach
+49,Male,atypical angina,105,237,174,1.6,1,Hungary
+49,Male,atypical angina,108,344,184,0.0,0,Cleveland
+60,Male,non-anginal,136,180,113,0.0,0,VA Long Beach
+53,Female,asymptomatic,135,121,165,1.1,0,Cleveland
+41,Female,asymptomatic,141,201,187,0.0,0,Hungary
+51,Male,asymptomatic,133,228,143,0.4,1,Hungary
+48,Female,asymptomatic,155,204,145,0.6,0,Hungary
+59,Male,atypical angina,130,377,92,0.0,0,Hungary
+57,Male,non-anginal,129,121,109,1.0,1,Cleveland
+63,Female,asymptomatic,127,308,165,0.7,0,Cleveland
+44,Female,asymptomatic,124,239,171,0.0,0,Cleveland
+47,Male,asymptomatic,128,161,113,0.4,1,VA Long Beach
+51,Male,asymptomatic,126,243,89,0.0,1,VA Long Beach
+55,Male,atypical angina,138,204,172,0.4,0,VA Long Beach
+60,Male,atypical angina,157,243,123,0.5,0,Hungary
+46,Male,atypical angina,141,374,124,0.0,0,Hungary
+63,Female,atypical angina,132,325,187,1.1,1,Cleveland
+44,Male,atypical angina,102,279,150,0.4,0,Hungary
+62,Female,atypical angina,157,245,172,2.0,1,Cleveland
+50,Male,non-anginal,157,275,75,1.4,1,VA Long Beach
+59,Male,asymptomatic,146,227,134,0.8,1,VA Long Beach
+36,Male,asymptomatic,146,285,138,1.7,1,Hungary
+73,Male,asymptomatic,167,242,100,1.6,1,VA Long Beach
+50,Male,asymptomatic,113,131,114,1.3,1,VA Long Beach
+36,Male,asymptomatic,160,285,151,0.3,0,Hungary
+46,Male,asymptomatic,138,323,160,0.4,1,Hungary
+59,Male,asymptomatic,131,242,129,3.6,1,Cleveland
+39,Male,asymptomatic,110,183,153,0.2,0,Hungary
+52,Male,non-anginal,138,369,155,0.2,0,Cleveland
+62,Female,atypical angina,144,279,115,0.2,0,Hungary
+57,Male,atypical angina,105,186,180,0.8,1,VA Long Beach
+54,Male,asymptomatic,172,316,99,2.3,1,Hungary
+50,Male,non-anginal,121,373,182,1.6,0,Cleveland
+49,Male,atypical angina,126,230,156,0.4,1,VA Long Beach
+52,Female,atypical angina,131,370,140,0.0,0,Hungary
+55,Male,asymptomatic,143,125,103,3.1,1,Hungary
+52,Female,non-anginal,143,125,160,2.3,0,Cleveland
+41,Male,non-anginal,146,215,149,0.3,0,Hungary
+54,Male,asymptomatic,155,343,130,3.3,1,Hungary
+46,Male,asymptomatic,139,284,145,0.9,0,Cleveland
+47,Male,asymptomatic,146,140,149,3.0,1,VA Long Beach
+75,Male,asymptomatic,104,168,113,2.3,1,VA Long Beach
+42,Male,asymptomatic,121,212,168,1.0,0,Hungary
+63,Female,atypical angina,101,287,108,0.3,0,Hungary
+70,Male,asymptomatic,115,177,115,1.2,1,Cleveland
+33,Male,asymptomatic,124,286,149,1.2,1,Hungary
+61,Male,non-anginal,125,165,157,3.0,1,Cleveland
+41,Male,asymptomatic,144,342,169,0.9,1,Hungary
+66,Female,non-anginal,160,278,127,1.9,1,Hungary
+43,Male,non-anginal,136,281,134,0.0,0,Hungary
+65,Female,asymptomatic,135,145,89,1.1,1,Hungary
+65,Female,asymptomatic,138,351,175,0.0,0,Cleveland
+58,Male,asymptomatic,148,133,99,2.6,1,VA Long Beach
+32,Male,asymptomatic,108,334,137,0.6,1,Cleveland
+40,Male,asymptomatic,119,216,157,1.9,1,Cleveland
+52,Female,asymptomatic,136,235,166,1.2,1,Hungary
+71,Male,asymptomatic,168,216,105,2.3,1,VA Long Beach
+33,Female,asymptomatic,99,191,188,0.9,1,Cleveland
+69,Female,asymptomatic,156,310,174,2.2,1,Cleveland
+33,Male,asymptomatic,128,202,155,1.2,0,Hungary
+67,Male,asymptomatic,128,149,181,1.5,1,VA Long Beach
+60,Female,non-anginal,144,225,117,0.8,0,Cleveland
+43,Male,asymptomatic,121,309,139,0.0,0,Hungary
+40,Male,atypical angina,143,188,133,2.1,1,VA Long Beach
+58,Male,non-anginal,140,229,129,0.0,1,Cleveland
+65,Male,asymptomatic,173,183,127,0.7,1,VA Long Beach
+40,Male,asymptomatic,162,305,129,1.0,1,Hungary
+53,Male,asymptomatic,137,255,161,0.3,0,Cleveland
+59,Male,atypical angina,123,199,148,0.4,1,Hungary
+39,Male,asymptomatic,125,174,115,0.6,1,Cleveland
+39,Male,non-anginal,126,150,160,2.1,1,Cleveland
+38,Male,asymptomatic,154,285,125,1.1,0,Hungary
+69,Male,atypical angina,164,282,149,2.9,1,Cleveland
+35,Male,asymptomatic,106,268,173,0.0,0,Hungary
+37,Male,asymptomatic,114,173,166,0.0,0,Cleveland
+61,Female,asymptomatic,156,286,107,1.2,1,Cleveland
+53,Female,asymptomatic,146,332,184,2.1,0,Cleveland
+59,Male,asymptomatic,109,309,122,1.6,1,Cleveland
+58,Female,atypical angina,136,234,107,0.0,0,Hungary
+66,Female,non-anginal,152,290,75,0.0,0,Hungary
+57,Male,asymptomatic,150,434,131,1.7,1,Cleveland
+58,Male,non-anginal,120,130,118,0.0,1,VA Long Beach
+53,Female,non-anginal,120,290,103,0.0,0,Hungary
+50,Male,asymptomatic,140,190,129,3.4,1,Cleveland
+52,Male,atypical angina,140,179,165,0.0,1,Hungary
+68,Female,asymptomatic,161,314,108,0.4,0,Cleveland
+37,Male,atypical angina,147,162,186,0.4,1,Hungary
+38,Male,asymptomatic,111,197,131,0.8,1,Hungary
+52,Male,asymptomatic,157,354,150,0.4,0,Hungary
+66,Female,asymptomatic,143,138,88,1.0,1,Cleveland
+61,Male,atypical angina,127,231,135,0.0,0,Hungary
+68,Male,asymptomatic,147,300,113,0.6,1,Hungary
+46,Female,atypical angina,121,184,126,0.0,0,Hungary
+68,Male,asymptomatic,122,135,128,0.0,0,VA Long Beach
+44,Female,non-anginal,137,139,161,0.4,0,Hungary
+58,Female,non-anginal,104,323,128,0.0,0,Cleveland
+66,Male,asymptomatic,157,206,117,1.4,1,Hungary
+52,Female,non-anginal,151,277,175,0.7,0,Cleveland
+61,Male,asymptomatic,165,226,133,0.8,1,Hungary
+35,Female,atypical angina,159,333,133,0.0,0,Hungary
+71,Male,asymptomatic,147,389,123,1.3,1,Hungary
+57,Male,non-anginal,118,123,149,1.4,1,Cleveland
+48,Male,asymptomatic,112,153,139,1.0,1,Cleveland
+46,Male,asymptomatic,145,139,132,1.5,1,Cleveland
+50,Male,atypical angina,125,276,138,1.7,1,VA Long Beach
+49,Male,non-anginal,126,132,162,1.3,0,VA Long Beach
+50,Female,non-anginal,115,202,144,0.6,0,Cleveland
+52,Male,asymptomatic,141,134,180,1.8,1,Cleveland
+48,Female,non-anginal,127,195,121,0.3,0,Cleveland
+63,Male,asymptomatic,107,153,108,1.5,1,VA Long Beach
+55,Male,non-anginal,136,269,158,0.3,0,Cleveland
+51,Male,asymptomatic,117,316,135,0.6,0,Hungary
+61,Male,asymptomatic,120,202,133,3.2,1,Cleveland
+66,Female,asymptomatic,113,255,193,2.0,0,Hungary
+37,Male,typical angina,137,191,145,1.5,0,Cleveland
+50,Male,non-anginal,121,268,150,0.4,1,Cleveland
+39,Male,non-anginal,104,274,161,0.3,0,Cleveland
+73,Male,non-anginal,156,217,167,1.4,1,Cleveland
+64,Female,atypical angina,128,313,160,0.5,0,Hungary
+50,Male,asymptomatic,147,322,119,2.7,1,VA Long Beach
+50,Male,atypical angina,135,170,174,0.6,0,Hungary
+62,Male,asymptomatic,138,280,138,1.5,1,Cleveland
+62,Female,asymptomatic,136,255,128,0.6,1,Cleveland
+70,Male,asymptomatic,137,345,138,1.6,1,Cleveland
+69,Female,asymptomatic,142,360,100,0.0,1,Cleveland
+39,Male,asymptomatic,159,253,105,0.5,0,Hungary
+55,Female,asymptomatic,161,247,92,1.7,1,Cleveland
+39,Female,non-anginal,107,175,186,0.0,0,Cleveland
+62,Female,asymptomatic,138,225,116,0.0,1,Cleveland
+41,Male,asymptomatic,145,113,176,0.3,1,Cleveland
+54,Male,non-anginal,171,285,176,0.7,0,Hungary
+49,Male,non-anginal,154,153,113,1.2,1,Hungary
+65,Male,asymptomatic,137,207,147,0.0,1,VA Long Beach
+64,Female,non-anginal,135,303,192,1.2,0,Cleveland
+64,Female,non-anginal,148,255,143,0.4,0,Cleveland
+54,Female,asymptomatic,117,122,142,0.4,0,Hungary
+62,Male,asymptomatic,130,189,161,0.3,1,VA Long Beach
+68,Female,asymptomatic,136,208,139,1.0,1,Cleveland
+41,Female,non-anginal,133,231,171,0.2,0,Cleveland
+58,Male,non-anginal,100,126,148,0.8,0,Cleveland
+53,Male,asymptomatic,149,386,120,2.4,1,Hungary
+43,Female,non-anginal,130,339,143,0.8,0,Hungary
+63,Male,asymptomatic,110,240,124,1.0,1,VA Long Beach
+50,Male,asymptomatic,162,285,100,0.9,1,Cleveland
+36,Male,asymptomatic,120,255,130,1.0,0,Hungary
+61,Male,non-anginal,115,267,143,3.9,1,Cleveland
+55,Female,atypical angina,137,198,142,1.2,1,Hungary
+47,Female,non-anginal,135,180,134,0.0,0,Hungary
+71,Male,asymptomatic,116,162,92,1.8,1,VA Long Beach
+53,Male,asymptomatic,159,283,151,0.0,0,Hungary
+45,Male,asymptomatic,129,144,184,0.8,1,Cleveland
+59,Male,non-anginal,170,136,113,2.9,1,Cleveland
+47,Male,asymptomatic,154,399,139,1.3,0,Hungary
+62,Female,non-anginal,118,273,178,1.4,0,Cleveland
+61,Male,atypical angina,127,126,137,0.3,1,Hungary
+50,Female,atypical angina,120,210,142,0.6,1,Hungary
+66,Male,asymptomatic,135,234,91,1.4,1,Cleveland
+40,Male,non-anginal,111,225,132,0.2,0,Hungary
+49,Male,asymptomatic,138,233,180,0.6,0,Cleveland
+57,Male,non-anginal,148,144,117,1.2,1,Hungary
+55,Male,asymptomatic,154,154,113,2.9,1,VA Long Beach
+48,Female,atypical angina,144,190,143,0.8,0,Hungary
+67,Female,non-anginal,121,213,108,0.0,0,Cleveland
+40,Male,atypical angina,110,232,169,0.0,0,Hungary
+42,Male,asymptomatic,100,285,177,0.8,1,Cleveland
+40,Male,non-anginal,154,168,169,0.0,0,Hungary
+70,Male,atypical angina,148,240,137,0.3,0,Cleveland
+37,Male,non-anginal,130,125,169,0.5,0,Hungary
+70,Female,non-anginal,145,238,172,1.4,1,Cleveland
+44,Male,non-anginal,143,183,124,0.1,0,Hungary
+56,Female,asymptomatic,138,192,171,1.7,1,VA Long Beach
+42,Male,asymptomatic,127,207,156,0.8,1,Cleveland
+52,Female,atypical angina,111,202,156,1.2,0,Cleveland
+48,Male,non-anginal,143,243,125,0.0,1,Cleveland
+67,Male,asymptomatic,142,154,90,1.5,1,VA Long Beach
+68,Male,asymptomatic,135,268,159,1.2,1,Hungary
+55,Male,non-anginal,134,170,168,1.5,1,VA Long Beach
+60,Male,asymptomatic,149,149,156,3.8,1,Cleveland
+54,Female,non-anginal,139,187,131,1.0,0,Cleveland
+46,Female,asymptomatic,132,376,163,0.1,0,Cleveland
+42,Male,non-anginal,145,204,165,3.0,0,Cleveland
+43,Male,asymptomatic,114,156,149,1.1,1,Hungary
+42,Male,atypical angina,100,197,134,0.0,0,Cleveland
+62,Male,asymptomatic,120,206,139,0.2,1,VA Long Beach
+59,Female,non-anginal,152,196,162,1.2,1,Cleveland
+40,Male,asymptomatic,116,259,129,1.4,1,Hungary
+57,Male,atypical angina,145,318,123,0.8,1,Hungary
+62,Male,asymptomatic,137,118,137,1.2,1,Cleveland
+40,Female,asymptomatic,144,211,134,0.6,0,Hungary
+70,Male,asymptomatic,147,168,115,1.9,1,VA Long Beach
+54,Male,asymptomatic,151,226,135,0.5,1,Cleveland
+50,Male,non-anginal,139,383,180,0.8,0,Cleveland
+54,Female,atypical angina,156,364,123,1.3,1,Hungary
+54,Male,non-anginal,154,315,139,0.2,0,Hungary
+41,Female,atypical angina,135,295,165,0.4,0,Hungary
+42,Female,atypical angina,131,236,162,0.0,0,Hungary
+41,Male,atypical angina,130,185,160,0.0,0,Hungary
+37,Male,asymptomatic,150,329,140,0.3,0,Hungary
+66,Female,non-anginal,147,338,174,1.7,1,Cleveland
+63,Male,atypical angina,125,176,107,0.0,1,VA Long Beach
+71,Male,asymptomatic,135,268,117,0.3,1,VA Long Beach
+49,Female,non-anginal,135,278,154,0.1,0,Hungary
+46,Male,typical angina,145,213,152,0.9,0,Hungary
+56,Male,atypical angina,120,227,170,1.8,1,Hungary
+46,Female,non-anginal,128,215,144,0.4,0,Cleveland
+68,Male,asymptomatic,116,262,122,0.5,1,Hungary
+57,Male,asymptomatic,143,308,114,2.0,1,Cleveland
+69,Male,asymptomatic,142,114,114,2.8,1,VA Long Beach
+47,Female,asymptomatic,128,245,108,0.3,1,Hungary
+61,Male,asymptomatic,129,174,88,1.7,1,VA Long Beach
+65,Male,asymptomatic,135,346,170,2.3,1,Cleveland
+72,Male,asymptomatic,154,142,153,0.0,1,VA Long Beach
+35,Female,non-anginal,149,240,165,1.1,0,Hungary
+48,Male,asymptomatic,161,184,104,2.5,1,Hungary
+67,Male,atypical angina,133,183,154,0.0,0,VA Long Beach
+49,Male,asymptomatic,134,429,173,1.0,1,Hungary
+48,Male,asymptomatic,131,206,151,0.6,1,VA Long Beach
+54,Female,asymptomatic,140,410,78,1.6,1,Hungary
+56,Male,non-anginal,131,171,130,0.6,0,Cleveland
+44,Female,asymptomatic,151,283,122,0.9,1,Hungary
+64,Male,asymptomatic,124,169,156,1.6,1,VA Long Beach
+69,Male,asymptomatic,137,235,125,1.9,1,Cleveland
+38,Male,atypical angina,156,231,159,0.8,0,Hungary
+42,Female,asymptomatic,143,290,160,1.3,0,Hungary
+40,Male,atypical angina,141,178,142,0.0,1,Hungary
+37,Male,asymptomatic,118,231,160,0.0,0,Hungary
+37,Female,atypical angina,138,179,190,1.1,0,Cleveland
+52,Male,atypical angina,159,196,184,0.3,0,Hungary
+53,Male,non-anginal,106,121,126,2.9,1,VA Long Beach
+67,Male,asymptomatic,132,174,126,1.0,1,Cleveland
+50,Male,non-anginal,113,212,140,0.0,0,Cleveland
+47,Female,asymptomatic,111,308,120,0.3,1,Hungary
+40,Male,asymptomatic,122,195,136,0.0,1,VA Long Beach
+60,Female,non-anginal,128,292,170,0.5,0,Cleveland
+59,Female,non-anginal,110,281,167,0.0,0,Cleveland
+53,Female,atypical angina,108,208,118,0.3,1,Hungary
+67,Male,asymptomatic,132,231,143,2.3,1,Cleveland
+47,Male,asymptomatic,144,270,154,1.7,1,Cleveland
+57,Female,atypical angina,130,200,167,0.9,0,Hungary
+36,Male,atypical angina,148,324,147,0.9,1,Hungary
+63,Male,atypical angina,154,202,93,0.4,1,Cleveland
+59,Female,non-anginal,128,192,162,0.7,0,Cleveland
+50,Male,asymptomatic,129,256,124,0.0,1,Hungary
+53,Female,atypical angina,134,297,166,1.2,0,Hungary
+51,Female,non-anginal,107,200,162,1.3,0,Hungary
+56,Female,asymptomatic,135,187,139,0.4,0,Cleveland
+42,Male,asymptomatic,146,228,156,0.0,0,VA Long Beach
+66,Male,non-anginal,146,275,128,1.1,1,Hungary
+38,Male,non-anginal,112,149,164,0.7,0,Cleveland
+45,Male,asymptomatic,129,294,129,1.0,1,Cleveland
+64,Female,asymptomatic,159,235,184,0.1,1,Hungary
+54,Male,atypical angina,151,328,132,2.2,1,Cleveland
+60,Female,atypical angina,146,243,122,0.0,0,Hungary
+56,Female,typical angina,132,360,122,0.1,1,Cleveland
+53,Female,non-anginal,117,167,131,0.2,0,Cleveland
+62,Male,asymptomatic,154,134,137,0.0,1,Cleveland
+49,Male,asymptomatic,124,283,183,2.9,1,Cleveland
+34,Male,asymptomatic,109,175,108,0.0,1,Hungary
+41,Male,asymptomatic,103,275,117,2.3,1,VA Long Beach
+69,Male,asymptomatic,166,249,109,0.1,1,Hungary
+59,Female,typical angina,112,282,164,0.9,1,Cleveland
+42,Male,asymptomatic,115,224,158,2.2,1,VA Long Beach
+33,Female,asymptomatic,130,182,179,0.9,0,Hungary
+49,Male,typical angina,138,282,134,0.3,0,Hungary
+39,Female,atypical angina,109,281,174,0.6,0,Cleveland
+47,Female,atypical angina,144,243,155,1.4,0,Hungary
+63,Male,asymptomatic,138,217,142,1.0,0,VA Long Beach
+43,Male,non-anginal,171,339,138,1.7,1,Hungary
+54,Female,non-anginal,152,164,162,1.8,0,Cleveland
+59,Male,asymptomatic,155,257,119,2.5,1,Cleveland
+50,Male,asymptomatic,105,123,125,2.4,1,Hungary
+53,Male,asymptomatic,133,155,92,1.0,1,VA Long Beach
+65,Male,non-anginal,168,116,110,1.2,1,Hungary
+41,Female,non-anginal,128,219,161,0.1,0,Hungary
+53,Female,asymptomatic,108,237,141,0.9,0,Cleveland
+75,Male,asymptomatic,167,172,127,1.0,1,VA Long Beach
+39,Male,non-anginal,151,263,172,1.7,1,Hungary
+46,Male,asymptomatic,126,252,159,0.4,1,VA Long Beach
+47,Male,asymptomatic,126,247,147,0.1,1,VA Long Beach
+57,Male,asymptomatic,158,339,136,2.9,1,Hungary
+60,Male,non-anginal,127,148,167,0.0,1,Cleveland
+43,Male,asymptomatic,117,236,152,0.0,1,Hungary
+48,Female,atypical angina,98,268,146,0.8,1,Hungary
+39,Male,typical angina,153,303,150,1.7,1,Hungary
+54,Male,asymptomatic,150,132,80,2.2,1,VA Long Beach
+43,Male,atypical angina,112,310,177,2.7,1,Hungary
+59,Male,asymptomatic,133,235,145,0.8,1,Cleveland
+53,Male,asymptomatic,150,316,108,0.3,0,Hungary
+62,Male,asymptomatic,140,279,99,2.9,1,Cleveland
+46,Female,asymptomatic,138,267,114,0.0,0,Hungary
+50,Male,asymptomatic,114,177,178,0.7,1,VA Long Beach
+53,Male,asymptomatic,162,114,106,3.7,1,Cleveland
+55,Male,non-anginal,124,214,159,0.1,0,Cleveland
+57,Male,asymptomatic,137,152,155,0.7,1,VA Long Beach
+71,Male,asymptomatic,148,199,77,2.6,1,VA Long Beach
+70,Male,atypical angina,145,164,156,1.7,1,Cleveland
+66,Female,asymptomatic,122,246,172,2.4,1,Cleveland
+31,Male,atypical angina,127,293,172,0.0,0,Hungary
+56,Male,asymptomatic,131,311,172,2.0,1,Cleveland
+60,Female,non-anginal,149,165,177,0.9,0,Cleveland
+48,Female,non-anginal,103,181,166,0.9,0,Cleveland
+42,Male,asymptomatic,106,141,155,0.0,1,Cleveland
+64,Female,atypical angina,137,226,150,0.4,0,Hungary
+67,Male,asymptomatic,125,332,94,0.4,1,Hungary
+42,Male,non-anginal,99,188,162,1.2,1,Cleveland
+53,Male,asymptomatic,118,244,130,2.1,1,Cleveland
+58,Male,asymptomatic,160,198,97,2.7,1,VA Long Beach
+54,Male,asymptomatic,117,277,130,1.8,1,Hungary
+32,Male,non-anginal,123,188,186,0.6,0,Hungary
+37,Male,asymptomatic,159,200,158,0.0,0,Hungary
+55,Male,non-anginal,142,129,179,0.1,1,VA Long Beach
+42,Male,non-anginal,127,281,185,1.3,0,Cleveland
+59,Male,asymptomatic,163,288,90,0.6,1,VA Long Beach
+57,Male,asymptomatic,124,185,110,0.4,1,VA Long Beach
+44,Female,atypical angina,129,241,172,0.1,0,Hungary
+54,Male,asymptomatic,122,233,155,0.0,1,VA Long Beach
+54,Female,atypical angina,161,150,164,0.0,0,Cleveland
+61,Female,atypical angina,114,280,100,0.2,0,Hungary
+43,Male,asymptomatic,134,151,159,0.4,1,Cleveland
+49,Male,asymptomatic,130,120,152,1.4,1,Cleveland
+45,Male,asymptomatic,114,159,160,0.8,1,Cleveland
+61,Male,non-anginal,134,120,154,3.2,1,VA Long Beach
+55,Male,asymptomatic,141,158,119,0.7,1,Hungary
+43,Male,asymptomatic,131,229,187,0.0,0,Cleveland
+63,Male,asymptomatic,115,259,110,1.1,1,Hungary
+61,Male,atypical angina,103,223,123,0.0,0,Hungary
+40,Male,non-anginal,123,253,183,0.0,0,Cleveland
+54,Male,asymptomatic,134,390,169,3.2,1,Cleveland
+37,Male,asymptomatic,149,269,173,0.6,0,Hungary
+60,Male,asymptomatic,144,251,181,0.5,0,Cleveland
+43,Male,asymptomatic,109,192,181,0.7,1,Cleveland
+45,Male,atypical angina,156,246,126,0.0,0,Hungary
+39,Male,asymptomatic,136,242,185,0.7,0,Cleveland
+58,Male,asymptomatic,167,156,138,0.0,0,Hungary
+65,Male,asymptomatic,129,174,95,0.0,0,VA Long Beach
+50,Male,typical angina,146,344,174,0.0,0,Cleveland
+40,Male,asymptomatic,102,314,136,1.8,1,VA Long Beach
+59,Male,atypical angina,120,334,156,0.0,0,Hungary
+68,Male,non-anginal,141,229,111,0.7,1,VA Long Beach
+56,Male,asymptomatic,147,126,147,0.6,1,Cleveland
+51,Male,typical angina,167,328,121,0.4,1,Hungary
+44,Male,asymptomatic,133,174,148,1.2,1,Cleveland
+62,Female,atypical angina,108,428,181,0.5,0,Cleveland
+40,Male,non-anginal,136,155,172,0.0,0,VA Long Beach
+66,Male,asymptomatic,124,465,163,2.8,1,Cleveland
+50,Male,asymptomatic,128,219,99,2.3,1,VA Long Beach
+43,Male,typical angina,98,410,183,1.4,1,Cleveland
+57,Male,asymptomatic,137,179,99,1.1,1,VA Long Beach
+70,Male,asymptomatic,122,249,77,1.3,1,VA Long Beach
+58,Male,asymptomatic,129,344,95,1.8,1,Hungary
+50,Female,non-anginal,114,323,129,0.0,0,Cleveland
+66,Male,asymptomatic,137,279,111,2.2,1,Cleveland
+67,Female,non-anginal,117,144,147,0.4,0,Cleveland
+50,Male,asymptomatic,168,116,95,2.6,1,VA Long Beach
+59,Male,asymptomatic,108,195,110,1.4,1,VA Long Beach
+62,Male,non-anginal,133,465,192,0.3,0,Cleveland
+48,Female,asymptomatic,146,249,129,0.3,0,Hungary
+46,Female,non-anginal,135,267,126,0.0,0,Hungary
+50,Male,atypical angina,106,309,128,0.0,0,Hungary
+53,Male,asymptomatic,137,247,112,1.4,1,Hungary
+66,Male,non-anginal,158,112,144,1.1,1,Cleveland
+54,Female,non-anginal,122,274,135,0.5,1,Cleveland
+62,Male,asymptomatic,144,247,110,0.4,0,VA Long Beach
+54,Male,non-anginal,102,266,134,1.3,1,Cleveland
+54,Male,asymptomatic,143,255,96,1.3,1,Cleveland
+69,Female,non-anginal,145,230,134,0.0,0,Cleveland
+38,Female,atypical angina,130,328,119,0.2,0,Hungary
+60,Male,asymptomatic,103,274,139,0.9,1,VA Long Beach
+49,Male,asymptomatic,99,163,115,1.9,1,VA Long Beach
+68,Male,non-anginal,136,141,131,1.8,1,Cleveland
+40,Male,asymptomatic,167,268,154,0.2,0,Hungary
+40,Female,atypical angina,145,219,170,0.8,0,Hungary
+45,Male,asymptomatic,141,145,169,1.3,0,Hungary
+73,Male,asymptomatic,172,181,96,2.8,1,VA Long Beach
+45,Male,asymptomatic,109,180,151,0.8,0,Cleveland
+35,Male,non-anginal,141,156,165,0.0,0,Hungary
+49,Female,asymptomatic,156,291,158,1.9,0,Hungary
+42,Male,non-anginal,104,216,163,0.9,0,Cleveland
+41,Male,asymptomatic,142,351,141,0.2,1,Hungary
+62,Male,non-anginal,107,206,95,1.2,1,VA Long Beach
+73,Male,asymptomatic,156,229,137,0.1,1,VA Long Beach
+70,Male,non-anginal,160,221,149,2.3,1,Cleveland
+46,Male,atypical angina,129,306,113,1.1,1,Cleveland
+37,Male,non-anginal,97,216,186,0.2,0,Cleveland
+51,Male,asymptomatic,131,218,139,0.0,0,Cleveland
+36,Male,asymptomatic,129,173,151,2.4,1,Cleveland
+46,Male,asymptomatic,151,245,170,2.5,1,Hungary
+52,Male,asymptomatic,145,236,160,0.7,0,VA Long Beach
+43,Male,asymptomatic,119,329,124,0.3,1,Hungary
+45,Male,asymptomatic,117,396,149,2.3,1,Hungary
+32,Female,asymptomatic,114,258,145,0.1,0,Hungary
+51,Male,non-anginal,153,328,146,0.0,0,Hungary
+37,Female,atypical angina,147,142,177,0.0,0,Hungary
+53,Male,atypical angina,142,273,164,0.8,0,Hungary
+51,Male,non-anginal,146,131,183,0.6,1,Cleveland
+52,Male,non-anginal,112,132,118,0.6,1,VA Long Beach
+31,Male,atypical angina,122,255,141,1.0,0,Hungary
+70,Male,non-anginal,123,132,129,0.7,1,VA Long Beach
+65,Male,asymptomatic,156,165,146,1.6,1,Cleveland
+43,Male,atypical angina,99,241,158,0.0,0,Hungary
+61,Male,asymptomatic,143,159,107,2.0,1,Cleveland
+56,Male,atypical angina,120,426,181,2.5,1,Cleveland
+52,Female,asymptomatic,131,256,193,2.8,1,Hungary
+56,Male,asymptomatic,144,126,142,2.7,1,VA Long Beach
+60,Male,non-anginal,157,264,147,0.0,0,Hungary
+51,Male,typical angina,151,252,115,1.6,1,Hungary
+36,Male,asymptomatic,140,149,186,0.0,0,Hungary
+55,Female,atypical angina,120,411,161,0.6,0,Cleveland
+52,Female,non-anginal,122,156,134,0.7,1,Cleveland
+41,Male,asymptomatic,118,246,157,0.0,1,Hungary
+59,Male,asymptomatic,178,358,175,3.3,1,Hungary
+65,Female,asymptomatic,146,355,146,1.0,0,Cleveland
+65,Male,asymptomatic,107,301,159,1.0,0,Cleveland
+54,Female,atypical angina,155,308,143,0.1,0,Hungary
+55,Female,atypical angina,141,290,151,1.8,0,Hungary
+56,Male,atypical angina,146,262,136,0.0,0,Hungary
+47,Male,asymptomatic,135,166,188,0.8,0,Hungary
+49,Female,non-anginal,144,320,138,0.1,0,Hungary
+38,Male,asymptomatic,104,329,174,0.0,0,Hungary
+50,Female,asymptomatic,138,375,110,0.1,1,Hungary
+62,Female,asymptomatic,141,306,136,1.6,1,Cleveland
+38,Male,asymptomatic,102,181,139,0.0,1,Hungary
+57,Male,atypical angina,151,157,160,0.4,1,VA Long Beach
+40,Male,asymptomatic,139,277,129,1.1,1,Hungary
+57,Male,asymptomatic,125,137,91,3.8,1,VA Long Beach
+65,Male,asymptomatic,155,184,145,1.3,1,VA Long Beach
+57,Male,atypical angina,156,158,149,0.1,0,Hungary
+37,Male,asymptomatic,104,125,155,0.2,0,Hungary
+60,Male,non-anginal,124,325,137,0.7,0,Hungary
+57,Female,asymptomatic,163,233,159,0.3,0,Cleveland
+70,Female,asymptomatic,158,128,103,0.2,1,Cleveland
+61,Male,asymptomatic,100,185,144,1.3,1,Cleveland
+53,Male,atypical angina,142,221,122,0.0,0,Hungary
+62,Male,asymptomatic,136,130,142,0.0,1,VA Long Beach
+59,Male,asymptomatic,148,248,99,2.5,1,Cleveland
+37,Female,atypical angina,147,154,172,0.2,0,Hungary
+66,Male,asymptomatic,144,300,93,0.4,1,Hungary
+49,Male,atypical angina,150,313,184,0.5,0,Cleveland
+69,Male,asymptomatic,140,115,99,2.1,1,VA Long Beach
+55,Male,typical angina,127,260,137,1.2,1,VA Long Beach
+62,Male,asymptomatic,160,215,78,2.5,1,VA Long Beach
+66,Male,asymptomatic,150,321,81,2.3,1,Hungary
+46,Male,asymptomatic,108,175,164,0.4,0,Hungary
+47,Male,asymptomatic,124,120,165,1.3,1,Cleveland
+68,Female,asymptomatic,123,402,171,0.7,0,Cleveland
+54,Male,asymptomatic,152,351,129,0.8,0,Hungary
+57,Male,asymptomatic,133,283,165,2.3,1,Hungary
+48,Male,asymptomatic,135,196,112,0.0,0,Hungary
+55,Male,typical angina,123,274,152,0.6,0,Hungary
+56,Male,asymptomatic,115,112,152,0.6,1,VA Long Beach
+51,Female,atypical angina,135,186,162,0.8,0,Cleveland
+37,Female,asymptomatic,108,150,106,0.0,1,Cleveland
+53,Male,asymptomatic,161,330,132,1.8,1,Hungary
+66,Female,non-anginal,136,410,138,0.9,0,Hungary
+48,Male,atypical angina,117,326,169,0.0,0,Cleveland
+42,Female,non-anginal,110,341,190,0.0,0,Cleveland
+55,Male,asymptomatic,116,118,112,0.2,1,Cleveland
+46,Male,typical angina,121,115,108,0.3,1,Cleveland
+67,Male,non-anginal,136,223,116,0.0,0,VA Long Beach
+47,Male,non-anginal,98,131,151,0.8,1,VA Long Beach
+53,Male,non-anginal,133,353,163,1.0,1,Cleveland
+64,Male,asymptomatic,122,363,131,0.6,1,Cleveland
+58,Male,asymptomatic,152,362,179,3.6,1,Cleveland
+57,Male,atypical angina,120,257,159,1.0,1,VA Long Beach
+56,Female,asymptomatic,144,162,129,3.2,1,Hungary
+39,Male,asymptomatic,130,133,168,0.2,0,Cleveland
+56,Female,atypical angina,150,270,148,0.0,0,Hungary
+43,Male,atypical angina,127,287,162,1.3,1,Hungary
+71,Male,atypical angina,154,124,133,0.0,0,VA Long Beach
+40,Male,atypical angina,122,198,171,1.2,0,Cleveland
+62,Male,atypical angina,151,184,132,1.7,1,Hungary
+53,Male,asymptomatic,148,206,189,2.1,1,Cleveland
+57,Male,non-anginal,127,257,132,0.0,1,Cleveland
+64,Male,asymptomatic,137,149,119,0.0,1,Hungary
+34,Male,atypical angina,164,212,165,0.0,0,Hungary
+44,Female,asymptomatic,139,245,120,0.7,1,Hungary
+64,Female,atypical angina,137,234,153,1.2,1,VA Long Beach
+60,Male,asymptomatic,136,240,189,0.6,0,Cleveland
+64,Male,asymptomatic,141,150,102,2.1,1,VA Long Beach
+56,Male,asymptomatic,121,216,171,1.1,0,VA Long Beach
+60,Male,asymptomatic,128,263,144,0.0,1,Cleveland
+73,Male,typical angina,148,149,116,1.0,1,VA Long Beach
+46,Female,atypical angina,104,302,174,0.5,0,Cleveland
+59,Male,non-anginal,142,217,147,0.7,1,VA Long Beach
+43,Male,asymptomatic,136,158,130,0.8,1,Switzerland
+46,Female,asymptomatic,115,316,83,0.1,1,Hungary
+42,Male,non-anginal,136,184,142,1.2,1,VA Long Beach
+59,Male,atypical angina,124,219,134,0.0,0,Hungary
+54,Male,asymptomatic,136,218,148,1.5,1,Cleveland
+60,Male,non-anginal,154,193,157,0.9,1,Hungary
+57,Male,asymptomatic,152,273,140,2.7,1,VA Long Beach
+68,Female,atypical angina,131,347,121,0.9,1,Cleveland
+60,Female,non-anginal,132,202,136,1.5,0,Hungary
+48,Male,atypical angina,128,378,170,0.3,0,Hungary
+72,Male,non-anginal,144,366,102,2.9,1,Cleveland
+39,Male,atypical angina,133,267,182,0.6,0,Hungary
+51,Male,asymptomatic,171,188,83,2.2,1,Hungary
+39,Male,asymptomatic,154,375,120,4.0,1,Hungary
+42,Male,asymptomatic,133,358,119,0.0,0,Hungary
+49,Male,asymptomatic,146,146,164,0.6,1,Cleveland
+46,Male,asymptomatic,118,199,144,1.7,1,Cleveland
+62,Male,non-anginal,124,132,137,1.3,1,Cleveland
+63,Female,asymptomatic,119,280,144,2.0,1,Cleveland
+47,Male,non-anginal,135,164,134,0.3,1,Hungary
+48,Male,non-anginal,157,171,142,0.0,0,Hungary
+50,Male,atypical angina,136,318,182,0.0,0,Cleveland
+50,Male,non-anginal,140,233,156,0.0,0,Hungary
+37,Male,atypical angina,101,131,158,1.3,1,Cleveland
+47,Male,asymptomatic,175,165,92,2.1,1,Hungary
+72,Male,asymptomatic,133,155,140,0.1,1,VA Long Beach
+67,Male,atypical angina,153,373,82,0.9,0,Hungary
+51,Female,asymptomatic,159,160,129,1.9,1,Cleveland
+55,Male,asymptomatic,144,299,172,1.6,0,Hungary
+35,Male,asymptomatic,108,245,158,0.1,1,Cleveland
+48,Male,non-anginal,158,230,149,0.6,0,Hungary
+64,Male,asymptomatic,134,111,157,2.1,1,VA Long Beach
+49,Male,atypical angina,133,144,155,0.0,0,Hungary
+60,Male,atypical angina,139,136,162,0.0,0,VA Long Beach
+36,Female,atypical angina,111,265,123,1.2,0,Hungary
+64,Male,atypical angina,163,195,135,1.6,1,VA Long Beach
+37,Male,atypical angina,127,347,156,0.0,0,Hungary
+42,Male,asymptomatic,126,193,154,0.1,0,Hungary
+62,Female,asymptomatic,125,264,122,0.3,1,Hungary
+41,Male,asymptomatic,126,188,165,0.0,0,Hungary
+58,Male,asymptomatic,164,418,88,4.3,1,Hungary
+67,Male,asymptomatic,148,146,169,1.5,1,Cleveland
+61,Male,non-anginal,139,230,157,1.3,1,Cleveland
+48,Male,non-anginal,124,183,168,0.0,0,Cleveland
+41,Male,non-anginal,122,211,181,1.2,0,Hungary
+56,Male,asymptomatic,132,164,163,0.9,1,Cleveland
+37,Female,atypical angina,102,142,165,0.4,0,Hungary
+43,Female,asymptomatic,171,246,90,0.0,0,Hungary
+63,Male,asymptomatic,138,142,137,2.6,1,VA Long Beach
+48,Female,asymptomatic,122,267,139,0.0,1,Cleveland
+43,Male,asymptomatic,128,149,181,0.4,1,Hungary
+57,Male,non-anginal,126,255,141,0.3,0,Cleveland
+67,Male,asymptomatic,133,138,73,1.3,1,VA Long Beach
+72,Female,non-anginal,148,163,158,1.8,1,Cleveland
+72,Female,non-anginal,163,234,132,0.6,1,Cleveland
+51,Female,asymptomatic,136,140,146,0.7,1,Cleveland
+51,Male,atypical angina,114,136,175,0.0,0,Cleveland
+54,Female,non-anginal,111,311,176,0.4,0,Cleveland
+59,Male,asymptomatic,136,302,146,1.5,1,Cleveland
+66,Male,asymptomatic,163,142,96,2.2,1,VA Long Beach
+46,Male,non-anginal,112,197,148,1.1,0,Hungary
+50,Male,atypical angina,146,128,153,0.9,1,Cleveland
+63,Male,typical angina,138,210,152,1.2,1,Cleveland
+55,Male,asymptomatic,138,260,141,0.3,1,VA Long Beach
+65,Male,asymptomatic,146,203,110,1.9,1,VA Long Beach
+66,Female,typical angina,143,457,172,0.8,1,Cleveland
+65,Female,atypical angina,127,294,181,1.0,0,Cleveland
+36,Male,asymptomatic,143,438,130,0.0,0,Hungary
+46,Male,non-anginal,109,137,119,3.0,1,Cleveland
+42,Male,asymptomatic,117,136,154,2.1,1,Hungary
+32,Male,atypical angina,101,230,152,1.1,0,Hungary
+47,Male,atypical angina,147,321,100,0.0,0,Hungary
+63,Male,asymptomatic,133,279,169,0.8,1,Cleveland
+42,Female,non-anginal,125,289,182,0.6,0,Hungary
+47,Male,asymptomatic,138,212,147,0.9,0,Cleveland
+56,Male,non-anginal,125,184,147,0.2,0,Cleveland
+56,Male,non-anginal,129,128,127,0.9,0,VA Long Beach
+55,Female,asymptomatic,137,227,125,0.0,1,VA Long Beach
+61,Male,asymptomatic,167,333,128,1.4,1,Hungary
+69,Female,asymptomatic,163,289,75,0.0,0,Hungary
+44,Male,asymptomatic,153,218,168,2.9,1,Hungary
+72,Male,asymptomatic,164,219,93,1.5,1,VA Long Beach
+40,Male,asymptomatic,147,289,133,1.4,1,Hungary
+46,Female,atypical angina,135,148,123,0.0,0,Hungary
+69,Female,non-anginal,154,188,143,0.8,1,Cleveland
+65,Male,asymptomatic,125,163,156,0.1,1,Hungary
+59,Female,non-anginal,132,230,175,0.0,0,Cleveland
+70,Female,asymptomatic,164,179,145,0.1,0,Hungary
+62,Male,asymptomatic,124,410,151,1.7,1,Hungary
+56,Male,asymptomatic,139,137,159,1.6,1,Switzerland
+52,Male,atypical angina,141,193,129,1.5,1,Hungary
+72,Male,asymptomatic,136,328,151,0.6,1,Cleveland
+60,Male,asymptomatic,142,376,171,1.4,1,Cleveland
+55,Male,asymptomatic,153,351,147,1.5,1,Hungary
+46,Male,non-anginal,145,234,155,1.1,0,Hungary
+66,Male,asymptomatic,133,295,85,1.3,1,VA Long Beach
+55,Male,non-anginal,119,148,161,0.0,1,VA Long Beach
+53,Male,asymptomatic,150,130,174,0.7,0,Cleveland
+64,Female,asymptomatic,136,301,101,0.5,0,Hungary
+48,Female,asymptomatic,111,290,120,0.0,0,Hungary
+61,Male,non-anginal,132,199,123,0.0,0,VA Long Beach
+62,Male,asymptomatic,99,254,112,0.5,1,VA Long Beach
+40,Male,non-anginal,122,177,171,0.0,1,Cleveland
+32,Male,atypical angina,145,192,172,0.2,0,Hungary
+56,Male,typical angina,152,263,141,2.2,1,Cleveland
+63,Male,asymptomatic,157,243,114,1.6,1,Hungary
+66,Male,asymptomatic,154,174,126,0.2,0,Hungary
+68,Male,atypical angina,144,291,153,2.1,1,Hungary
+50,Male,typical angina,140,211,166,0.7,0,Cleveland
+69,Male,asymptomatic,102,402,186,0.7,0,Cleveland
+40,Female,non-anginal,145,159,175,0.3,0,Hungary
+44,Male,atypical angina,157,214,193,0.3,0,Hungary
+60,Male,asymptomatic,129,256,126,0.0,0,VA Long Beach
+66,Male,non-anginal,174,234,105,1.6,1,Hungary
+56,Male,asymptomatic,145,168,113,1.2,1,VA Long Beach
+63,Male,non-anginal,156,246,146,1.0,1,Hungary
+51,Female,asymptomatic,139,238,162,1.4,0,Cleveland
+46,Male,asymptomatic,104,186,166,1.4,1,Cleveland
+49,Male,asymptomatic,139,158,100,0.1,1,Hungary
+36,Female,non-anginal,111,241,178,0.5,0,Cleveland
+54,Male,asymptomatic,141,153,158,1.8,1,Hungary
+49,Male,asymptomatic,133,196,137,0.2,1,Hungary
+50,Female,non-anginal,118,296,171,1.0,0,Cleveland
+56,Male,atypical angina,135,352,165,0.6,0,Cleveland
+63,Male,asymptomatic,133,314,108,1.8,1,Cleveland
+36,Female,asymptomatic,135,301,138,0.2,0,Hungary
+35,Female,non-anginal,133,205,184,0.8,0,Hungary
+54,Male,atypical angina,146,305,180,0.0,0,Cleveland
+55,Female,asymptomatic,131,360,124,0.9,1,Hungary
+51,Male,typical angina,128,203,174,0.0,1,Cleveland
+55,Male,asymptomatic,158,297,128,1.6,1,VA Long Beach
+55,Male,non-anginal,129,353,169,0.8,1,Cleveland
+58,Female,atypical angina,101,223,155,1.3,1,Hungary
+38,Male,atypical angina,131,392,175,0.0,0,Cleveland
+70,Female,asymptomatic,154,321,163,1.3,1,Cleveland
+33,Female,non-anginal,143,191,146,0.4,0,Hungary
+64,Male,asymptomatic,112,215,84,0.0,1,VA Long Beach
+38,Male,asymptomatic,103,141,163,1.9,1,Hungary
+44,Male,atypical angina,106,259,162,0.0,0,Hungary
+48,Male,atypical angina,131,238,145,0.0,0,Hungary
+38,Male,atypical angina,134,217,173,0.7,0,Cleveland
+38,Male,non-anginal,119,348,186,0.4,0,Cleveland
+45,Female,asymptomatic,121,318,141,0.6,0,Hungary
+73,Male,asymptomatic,151,181,112,2.9,1,Cleveland
+64,Male,asymptomatic,130,216,169,0.1,0,Cleveland
+58,Female,asymptomatic,102,194,186,0.7,1,Cleveland
+57,Male,asymptomatic,128,229,161,0.1,0,Hungary
+52,Male,asymptomatic,139,151,147,0.0,0,Hungary
+61,Female,non-anginal,133,278,102,1.0,1,VA Long Beach
+63,Female,atypical angina,153,344,74,0.0,1,Hungary
+35,Female,asymptomatic,148,151,144,0.1,1,Cleveland
+43,Male,non-anginal,118,236,191,0.0,0,Cleveland
+62,Male,asymptomatic,139,207,133,2.8,1,VA Long Beach
+52,Male,asymptomatic,117,288,112,2.8,1,Hungary
+53,Female,atypical angina,146,292,136,0.8,0,Hungary
+58,Male,non-anginal,105,148,143,1.4,1,VA Long Beach
+60,Male,asymptomatic,136,261,103,1.1,1,VA Long Beach
+37,Male,asymptomatic,123,300,110,1.5,1,Hungary
+33,Male,asymptomatic,135,307,156,0.0,0,Hungary
+36,Male,atypical angina,99,365,130,0.2,0,Hungary
+60,Male,typical angina,121,301,146,0.5,0,Cleveland
+37,Female,non-anginal,163,251,169,0.0,0,Hungary
+51,Female,atypical angina,135,329,120,0.0,0,Hungary
+48,Male,asymptomatic,123,324,89,1.5,1,Hungary
+53,Male,asymptomatic,126,375,189,0.9,0,Cleveland
+55,Male,non-anginal,154,201,134,1.1,1,Hungary
+59,Male,non-anginal,119,130,163,1.0,1,VA Long Beach
+52,Male,atypical angina,142,293,154,0.3,0,Cleveland
+54,Female,non-anginal,171,235,150,0.1,0,Hungary
+43,Male,atypical angina,127,237,137,0.0,0,Hungary
+43,Male,asymptomatic,149,380,97,1.1,1,Hungary
+46,Male,asymptomatic,152,343,115,0.4,0,Hungary
+64,Male,asymptomatic,140,149,83,0.0,1,VA Long Beach
+39,Male,non-anginal,134,112,149,0.0,0,Cleveland
+52,Male,asymptomatic,168,252,114,0.0,0,Hungary
+47,Female,asymptomatic,135,272,115,0.0,0,Hungary
+36,Male,non-anginal,110,206,165,0.0,0,Hungary
+51,Male,non-anginal,136,160,145,0.0,0,Hungary
+42,Male,asymptomatic,126,340,155,1.4,1,Hungary
+60,Male,asymptomatic,124,210,163,0.8,1,VA Long Beach
+63,Male,asymptomatic,153,357,177,3.0,1,VA Long Beach
+58,Female,atypical angina,97,288,126,0.1,0,Cleveland
+57,Male,asymptomatic,147,178,137,2.2,1,Cleveland
+63,Male,atypical angina,114,252,162,1.3,0,Hungary
+61,Male,atypical angina,143,377,109,0.0,1,Hungary
+50,Female,asymptomatic,126,211,129,0.2,1,Hungary

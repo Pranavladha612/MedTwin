@@ -1,0 +1,14 @@
+{
+  "model": "CTGAN",
+  "rows_kept": 1496,
+  "fidelity_pct": 77.99,
+  "discriminator_pct": 84.66,
+  "tstr_auc": 0.783,
+  "trtr_auc": 0.89,
+  "auc_ratio": 0.88,
+  "dcr_closer_to_train_pct": 50.4,
+  "mia_auc": 0.536,
+  "exact_copies": 0,
+  "train_seconds": 48.2,
+  "seed": 0
+}
