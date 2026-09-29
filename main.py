@@ -1,3 +1,4 @@
+import argparse
 import glob
 import hashlib
 import json
@@ -21,7 +22,7 @@ from core.evaluation import (
     evaluate_synthetic,
     split_real_data,
 )
-from core import medtwin
+from core import config, medtwin
 from core.generator import load_model, save_model
 from core.ingestion import mark_missing
 
@@ -36,7 +37,8 @@ PREP_VERSION = 4
 # v3: conditional generator with Gumbel-softmax categorical outputs
 TRAIN_VERSION = 3
 
-# Dated reports kept in data/synthetic/; older ones are deleted on each run.
+# Dated reports kept in the dataset's output folder; older ones are deleted
+# on each run.
 KEEP_REPORTS = 10
 
 from core.metrics import calculate_fidelity_score
@@ -52,18 +54,18 @@ def get_data_hash(file_path):
 
 
 def run_pipeline():
-    # 1. SETUP PATHS
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    FILE_PATH = os.path.join(BASE_DIR, "data", "heart_disease_uci.csv")
-    MODEL_PATH = os.path.join(BASE_DIR, "core", "trained_gen.pth")
-    HASH_FILE = os.path.join(BASE_DIR, "core", "last_training_hash.txt")
-    SYNTH_DIR = os.path.join(BASE_DIR, "data", "synthetic")
+    # 1. SETUP PATHS (all from the dataset's settings file)
+    cfg = config.active()
+    FILE_PATH = cfg.data_file
+    MODEL_PATH = cfg.model_file
+    HASH_FILE = os.path.splitext(MODEL_PATH)[0] + ".hash.txt"
+    SYNTH_DIR = cfg.output_dir
 
-    if not os.path.exists(SYNTH_DIR):
-        os.makedirs(SYNTH_DIR)
+    os.makedirs(SYNTH_DIR, exist_ok=True)
+    os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
 
     # 2. DATA INGESTION
-    print("--- Phase 1: Ingesting Real Medical Data ---")
+    print(f"--- Phase 1: Ingesting Real Medical Data ({cfg.name}) ---")
     if not os.path.exists(FILE_PATH):
         print(f"❌ Error: {FILE_PATH} not found!")
         return
@@ -78,11 +80,12 @@ def run_pipeline():
     ingestor, processed_df = medtwin.prepare(train_raw)
 
     # 3. TRAINING LOGIC (IDENTITY GATEKEEPER)
-    # The split settings and preprocessing version are part of the
-    # fingerprint: a model trained differently must not be reused.
+    # The split, the preprocessing and training versions and the settings
+    # file are all part of the fingerprint: a model trained differently must
+    # not be reused.
     current_hash = (
         f"{get_data_hash(FILE_PATH)}|holdout={HOLDOUT_FRACTION}|seed={SPLIT_SEED}"
-        f"|prep=v{PREP_VERSION}|train=v{TRAIN_VERSION}"
+        f"|prep=v{PREP_VERSION}|train=v{TRAIN_VERSION}|settings={get_data_hash(cfg.path)}"
     )
     trained_gen = None
     if os.path.exists(HASH_FILE) and os.path.exists(MODEL_PATH):
@@ -119,9 +122,10 @@ def run_pipeline():
 
     # 9. FINAL VALIDATION
     # Compared against real data with "not measured" zeros removed, otherwise
-    # the 172 fake zero cholesterol readings distort the real distribution.
+    # zero placeholders (172 cholesterol readings for heart disease) distort
+    # the real distribution.
     fidelity_score = calculate_fidelity_score(
-        mark_missing(raw_df), final_report, ["age", "trestbps", "chol", "thalch"]
+        mark_missing(raw_df), final_report, cfg.fidelity_columns
     )
 
     # 10. PRIVACY VALIDATION
@@ -175,4 +179,7 @@ def run_pipeline():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Train MedTwin and generate synthetic patients.")
+    config.add_argument(parser)
+    config.use(parser.parse_args().config)
     run_pipeline()

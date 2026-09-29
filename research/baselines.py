@@ -9,6 +9,7 @@ Run after main.py (it reads MedTwin's own scores from latest_metrics.json):
     python research/baselines.py
 """
 
+import argparse
 import json
 import os
 import random
@@ -23,18 +24,16 @@ import torch
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from ctgan import CTGAN, TVAE
 
-from core import medtwin
+from core import config, medtwin
 from core.evaluation import (
     HOLDOUT_FRACTION,
-    REPORT_CATEGORICAL,
     SPLIT_SEED,
     align_real_to_report,
     evaluate_synthetic,
     fill_missing,
     split_real_data,
 )
-from core.medtwin import REPORT_COLS
-from core.ingestion import FLAGGED_COLS, blank_flagged, mark_missing, missing_flag
+from core.ingestion import blank_flagged, mark_missing, missing_flag
 from core.medical_logic import MedicalLogicFilter, quantize_clinical
 from core.metrics import calculate_fidelity_score
 from research.adversarial_audit import calculate_privacy_score
@@ -48,15 +47,9 @@ try:
 except Exception:
     pass
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-REAL_PATH = os.path.join(BASE_DIR, "data", "heart_disease_uci.csv")
-SYNTH_DIR = os.path.join(BASE_DIR, "data", "synthetic")
-OUT_DIR = os.path.join(SYNTH_DIR, "baselines")
-
-# Same 15 columns as MedTwin's report. The baselines are unconditional (the
-# standard way to run them), so they generate origin_study like any other
-# categorical column instead of being told the site.
-DISCRETE_COLS = REPORT_CATEGORICAL + ["num"]
+# Same columns as MedTwin's report. The baselines are unconditional (the
+# standard way to run them), so they generate the condition column (e.g. the
+# hospital) like any other categorical column instead of being told it.
 N_SAMPLES = medtwin.N_SAMPLES  # same as main.py, before clinical filtering
 
 
@@ -82,9 +75,14 @@ def prepare_train(train_raw):
     MedTwin, each blank numeric value becomes a "was it measured?" flag plus a
     placeholder value, and each blank category a "not measured" category,
     since none of these models accept blanks."""
-    train_df = align_real_to_report(train_raw, REPORT_COLS)
+    cfg = config.active()
+    train_df = align_real_to_report(train_raw, cfg.report_columns)
     (train_df,) = fill_missing([train_df], train_df)
-    discrete_cols = DISCRETE_COLS + [missing_flag(c) for c in FLAGGED_COLS]
+    discrete_cols = (
+        cfg.report_categorical
+        + [cfg.report_target]
+        + [missing_flag(c) for c in cfg.flagged_report]
+    )
     return train_df, discrete_cols
 
 
@@ -99,14 +97,14 @@ def train_and_generate(make, train_df, discrete_cols, seed=SPLIT_SEED):
 
     synth = blank_flagged(model.sample(N_SAMPLES))
     synth = MedicalLogicFilter().apply_rules(synth)
-    return quantize_clinical(synth)[REPORT_COLS], seconds
+    return quantize_clinical(synth)[config.active().report_columns], seconds
 
 
 def score(raw_df, train_raw, holdout_raw, synth):
     evaluation = evaluate_synthetic(train_raw, holdout_raw, synth)
     return {
         "fidelity_pct": calculate_fidelity_score(
-            mark_missing(raw_df), synth, ["age", "trestbps", "chol", "thalch"]
+            mark_missing(raw_df), synth, config.active().fidelity_columns
         ),
         "discriminator_pct": calculate_privacy_score(raw_df, synth),
         **evaluation,
@@ -132,9 +130,12 @@ def flatten(name, n_kept, metrics, seconds):
 
 def run_baselines():
     warnings.filterwarnings("ignore")
-    os.makedirs(OUT_DIR, exist_ok=True)
+    cfg = config.active()
+    synth_dir = cfg.output_dir
+    out_dir = os.path.join(synth_dir, "baselines")
+    os.makedirs(out_dir, exist_ok=True)
 
-    raw_df = pd.read_csv(REAL_PATH)
+    raw_df = pd.read_csv(cfg.data_file)
     train_raw, holdout_raw = split_real_data(raw_df)
     train_df, discrete_cols = prepare_train(train_raw)
     print(f"Training baselines on {len(train_df)} clean train rows "
@@ -142,13 +143,13 @@ def run_baselines():
 
     rows = []
 
-    metrics_path = os.path.join(SYNTH_DIR, "latest_metrics.json")
+    metrics_path = os.path.join(synth_dir, "latest_metrics.json")
     if os.path.exists(metrics_path):
         with open(metrics_path) as f:
             medtwin = json.load(f)
         if "utility" in medtwin:
             medtwin_df = pd.read_csv(
-                os.path.join(SYNTH_DIR, "grounded_synthetic_data_latest.csv")
+                os.path.join(synth_dir, "grounded_synthetic_data_latest.csv")
             )
             rows.append(flatten("MedTwin WGAN-GP", len(medtwin_df), medtwin, None))
     if not rows:
@@ -157,12 +158,12 @@ def run_baselines():
     for name, make in build_models().items():
         print(f"\n🏗️ {name}")
         synth, seconds = train_and_generate(make, train_df, discrete_cols)
-        synth.to_csv(os.path.join(OUT_DIR, f"{name.lower()}.csv"), index=False)
+        synth.to_csv(os.path.join(out_dir, f"{name.lower()}.csv"), index=False)
 
         rows.append(flatten(name, len(synth), score(raw_df, train_raw, holdout_raw, synth), seconds))
 
     table = pd.DataFrame(rows)
-    table.to_csv(os.path.join(SYNTH_DIR, "baseline_comparison.csv"), index=False)
+    table.to_csv(os.path.join(synth_dir, "baseline_comparison.csv"), index=False)
 
     print("\n📊 Baseline comparison (targets: auc_ratio → 1.0, "
           "dcr_closer_to_train_pct → 50, mia_auc → 0.5, discriminator_pct → 50)")
@@ -171,4 +172,7 @@ def run_baselines():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    config.add_argument(parser)
+    config.use(parser.parse_args().config)
     run_baselines()

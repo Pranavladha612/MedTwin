@@ -15,27 +15,17 @@ import torch
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, ROOT)
 
-from core import medtwin
-from core.evaluation import (
-    REPORT_CATEGORICAL,
-    align_real_to_report,
-    evaluate_synthetic,
-    split_real_data,
-)
-from core.ingestion import (
-    FLAGGED_COLS,
-    NOT_MEASURED,
-    ZERO_INFLATED,
-    mark_missing,
-    missing_flag,
-    zero_flag,
-)
-from core.medical_logic import PLAUSIBLE_RANGES, MedicalLogicFilter
+from core import config, medtwin
+from core.evaluation import align_real_to_report, evaluate_synthetic, split_real_data
+from core.ingestion import NOT_MEASURED, mark_missing, missing_flag, zero_flag
+from core.medical_logic import MedicalLogicFilter
 from research.adversarial_audit import calculate_privacy_score
 from research.baselines import prepare_train, train_and_generate
 from research.tabddpm import TabDDPM
 
-RAW = pd.read_csv(os.path.join(ROOT, "data", "heart_disease_uci.csv"))
+# These checks use the heart-disease settings (configs/heart_disease.yaml)
+CFG = config.use(config.DEFAULT)
+RAW = pd.read_csv(CFG.data_file)
 
 
 @pytest.fixture(scope="module")
@@ -72,9 +62,9 @@ def test_training_matrix_is_complete_and_matches_output_layout(trained):
     assert not processed.isna().any().any()
     assert processed.values.min() >= 0 and processed.values.max() <= 1
     assert sum(width for _, width in ingestor.output_info) == processed.shape[1]
-    for col in FLAGGED_COLS:
+    for col in CFG.flagged:
         assert missing_flag(col) in processed.columns
-    for col in ZERO_INFLATED:
+    for col in CFG.exactly_zero_spike:
         # the flag must mark real exact zeros (43% of oldpeak)
         assert processed[zero_flag(col)].mean() > 0.3
     assert "dataset" not in " ".join(processed.columns)  # site is the condition, not an output
@@ -92,24 +82,24 @@ def test_unmeasured_categories_are_a_category_not_invented(trained):
 def test_no_real_patient_breaks_the_plausibility_rules():
     kept = MedicalLogicFilter().apply_rules(mark_missing(RAW))
     assert len(kept) == len(RAW)
-    assert len(align_real_to_report(RAW, medtwin.REPORT_COLS)) == len(RAW)
+    assert len(align_real_to_report(RAW, CFG.report_columns)) == len(RAW)
 
 
 # ---------- generation ----------
 
 def test_report_has_all_15_columns(report):
-    assert list(report.columns) == medtwin.REPORT_COLS
-    assert len(medtwin.REPORT_COLS) == 15
+    assert list(report.columns) == CFG.report_columns
+    assert len(CFG.report_columns) == 15
 
 
 def test_report_values_are_valid(report):
-    for col, (lo, hi) in PLAUSIBLE_RANGES.items():
+    for col, (lo, hi) in CFG.plausible_ranges.items():
         values = report[col].dropna().astype(float)
         assert values.between(lo, hi).all(), col
     assert set(report["num"]) <= {0, 1, 2, 3, 4}
     assert set(report["ca"].dropna().astype(int)) <= {0, 1, 2, 3}
     assert set(report["origin_study"]) <= set(RAW["dataset"])
-    for col in REPORT_CATEGORICAL:
+    for col in CFG.report_categorical:
         assert NOT_MEASURED not in set(report[col].dropna()), col  # blanks, not the label
 
 
@@ -155,7 +145,7 @@ def test_evaluation_runs_on_report_read_back_from_csv(tmp_path, split, report):
 
 def test_privacy_tests_flag_copied_patients(split):
     # Handing in the real training patients themselves must look like a leak.
-    copies = align_real_to_report(split[0], medtwin.REPORT_COLS)
+    copies = align_real_to_report(split[0], CFG.report_columns)
     result = evaluate_synthetic(split[0], split[1], copies)["privacy"]
     assert result["mia_auc"] > 0.9
     assert result["exact_copies_of_train"] > 0
@@ -171,5 +161,5 @@ def test_privacy_tests_flag_copied_patients(split):
 def test_baseline_produces_valid_15_column_report(split, make):
     train_df, discrete = prepare_train(split[0])
     synth, _ = train_and_generate(make, train_df, discrete, seed=0)
-    assert list(synth.columns) == medtwin.REPORT_COLS
+    assert list(synth.columns) == CFG.report_columns
     assert len(synth) > 0

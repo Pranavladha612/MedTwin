@@ -7,6 +7,8 @@ run resumes where it stopped.
 
     python research/multi_seed.py --seed 3          # run one seed (all models)
     python research/multi_seed.py --summarize       # mean ± sd, paired tests
+
+Add --config configs/<dataset>.yaml to run on another dataset.
 """
 
 import argparse
@@ -27,7 +29,7 @@ import torch
 from scipy import stats
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from core import medtwin
+from core import config, medtwin
 from core.evaluation import split_real_data
 from research.baselines import (
     build_models,
@@ -46,9 +48,6 @@ try:
 except Exception:
     pass
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-REAL_PATH = os.path.join(BASE_DIR, "data", "heart_disease_uci.csv")
-OUT_DIR = os.path.join(BASE_DIR, "data", "synthetic", "multi_seed")
 SEEDS = [0, 1, 2, 3, 4]
 MEDTWIN = "MedTwin WGAN-GP"
 
@@ -64,14 +63,19 @@ METRICS = {
 }
 
 
+def out_dir():
+    """Results for the active dataset, e.g. data/synthetic/multi_seed/."""
+    return os.path.join(config.active().output_dir, "multi_seed")
+
+
 def result_path(seed, model):
-    return os.path.join(OUT_DIR, f"seed{seed}_{model.split()[0].lower()}.json")
+    return os.path.join(out_dir(), f"seed{seed}_{model.split()[0].lower()}.json")
 
 
 def run_seed(seed):
     warnings.filterwarnings("ignore")
-    os.makedirs(OUT_DIR, exist_ok=True)
-    raw_df = pd.read_csv(REAL_PATH)
+    os.makedirs(out_dir(), exist_ok=True)
+    raw_df = pd.read_csv(config.active().data_file)
     train_raw, holdout_raw = split_real_data(raw_df, seed=seed)
 
     def save(name, synth, seconds):
@@ -101,11 +105,11 @@ def run_seed(seed):
 
 def summarize():
     rows = []
-    for path in glob.glob(os.path.join(OUT_DIR, "seed*.json")):
+    for path in glob.glob(os.path.join(out_dir(), "seed*.json")):
         with open(path) as f:
             rows.append(json.load(f))
     runs = pd.DataFrame(rows).sort_values(["model", "seed"])
-    runs.to_csv(os.path.join(OUT_DIR, "all_runs.csv"), index=False)
+    runs.to_csv(os.path.join(out_dir(), "all_runs.csv"), index=False)
 
     models = [MEDTWIN] + sorted(m for m in runs.model.unique() if m != MEDTWIN)
     seeds_per_model = runs.groupby("model").seed.nunique()
@@ -120,7 +124,7 @@ def summarize():
             row[m] = f"{sub[m].mean():.3f} ± {sub[m].std(ddof=1):.3f}"
         summary.append(row)
     summary = pd.DataFrame(summary)
-    summary.to_csv(os.path.join(OUT_DIR, "summary.csv"), index=False)
+    summary.to_csv(os.path.join(out_dir(), "summary.csv"), index=False)
     print("\n📊 Mean ± SD across seeds")
     print(summary.to_string(index=False))
 
@@ -156,7 +160,7 @@ def summarize():
                 ),
             })
     comparisons = pd.DataFrame(comparisons)
-    comparisons.to_csv(os.path.join(OUT_DIR, "paired_comparisons.csv"), index=False)
+    comparisons.to_csv(os.path.join(out_dir(), "paired_comparisons.csv"), index=False)
     print("\n⚖️ MedTwin vs each baseline, paired by seed "
           "(advantage > 0 = MedTwin better; 'clear' = 95% CI excludes 0)")
     print(comparisons.to_string(index=False))
@@ -167,8 +171,10 @@ if __name__ == "__main__":
     parser.add_argument("--seed", type=int, help="run one seed")
     parser.add_argument("--threads", type=int, default=2, help="torch threads per process")
     parser.add_argument("--summarize", action="store_true")
+    config.add_argument(parser)
     args = parser.parse_args()
 
+    config.use(args.config)
     torch.set_num_threads(args.threads)
     if args.summarize:
         summarize()

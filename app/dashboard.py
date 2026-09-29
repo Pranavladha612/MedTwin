@@ -10,23 +10,27 @@ import streamlit as st
 # --- PATH INJECTION ---
 # Ensures Streamlit can always find the 'core' and 'research' folders
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from core import config
 from core.ingestion import mark_missing
 from core.metrics import calculate_fidelity_score
 from research.adversarial_audit import calculate_privacy_score
+
+# Dataset: set MEDTWIN_CONFIG to a settings file to show another dataset,
+# e.g.  MEDTWIN_CONFIG=configs/diabetes.yaml streamlit run app/dashboard.py
+cfg = config.active()
+ui = cfg.dashboard
 
 # --- PAGE CONFIG ---
 st.set_page_config(page_title="MedTwin Portal", page_icon="🏥", layout="wide")
 
 st.title("🏥 MedTwin: AI Clinical Trial Dashboard")
 st.markdown("### Privacy-Preserving Synthetic Data Generation via WGAN-GP")
+st.caption(f"Dataset: {cfg.name}")
 st.divider()
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-REAL_PATH = os.path.join(BASE_DIR, "data", "heart_disease_uci.csv")
-SYNTH_PATH = os.path.join(
-    BASE_DIR, "data", "synthetic", "grounded_synthetic_data_latest.csv"
-)
-METRICS_PATH = os.path.join(BASE_DIR, "data", "synthetic", "latest_metrics.json")
+REAL_PATH = cfg.data_file
+SYNTH_PATH = os.path.join(cfg.output_dir, "grounded_synthetic_data_latest.csv")
+METRICS_PATH = os.path.join(cfg.output_dir, "latest_metrics.json")
 
 
 @st.cache_data
@@ -67,21 +71,26 @@ else:
 
 if synth_df is not None:
     # 1. METRICS & SIDEBAR FILTERS
-    cont_cols = ["age", "trestbps", "chol", "thalch", "oldpeak"]
+    # Smooth numeric columns (whole-number scores such as severity excluded)
+    discrete = [cfg.report_name(c) for c in cfg.discrete_numeric]
+    cont_cols = [cfg.report_name(c) for c in cfg.numeric if cfg.report_name(c) not in discrete]
+    # Real data under report names, so both sides share column names
+    real_df = real_df.rename(columns=cfg.rename)
 
     st.sidebar.header("🎛️ Filter Digital Twins")
-    gender_list = synth_df["gender"].unique().tolist()
-    sel_gender = st.sidebar.multiselect("Gender", gender_list, default=gender_list)
+    display_df = synth_df
 
-    age_min, age_max = int(synth_df["age"].min()), int(synth_df["age"].max())
-    sel_age = st.sidebar.slider("Age Range", age_min, age_max, (age_min, age_max))
+    category = ui.get("filter_category")
+    if category:
+        options = synth_df[category].dropna().unique().tolist()
+        chosen = st.sidebar.multiselect(cfg.labels.get(category, category), options, default=options)
+        display_df = display_df[display_df[category].isin(chosen)]
 
-    # Apply filters
-    display_df = synth_df[
-        (synth_df["gender"].isin(sel_gender))
-        & (synth_df["age"] >= sel_age[0])
-        & (synth_df["age"] <= sel_age[1])
-    ]
+    range_col = ui.get("filter_range")
+    if range_col:
+        lo, hi = int(synth_df[range_col].min()), int(synth_df[range_col].max())
+        sel = st.sidebar.slider(f"{cfg.labels.get(range_col, range_col)} range", lo, hi, (lo, hi))
+        display_df = display_df[display_df[range_col].between(*sel)]
 
     # Calculate score based on filtered view
     score = calculate_fidelity_score(real_df, display_df, cont_cols)
@@ -102,7 +111,11 @@ if synth_df is not None:
     m1, m2, m3, m4 = st.columns(4)
     m1.metric("Total Digital Twins", len(display_df))
     m2.metric("Statistical Fidelity", f"{score}%")
-    m3.metric("Avg Blood Pressure", f"{display_df['trestbps'].mean():.1f} mmHg")
+    headline = ui.get("headline_average", cont_cols[0])
+    m3.metric(
+        f"Avg {cfg.labels.get(headline, headline)}",
+        f"{display_df[headline].mean():.1f} {ui.get('headline_unit', '')}".strip(),
+    )
     m4.metric("Privacy Audit Score", privacy_value, delta=privacy_note, delta_color="off")
 
     # 1b. HELD-OUT EVALUATION (from the last main.py run)
@@ -176,10 +189,10 @@ if synth_df is not None:
 
     with col_right:
         st.subheader("🧬 Interactive Correlation Analysis")
-        corr_cols = ["age", "trestbps", "chol", "thalch", "oldpeak", "num"]
+        corr_cols = cont_cols + [cfg.report_target]
 
-        # Dropdown menu for the user to select the feature
-        sel_corr_feat = st.selectbox("Select Feature to Analyze", corr_cols, index=5)
+        # Dropdown menu for the user to select the feature (default: the target)
+        sel_corr_feat = st.selectbox("Select Feature to Analyze", corr_cols, index=len(corr_cols) - 1)
 
         # Calculate the correlations for just that specific feature
         real_corr = real_df[corr_cols].corr()[sel_corr_feat].drop(sel_corr_feat)
@@ -218,13 +231,15 @@ if synth_df is not None:
     st.subheader("📋 Raw Data Explorer")
     preview = display_df.head(50).copy()
 
+    decimals = cfg.by_both_names(cfg.decimals)
+
     def show(v, col):
         # Blank cells mean "not measured". Columns holding blanks are read
         # as decimals, so whole numbers are shown without a trailing ".0".
         if pd.isna(v):
             return "not measured"
-        if col == "oldpeak":
-            return f"{v:.1f}"
+        if col in decimals:
+            return f"{v:.{decimals[col]}f}"
         if isinstance(v, float) and v.is_integer():
             return str(int(v))
         return str(v)

@@ -6,29 +6,14 @@ import numpy as np
 import pandas as pd
 import torch
 
+from core import config
 from core.generator import Generator, train_wgan_gp
-from core.ingestion import (
-    FLAGGED_COLS,
-    NOT_MEASURED,
-    ZERO_INFLATED,
-    DataIngestion,
-    missing_flag,
-    zero_flag,
-)
+from core.ingestion import NOT_MEASURED, DataIngestion, missing_flag, zero_flag
 from core.medical_logic import MedicalLogicFilter, quantize_clinical
 
 LATENT_DIM = 128
 EPOCHS = 600
 N_SAMPLES = 2000
-
-# Source column -> report column, for the columns that get friendlier names
-REPORT_NAMES = {"sex": "gender", "cp": "chest_pain", "dataset": "origin_study"}
-
-# All 15 clinical columns of the source data (everything except the patient id)
-REPORT_COLS = [
-    "age", "gender", "chest_pain", "trestbps", "chol", "fbs", "restecg",
-    "thalch", "exang", "oldpeak", "slope", "ca", "thal", "num", "origin_study",
-]
 
 
 def prepare(train_raw):
@@ -60,6 +45,7 @@ def generate_report(generator, ingestor, n=N_SAMPLES):
     the model marks as not measured, plausibility filtering, rounding, and
     readable category columns. Blank cells mean "not measured"."""
     print("\n--- Phase 4: Generating Synthetic Population ---")
+    cfg = config.active()
 
     # Each synthetic patient is generated for a site, drawn with the same
     # frequencies as the real training patients.
@@ -76,18 +62,20 @@ def generate_report(generator, ingestor, n=N_SAMPLES):
         ingestor.scaler.inverse_transform(out[ingestor.num_cols]),
         columns=ingestor.num_cols,
     )
-    for col in ZERO_INFLATED:
+    for col in cfg.exactly_zero_spike:
         report.loc[out[zero_flag(col)].values >= 0.5, col] = 0.0
-    for col in FLAGGED_COLS:  # after zero flags: "not measured" wins
+    for col in cfg.flagged:  # after zero flags: "not measured" wins
         report.loc[out[missing_flag(col)].values >= 0.5, col] = np.nan
+    report = report.rename(columns=cfg.rename)
 
     for col, group in ingestor.cat_groups.items():
         labels = out[group].idxmax(axis=1).str[len(col) + 1:]
-        report[REPORT_NAMES.get(col, col)] = labels.where(labels != NOT_MEASURED).values
-    report["origin_study"] = [ingestor.site_names[i] for i in site_idx]
+        report[cfg.report_name(col)] = labels.where(labels != NOT_MEASURED).values
+    if cfg.condition_on:
+        report[cfg.report_name(cfg.condition_on)] = [ingestor.site_names[i] for i in site_idx]
 
     report = MedicalLogicFilter().apply_rules(report)
     print("🎯 Quantizing values for High Statistical Fidelity...")
     report = quantize_clinical(report)
     print("🧹 Cleaning columns for Clinical Report...")
-    return report[REPORT_COLS]
+    return report[cfg.report_columns]

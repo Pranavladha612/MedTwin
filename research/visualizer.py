@@ -2,11 +2,12 @@
 
     python research/visualizer.py                 # real vs latest MedTwin output
     python research/visualizer.py --benchmark     # also the 5-seed model comparison
+    add --config configs/<dataset>.yaml for another dataset
 
-Writes PNGs (300 dpi) to figures/:
+Writes PNGs (300 dpi) to figures/<dataset name>/:
   fig_continuous.png          distributions of the numeric vitals
   fig_categorical.png         category proportions, "not measured" included
-  fig_missingness_by_site.png % not measured per column and hospital
+  fig_missingness_by_site.png % not measured per column and hospital (if conditioned)
   fig_correlation.png         correlation matrices and their difference
   fig_benchmark.png           mean ± SD per model over seeds (--benchmark)
 """
@@ -24,9 +25,9 @@ import pandas as pd
 from matplotlib.colors import LinearSegmentedColormap
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from core import config
 from core.evaluation import align_real_to_report, normalize_report
 from core.ingestion import NOT_MEASURED
-from core.medtwin import REPORT_COLS
 
 # Ensure emoji/unicode prints don't crash on Windows' default cp1252 console.
 os.environ["PYTHONIOENCODING"] = "utf-8"
@@ -36,11 +37,7 @@ try:
 except Exception:
     pass
 
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-REAL_PATH = os.path.join(BASE_DIR, "data", "heart_disease_uci.csv")
-SYNTH_PATH = os.path.join(BASE_DIR, "data", "synthetic", "grounded_synthetic_data_latest.csv")
-RUNS_PATH = os.path.join(BASE_DIR, "data", "synthetic", "multi_seed", "all_runs.csv")
-OUT_DIR = os.path.join(BASE_DIR, "figures")
+BASE_DIR = config.ROOT
 
 # Validated palette (colour-blind safe; see the dataviz reference palette)
 REAL, SYNTH = "#2a78d6", "#eb6834"
@@ -48,17 +45,38 @@ MODEL_COLORS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100"]
 INK, INK_2, GRID, SURFACE = "#0b0b0b", "#52514e", "#e4e3df", "#fcfcfb"
 DIVERGING = LinearSegmentedColormap.from_list("blue_red", ["#2a78d6", "#f0efec", "#e34948"])
 
-CONTINUOUS = ["age", "trestbps", "chol", "thalch", "oldpeak"]
-CATEGORICAL = ["gender", "chest_pain", "fbs", "restecg", "exang", "slope", "thal", "ca", "num", "origin_study"]
-MISSABLE = ["trestbps", "chol", "thalch", "oldpeak", "ca", "fbs", "exang", "slope", "thal"]
-LABELS = {
-    "age": "Age (years)", "trestbps": "Resting BP (mmHg)", "chol": "Cholesterol (mg/dl)",
-    "thalch": "Max heart rate (bpm)", "oldpeak": "ST depression (oldpeak)",
-    "gender": "Sex", "chest_pain": "Chest pain type", "fbs": "Fasting blood sugar > 120",
-    "restecg": "Resting ECG", "exang": "Exercise angina", "slope": "ST slope",
-    "thal": "Thalassemia", "ca": "Major vessels (ca)", "num": "Disease severity (num)",
-    "origin_study": "Hospital site",
-}
+
+def out_dir():
+    """figures/<dataset name>/"""
+    return os.path.join(BASE_DIR, "figures", config.active().name)
+
+
+def label(col):
+    return config.active().labels.get(col, col)
+
+
+def column_groups():
+    """Which report columns go in which figure, from the settings file.
+    Whole-number scores and counts (e.g. vessel count, severity) are drawn as
+    bars with the categories rather than as smooth curves."""
+    cfg = config.active()
+    numeric = [cfg.report_name(c) for c in cfg.numeric]
+    discrete = [cfg.report_name(c) for c in cfg.discrete_numeric]
+    condition = [cfg.report_name(cfg.condition_on)] if cfg.condition_on else []
+    return {
+        "continuous": [c for c in numeric if c not in discrete],
+        "categorical": [cfg.report_name(c) for c in cfg.categorical] + discrete + condition,
+        "correlation": numeric,
+    }
+
+
+def panel_grid(n, ncols, panel_w, panel_h, **kwargs):
+    """A grid of n panels, at most ncols wide; spare cells are hidden."""
+    rows, cols = int(np.ceil(n / ncols)), min(n, ncols)
+    fig, axes = plt.subplots(rows, cols, figsize=(panel_w * cols, panel_h * rows), squeeze=False, **kwargs)
+    for ax in axes.flat[n:]:
+        ax.set_visible(False)
+    return fig, axes.flat[:n]
 
 plt.rcParams.update({
     "figure.facecolor": SURFACE, "axes.facecolor": SURFACE, "savefig.facecolor": SURFACE,
@@ -71,15 +89,16 @@ plt.rcParams.update({
 
 
 def load(synth_path):
-    raw = pd.read_csv(REAL_PATH)
-    real = align_real_to_report(raw, REPORT_COLS)  # "not measured" zeros become blanks
-    synth = normalize_report(pd.read_csv(synth_path)[REPORT_COLS])
+    cfg = config.active()
+    raw = pd.read_csv(cfg.data_file)
+    real = align_real_to_report(raw, cfg.report_columns)  # "not measured" zeros become blanks
+    synth = normalize_report(pd.read_csv(synth_path)[cfg.report_columns])
     return real, synth
 
 
 def save(fig, name):
-    os.makedirs(OUT_DIR, exist_ok=True)
-    path = os.path.join(OUT_DIR, name)
+    os.makedirs(out_dir(), exist_ok=True)
+    path = os.path.join(out_dir(), name)
     fig.savefig(path, dpi=300, bbox_inches="tight")
     plt.close(fig)
     print(f"📈 {os.path.relpath(path, BASE_DIR)}")
@@ -93,19 +112,20 @@ def kde(values, grid):
 
 
 def fig_continuous(real, synth):
-    fig, axes = plt.subplots(1, len(CONTINUOUS), figsize=(15, 3.2))
-    for ax, col in zip(axes, CONTINUOUS):
+    cols = column_groups()["continuous"]
+    fig, axes = panel_grid(len(cols), 5, 3, 3.2)
+    for ax, col in zip(axes, cols):
         r, s = real[col].dropna().values, synth[col].dropna().values
         grid = np.linspace(min(r.min(), s.min()), max(r.max(), s.max()), 300)
         for vals, color, name in [(r, REAL, "Real"), (s, SYNTH, "Synthetic")]:
             y = kde(vals, grid)
             ax.plot(grid, y, color=color, label=name)
             ax.fill_between(grid, y, color=color, alpha=0.15, linewidth=0)
-        ax.set_title(LABELS[col])
+        ax.set_title(label(col))
         ax.set_yticks([])
         ax.set_xlabel(f"n = {len(r)} real / {len(s)} synthetic", fontsize=7)
-    shared_legend(fig, axes.flat[0])
-    fig.suptitle("Numeric vitals: real vs synthetic (measured values only)", x=0.01, ha="left")
+    shared_legend(fig, axes[0])
+    fig.suptitle("Numeric columns: real vs synthetic (measured values only)", x=0.01, ha="left")
     fig.tight_layout()
     save(fig, "fig_continuous.png")
 
@@ -127,8 +147,11 @@ def proportions(series):
 
 
 def fig_categorical(real, synth):
-    fig, axes = plt.subplots(2, 5, figsize=(16, 6.4))
-    for ax, col in zip(axes.flat, CATEGORICAL):
+    cols = column_groups()["categorical"]
+    if not cols:
+        return
+    fig, axes = panel_grid(len(cols), 5, 3.2, 3.2)
+    for ax, col in zip(axes, cols):
         r, s = proportions(real[col]), proportions(synth[col])
         cats = sorted(set(r.index) | set(s.index), key=lambda c: (c == NOT_MEASURED, c))
         x = np.arange(len(cats))
@@ -137,39 +160,50 @@ def fig_categorical(real, synth):
         ax.bar(x + w / 2 + 0.01, s.reindex(cats, fill_value=0), w, color=SYNTH, label="Synthetic")
         ax.set_xticks(x)
         ax.set_xticklabels([c.replace(" ", "\n", 1) for c in cats], fontsize=7)
-        ax.set_title(LABELS[col])
+        ax.set_title(label(col))
         ax.yaxis.set_major_formatter(matplotlib.ticker.PercentFormatter(1.0, decimals=0))
         ax.grid(axis="x", visible=False)
-    shared_legend(fig, axes.flat[0])
+    shared_legend(fig, axes[0])
     fig.suptitle("Categorical columns: share of patients, including \"not measured\"", x=0.01, ha="left")
     fig.tight_layout()
     save(fig, "fig_categorical.png")
 
 
 def fig_missingness(real, synth):
-    sites = sorted(real["origin_study"].dropna().unique())
-    fig, axes = plt.subplots(3, 3, figsize=(13, 9), sharey=True)
-    for ax, col in zip(axes.flat, MISSABLE):
-        r = real.groupby("origin_study")[col].apply(lambda c: c.isna().mean()).reindex(sites)
-        s = synth.groupby("origin_study")[col].apply(lambda c: c.isna().mean()).reindex(sites)
+    """Only drawn for data with a condition column (e.g. hospital site)."""
+    cfg = config.active()
+    if not cfg.condition_on:
+        return
+    site = cfg.report_name(cfg.condition_on)
+    # Columns not measured for at least 1% of real patients: numeric first,
+    # then categorical
+    categorical = [cfg.report_name(c) for c in cfg.categorical]
+    cols = [c for c in cfg.flagged_report + categorical if real[c].isna().mean() >= 0.01]
+    if not cols:
+        return
+    sites = sorted(real[site].dropna().unique())
+    fig, axes = panel_grid(len(cols), 3, 13 / 3, 3, sharey=True)
+    for ax, col in zip(axes, cols):
+        r = real.groupby(site)[col].apply(lambda c: c.isna().mean()).reindex(sites)
+        s = synth.groupby(site)[col].apply(lambda c: c.isna().mean()).reindex(sites)
         x = np.arange(len(sites))
         w = 0.38
         ax.bar(x - w / 2 - 0.01, r, w, color=REAL, label="Real")
         ax.bar(x + w / 2 + 0.01, s, w, color=SYNTH, label="Synthetic")
         ax.set_xticks(x)
         ax.set_xticklabels([site.replace(" ", "\n") for site in sites], fontsize=8)
-        ax.set_title(LABELS[col])
+        ax.set_title(label(col))
         ax.set_ylim(0, 1.05)
         ax.yaxis.set_major_formatter(matplotlib.ticker.PercentFormatter(1.0, decimals=0))
         ax.grid(axis="x", visible=False)
-    axes.flat[0].legend(loc="upper left", fontsize=8)
-    fig.suptitle("% of patients with the value not measured, by hospital site", x=0.01, ha="left")
+    axes[0].legend(loc="upper left", fontsize=8)
+    fig.suptitle(f"% of patients with the value not measured, by {label(site).lower()}", x=0.01, ha="left")
     fig.tight_layout()
     save(fig, "fig_missingness_by_site.png")
 
 
 def fig_correlation(real, synth):
-    cols = ["age", "trestbps", "chol", "thalch", "oldpeak", "ca", "num"]
+    cols = column_groups()["correlation"]
     rc = real[cols].astype(float).corr()
     sc = synth[cols].astype(float).corr()
     # Constrained layout reserves room for both colour bars and their labels.
@@ -229,14 +263,17 @@ def fig_benchmark(runs_path):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--synthetic", default=SYNTH_PATH, help="synthetic report CSV")
+    parser.add_argument("--synthetic", help="synthetic report CSV (default: the dataset's latest)")
     parser.add_argument("--benchmark", action="store_true", help="also plot the multi-seed comparison")
+    config.add_argument(parser)
     args = parser.parse_args()
 
-    real, synth = load(args.synthetic)
+    cfg = config.use(args.config)
+    synth_path = args.synthetic or os.path.join(cfg.output_dir, "grounded_synthetic_data_latest.csv")
+    real, synth = load(synth_path)
     fig_continuous(real, synth)
     fig_categorical(real, synth)
     fig_missingness(real, synth)
     fig_correlation(real, synth)
     if args.benchmark:
-        fig_benchmark(RUNS_PATH)
+        fig_benchmark(os.path.join(cfg.output_dir, "multi_seed", "all_runs.csv"))

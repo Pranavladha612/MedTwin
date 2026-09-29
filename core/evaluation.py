@@ -20,17 +20,12 @@ from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import NearestNeighbors
 
-from core.ingestion import CAT_COLS, CONDITION_COL, FLAGGED_COLS, add_missing_flags, mark_missing
+from core import config
+from core.ingestion import add_missing_flags, mark_missing
 from core.medical_logic import MedicalLogicFilter
 
 HOLDOUT_FRACTION = 0.2
 SPLIT_SEED = 42
-
-# Raw source columns -> column names used in main.py's synthetic report
-REAL_TO_REPORT = {"sex": "gender", "cp": "chest_pain", "dataset": "origin_study"}
-
-# Categorical columns under their report names
-REPORT_CATEGORICAL = [REAL_TO_REPORT.get(c, c) for c in CAT_COLS + [CONDITION_COL]]
 
 
 def normalize_report(df):
@@ -38,19 +33,20 @@ def normalize_report(df):
     because pandas reads a True/False column from CSV as booleans, while the
     generator produces the text "True"/"False"."""
     df = df.copy()
-    for col in REPORT_CATEGORICAL:
+    for col in config.active().report_categorical:
         if col in df.columns:
             df[col] = df[col].map(lambda v: v if pd.isna(v) else str(v)).astype(object)
     return df
 
 
 def split_real_data(raw_df, seed=SPLIT_SEED):
-    """Deterministic train/holdout split, stratified on disease severity.
-    Different seeds hold out different patients (see research/multi_seed.py)."""
+    """Deterministic train/holdout split, stratified on the prediction target
+    (disease severity for heart disease). Different seeds hold out different
+    patients (see research/multi_seed.py)."""
     return train_test_split(
         raw_df,
         test_size=HOLDOUT_FRACTION,
-        stratify=raw_df["num"],
+        stratify=raw_df[config.active().target],
         random_state=seed,
     )
 
@@ -64,11 +60,13 @@ def align_real_to_report(raw_df, report_cols):
     measured" is a real property of those patients -- while rows missing
     anything else (never the case in this data) are dropped.
     """
+    cfg = config.active()
     real_df = MedicalLogicFilter().apply_rules(mark_missing(raw_df))
-    real_df = normalize_report(real_df.rename(columns=REAL_TO_REPORT))
+    real_df = normalize_report(real_df.rename(columns=cfg.rename))
     shared_cols = [c for c in report_cols if c in real_df.columns]
     required = [
-        c for c in shared_cols if c not in FLAGGED_COLS and c not in REPORT_CATEGORICAL
+        c for c in shared_cols
+        if c not in cfg.flagged_report and c not in cfg.report_categorical
     ]
     return real_df[shared_cols].dropna(subset=required)
 
@@ -77,7 +75,8 @@ def fill_missing(frames, reference):
     """Turns blanks in flagged columns into a 0/1 flag plus the reference
     median, and blank categories into NOT_MEASURED, for classifiers and
     distance metrics that can't take NaN."""
-    fill_values = {c: reference[c].median() for c in FLAGGED_COLS if c in reference.columns}
+    flagged = config.active().flagged_report
+    fill_values = {c: reference[c].median() for c in flagged if c in reference.columns}
     return [add_missing_flags(f, fill_values) for f in frames]
 
 
@@ -108,14 +107,17 @@ def _nearest_distance(target, queries):
 
 
 def evaluate_utility(train_real, holdout_real, synth):
-    """TSTR vs. TRTR on the binary task 'has heart disease' (num > 0)."""
-    features = [c for c in train_real.columns if c != "num"]
+    """TSTR vs. TRTR on the binary task set in the settings file ('has heart
+    disease', num > 0, for heart disease)."""
+    cfg = config.active()
+    target, cut = cfg.report_target, cfg.positive_above
+    features = [c for c in train_real.columns if c != target]
     X_train_real, X_hold, X_synth = _encode(
         [train_real, holdout_real, synth], train_real[features]
     )
-    y_train_real = (train_real["num"] > 0).astype(int)
-    y_hold = (holdout_real["num"] > 0).astype(int)
-    y_synth = (synth["num"] > 0).astype(int)
+    y_train_real = (train_real[target] > cut).astype(int)
+    y_hold = (holdout_real[target] > cut).astype(int)
+    y_synth = (synth[target] > cut).astype(int)
 
     results = {}
     for name, X, y in [("trtr", X_train_real, y_train_real), ("tstr", X_synth, y_synth)]:

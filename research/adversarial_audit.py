@@ -1,3 +1,4 @@
+import argparse
 import os
 import sys
 
@@ -10,6 +11,7 @@ from sklearn.model_selection import train_test_split
 # project root (e.g. by main.py) or run directly as `python
 # research/adversarial_audit.py`.
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from core import config
 from core.evaluation import align_real_to_report, fill_missing, normalize_report
 
 # Ensure emoji/unicode prints don't crash on Windows' default cp1252 console.
@@ -82,13 +84,9 @@ def calculate_privacy_score(raw_real_df, synth_df):
 def run_privacy_audit():
     """CLI entry point: loads main.py's real/synthetic outputs from disk and
     prints the privacy audit score."""
-    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-    # main.py no longer writes processed_heart_data.csv / grounded_synthetic_data.csv;
-    # its real outputs are the raw source CSV and the "_latest" grounded report.
-    real_path = os.path.join(base_dir, "data", "heart_disease_uci.csv")
-    synth_path = os.path.join(
-        base_dir, "data", "synthetic", "grounded_synthetic_data_latest.csv"
-    )
+    cfg = config.active()
+    real_path = cfg.data_file
+    synth_path = os.path.join(cfg.output_dir, "grounded_synthetic_data_latest.csv")
 
     if not os.path.exists(real_path) or not os.path.exists(synth_path):
         print("❌ Files missing. Run main.py first.")
@@ -106,4 +104,7 @@ def run_privacy_audit():
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    config.add_argument(parser)
+    config.use(parser.parse_args().config)
     run_privacy_audit()

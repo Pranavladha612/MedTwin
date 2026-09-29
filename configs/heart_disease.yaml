@@ -1,0 +1,88 @@
+# Settings for one dataset. Everything the pipeline needs to know about the
+# data lives here; the code itself has no column names written into it.
+# Run with:  python main.py --config configs/heart_disease.yaml
+# (this file is the default, so plain `python main.py` uses it too)
+
+name: heart_disease
+data_file: data/heart_disease_uci.csv
+id_column: id                 # removed before anything else
+
+# Where results go, and where the trained model is saved
+output_dir: data/synthetic
+model_file: core/trained_gen.pth
+
+# --- Columns -------------------------------------------------------------
+numeric: [age, trestbps, chol, thalch, oldpeak, ca, num]
+categorical: [sex, cp, fbs, restecg, exang, slope, thal]
+
+# Generate each patient *for* a value of this column (here: the hospital).
+# Leave it out for single-site data.
+condition_on: dataset
+
+# Friendlier names used in the output report
+rename:
+  sex: gender
+  cp: chest_pain
+  dataset: origin_study
+
+# --- Data quirks -----------------------------------------------------------
+# Hospitals wrote 0 when a test was not done (e.g. every Swiss patient has
+# chol = 0). These zeros are treated as "not measured".
+zero_means_missing: [trestbps, chol]
+
+# 43% of real oldpeak values are exactly 0; the model gets a yes/no
+# "exactly zero" flag so it can reproduce that spike.
+exactly_zero_spike: [oldpeak]
+
+# --- Clinical rules --------------------------------------------------------
+# Physiologically possible ranges. Each covers every measured value in the
+# real data, so no real patient counts as impossible.
+plausible_ranges:
+  age: [18, 100]
+  trestbps: [70, 220]
+  chol: [80, 650]
+  thalch: [50, 220]
+  oldpeak: [-3.0, 7.0]
+
+# Whole-number columns with a fixed range (counts and scores). Generated
+# values are rounded and clipped into it.
+discrete_numeric:
+  ca: [0, 3]
+  num: [0, 4]
+
+# Decimal places to round each numeric column to (default: whole numbers)
+decimals:
+  oldpeak: 1
+
+# --- Evaluation ------------------------------------------------------------
+# The usefulness test trains a classifier to predict this: sick = value > 0
+predict:
+  column: num
+  positive_above: 0
+
+# Columns the fidelity score compares
+fidelity_columns: [age, trestbps, chol, thalch]
+
+# --- Display ---------------------------------------------------------------
+labels:
+  age: Age (years)
+  trestbps: Resting BP (mmHg)
+  chol: Cholesterol (mg/dl)
+  thalch: Max heart rate (bpm)
+  oldpeak: ST depression (oldpeak)
+  gender: Sex
+  chest_pain: Chest pain type
+  fbs: Fasting blood sugar > 120
+  restecg: Resting ECG
+  exang: Exercise angina
+  slope: ST slope
+  thal: Thalassemia
+  ca: Major vessels (ca)
+  num: Disease severity (num)
+  origin_study: Hospital site
+
+dashboard:
+  filter_category: gender     # multi-select filter in the sidebar
+  filter_range: age           # slider filter in the sidebar
+  headline_average: trestbps  # the "Avg ..." tile
+  headline_unit: mmHg
