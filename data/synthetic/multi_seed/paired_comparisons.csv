@@ -1,0 +1,19 @@
+vs,metric,medtwin_advantage,ci95_low,ci95_high,p_value,medtwin_wins,verdict
+CTGAN,fidelity_pct,13.306,8.0944,18.5176,0.002,5/5,MedTwin better
+CTGAN,tstr_auc,0.1666,0.0595,0.2737,0.012,5/5,MedTwin better
+CTGAN,auc_ratio,0.1882,0.0689,0.3075,0.012,5/5,MedTwin better
+CTGAN,discriminator_pct,31.306,27.8113,34.8007,0.0,5/5,MedTwin better
+CTGAN,dcr_closer_to_train_pct,-0.024,-2.7808,2.7328,0.982,2/5,no clear difference
+CTGAN,mia_auc,-0.0172,-0.048,0.0136,0.195,1/5,no clear difference
+TVAE,fidelity_pct,1.906,0.3986,3.4134,0.025,5/5,MedTwin better
+TVAE,tstr_auc,-0.0104,-0.0454,0.0246,0.456,2/5,no clear difference
+TVAE,auc_ratio,-0.0112,-0.0507,0.0283,0.475,2/5,no clear difference
+TVAE,discriminator_pct,17.936,14.9454,20.9266,0.0,5/5,MedTwin better
+TVAE,dcr_closer_to_train_pct,-0.114,-3.6879,3.4599,0.934,3/5,no clear difference
+TVAE,mia_auc,-0.0016,-0.0321,0.0289,0.891,2/5,no clear difference
+TabDDPM,fidelity_pct,1.428,0.2661,2.5899,0.027,5/5,MedTwin better
+TabDDPM,tstr_auc,0.0434,-0.0074,0.0942,0.077,4/5,no clear difference
+TabDDPM,auc_ratio,0.0496,-0.009,0.1082,0.079,4/5,no clear difference
+TabDDPM,discriminator_pct,13.426,9.4957,17.3563,0.001,5/5,MedTwin better
+TabDDPM,dcr_closer_to_train_pct,0.71,-3.3214,4.7414,0.65,4/5,no clear difference
+TabDDPM,mia_auc,-0.0004,-0.0358,0.035,0.977,2/5,no clear difference

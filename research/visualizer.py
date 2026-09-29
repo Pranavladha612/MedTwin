@@ -99,19 +99,31 @@ def fig_continuous(real, synth):
         grid = np.linspace(min(r.min(), s.min()), max(r.max(), s.max()), 300)
         for vals, color, name in [(r, REAL, "Real"), (s, SYNTH, "Synthetic")]:
             y = kde(vals, grid)
-            ax.plot(grid, y, color=color, label=f"{name} (n={len(vals)})")
+            ax.plot(grid, y, color=color, label=name)
             ax.fill_between(grid, y, color=color, alpha=0.15, linewidth=0)
         ax.set_title(LABELS[col])
         ax.set_yticks([])
-        ax.legend(loc="upper right", fontsize=7)
+        ax.set_xlabel(f"n = {len(r)} real / {len(s)} synthetic", fontsize=7)
+    shared_legend(fig, axes.flat[0])
     fig.suptitle("Numeric vitals: real vs synthetic (measured values only)", x=0.01, ha="left")
     fig.tight_layout()
     save(fig, "fig_continuous.png")
 
 
+def shared_legend(fig, ax):
+    """One legend for the whole figure, top right, clear of every panel."""
+    fig.legend(*ax.get_legend_handles_labels(), loc="upper right", ncol=2, fontsize=9)
+
+
 def proportions(series):
-    s = series.map(lambda v: NOT_MEASURED if pd.isna(v) else str(v))
-    return s.value_counts(normalize=True)
+    def label(v):
+        if pd.isna(v):
+            return NOT_MEASURED
+        if isinstance(v, float) and v.is_integer():
+            return str(int(v))  # vessel counts read as 0.0, 1.0 when blanks exist
+        return str(v)
+
+    return series.map(label).value_counts(normalize=True)
 
 
 def fig_categorical(real, synth):
@@ -128,7 +140,7 @@ def fig_categorical(real, synth):
         ax.set_title(LABELS[col])
         ax.yaxis.set_major_formatter(matplotlib.ticker.PercentFormatter(1.0, decimals=0))
         ax.grid(axis="x", visible=False)
-    axes.flat[0].legend(loc="upper right", fontsize=8)
+    shared_legend(fig, axes.flat[0])
     fig.suptitle("Categorical columns: share of patients, including \"not measured\"", x=0.01, ha="left")
     fig.tight_layout()
     save(fig, "fig_categorical.png")
@@ -160,10 +172,15 @@ def fig_correlation(real, synth):
     cols = ["age", "trestbps", "chol", "thalch", "oldpeak", "ca", "num"]
     rc = real[cols].astype(float).corr()
     sc = synth[cols].astype(float).corr()
-    fig, axes = plt.subplots(1, 3, figsize=(15, 4.6))
-    panels = [(rc, "Real"), (sc, "Synthetic"), (sc - rc, "Synthetic − real")]
-    for ax, (m, title) in zip(axes, panels):
-        im = ax.imshow(m.values, cmap=DIVERGING, vmin=-1, vmax=1)
+    # Constrained layout reserves room for both colour bars and their labels.
+    fig, axes = plt.subplots(1, 3, figsize=(17, 5), layout="constrained")
+    # The difference panel gets its own, tighter scale: on the -1..1 scale of
+    # the correlations themselves, gaps of 0.1-0.2 would all look neutral.
+    diff = sc - rc
+    diff_max = max(0.1, float(np.ceil(np.abs(diff.values).max() * 10) / 10))
+    panels = [(rc, "Real", 1.0), (sc, "Synthetic", 1.0), (diff, "Synthetic − real", diff_max)]
+    for ax, (m, title, vmax) in zip(axes, panels):
+        im = ax.imshow(m.values, cmap=DIVERGING, vmin=-vmax, vmax=vmax)
         ax.set_xticks(range(len(cols)))
         ax.set_xticklabels(cols, rotation=45, ha="right")
         ax.set_yticks(range(len(cols)))
@@ -173,7 +190,9 @@ def fig_correlation(real, synth):
             for j in range(len(cols)):
                 ax.text(j, i, f"{m.values[i, j]:.2f}", ha="center", va="center", fontsize=7, color=INK)
         ax.set_title(title)
-    fig.colorbar(im, ax=axes, fraction=0.015, pad=0.02, label="Pearson correlation")
+        if ax is axes[1]:
+            fig.colorbar(im, ax=axes[:2], shrink=0.85, label="Pearson correlation")
+    fig.colorbar(im, ax=axes[2], shrink=0.85, label="Difference")
     fig.suptitle("Correlations between numeric columns (pairwise, measured values)", x=0.01, ha="left")
     save(fig, "fig_correlation.png")
 
