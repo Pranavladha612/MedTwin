@@ -2,86 +2,92 @@
 caching and saves the outputs) and research/multi_seed.py (which retrains
 from scratch for each seed)."""
 
+import numpy as np
 import pandas as pd
 import torch
 
-from core.generator import Generator, train_dp_gan
-from core.ingestion import DataIngestion, blank_flagged
+from core.generator import Generator, train_wgan_gp
+from core.ingestion import (
+    FLAGGED_COLS,
+    NOT_MEASURED,
+    ZERO_INFLATED,
+    DataIngestion,
+    missing_flag,
+    zero_flag,
+)
 from core.medical_logic import MedicalLogicFilter, quantize_clinical
 
 LATENT_DIM = 128
 EPOCHS = 600
-N_SAMPLES = 2000  # generated before filtering, to ensure plenty pass
+N_SAMPLES = 2000
 
+# Source column -> report column, for the columns that get friendlier names
+REPORT_NAMES = {"sex": "gender", "cp": "chest_pain", "dataset": "origin_study"}
+
+# All 15 clinical columns of the source data (everything except the patient id)
 REPORT_COLS = [
-    "age", "gender", "chest_pain", "trestbps", "chol",
-    "thalch", "oldpeak", "num", "origin_study",
-]
-
-BINARY_PREFIXES = [
-    "sex_", "fbs_", "exang_", "cp_", "dataset_", "restecg_", "slope_", "thal_",
+    "age", "gender", "chest_pain", "trestbps", "chol", "fbs", "restecg",
+    "thalch", "exang", "oldpeak", "slope", "ca", "thal", "num", "origin_study",
 ]
 
 
 def prepare(train_raw):
     """Ingests the real train split. Returns the fitted ingestor (needed to
-    undo the scaling later) and the processed training frame."""
+    build, sample and un-scale the model) and the processed training frame."""
     ingestor = DataIngestion()
     processed_df = ingestor.process_data(ingestor.de_identify(train_raw.copy()))
     return ingestor, processed_df
 
 
-def new_generator(processed_df):
-    return Generator(LATENT_DIM, processed_df.shape[1])
+def new_generator(ingestor):
+    return Generator(LATENT_DIM, len(ingestor.site_names), ingestor.output_info)
 
 
-def train(processed_df):
+def train(ingestor, processed_df):
     print(f"🚀 Training Boosted GAN ({EPOCHS} Epochs)...")
-    data_tensor = torch.FloatTensor(processed_df.values)
-    return train_dp_gan(data_tensor, epochs=EPOCHS, latent_dim=LATENT_DIM)
-
-
-def generate_report(generator, ingestor, columns, n=N_SAMPLES):
-    """Samples the generator and turns its output into the clinical report:
-    real units, rounded binaries, blank unmeasured values, clinical
-    filtering, rounding, and readable category columns."""
-    print("\n--- Phase 4: Generating Synthetic Population ---")
-    generator.eval()
-    with torch.no_grad():
-        synth_raw = generator(torch.randn(n, LATENT_DIM)).numpy()
-    synth_df = pd.DataFrame(synth_raw, columns=columns)
-
-    # Convert decimals back to Real Units
-    synth_df[ingestor.num_cols] = ingestor.scaler.inverse_transform(
-        synth_df[ingestor.num_cols]
+    return train_wgan_gp(
+        torch.FloatTensor(processed_df.values),
+        torch.FloatTensor(ingestor.cond_df.values),
+        ingestor.output_info,
+        epochs=EPOCHS,
+        latent_dim=LATENT_DIM,
     )
 
-    # Clean Binary columns (0 or 1)
-    binary_cols = [c for c in synth_df.columns if any(p in c for p in BINARY_PREFIXES)]
-    synth_df[binary_cols] = synth_df[binary_cols].round().astype(int)
 
-    # Patients the model marks as "cholesterol not measured" get a blank
-    # value, like the real records, instead of an invented number.
-    synth_df = blank_flagged(synth_df)
+def generate_report(generator, ingestor, n=N_SAMPLES):
+    """Samples the generator and turns its output into the clinical report:
+    sites drawn in their real proportions, real units, blanks for anything
+    the model marks as not measured, plausibility filtering, rounding, and
+    readable category columns. Blank cells mean "not measured"."""
+    print("\n--- Phase 4: Generating Synthetic Population ---")
 
-    # Clinical filtering, then rounding to recorded precision
-    grounded_df = MedicalLogicFilter().apply_rules(synth_df)
+    # Each synthetic patient is generated for a site, drawn with the same
+    # frequencies as the real training patients.
+    site_idx = np.random.choice(len(ingestor.site_names), size=n, p=ingestor.site_probs)
+    cond = torch.zeros(n, len(ingestor.site_names))
+    cond[torch.arange(n), torch.as_tensor(site_idx)] = 1.0
+
+    generator.eval()
+    with torch.no_grad():
+        synth_raw = generator(torch.randn(n, LATENT_DIM), cond, hard=True).numpy()
+    out = pd.DataFrame(synth_raw, columns=ingestor.columns)
+
+    report = pd.DataFrame(
+        ingestor.scaler.inverse_transform(out[ingestor.num_cols]),
+        columns=ingestor.num_cols,
+    )
+    for col in ZERO_INFLATED:
+        report.loc[out[zero_flag(col)].values >= 0.5, col] = 0.0
+    for col in FLAGGED_COLS:  # after zero flags: "not measured" wins
+        report.loc[out[missing_flag(col)].values >= 0.5, col] = np.nan
+
+    for col, group in ingestor.cat_groups.items():
+        labels = out[group].idxmax(axis=1).str[len(col) + 1:]
+        report[REPORT_NAMES.get(col, col)] = labels.where(labels != NOT_MEASURED).values
+    report["origin_study"] = [ingestor.site_names[i] for i in site_idx]
+
+    report = MedicalLogicFilter().apply_rules(report)
     print("🎯 Quantizing values for High Statistical Fidelity...")
-    final_df = quantize_clinical(grounded_df)
-
-    # Human-friendly category reconstruction
+    report = quantize_clinical(report)
     print("🧹 Cleaning columns for Clinical Report...")
-    if "sex_Male" in final_df.columns:
-        final_df["gender"] = final_df["sex_Male"].apply(
-            lambda x: "Male" if x == 1 else "Female"
-        )
-    cp_cols = [c for c in final_df.columns if "cp_" in c]
-    if cp_cols:
-        final_df["chest_pain"] = final_df[cp_cols].idxmax(axis=1).str.replace("cp_", "")
-    ds_cols = [c for c in final_df.columns if "dataset_" in c]
-    if ds_cols:
-        final_df["origin_study"] = (
-            final_df[ds_cols].idxmax(axis=1).str.replace("dataset_", "")
-        )
-
-    return final_df[[c for c in REPORT_COLS if c in final_df.columns]]
+    return report[REPORT_COLS]

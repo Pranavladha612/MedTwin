@@ -217,9 +217,20 @@ if synth_df is not None:
     st.divider()
     st.subheader("📋 Raw Data Explorer")
     preview = display_df.head(50).copy()
-    preview["chol"] = preview["chol"].map(
-        lambda v: "not measured" if pd.isna(v) else str(int(v))
-    )
+
+    def show(v, col):
+        # Blank cells mean "not measured". Columns holding blanks are read
+        # as decimals, so whole numbers are shown without a trailing ".0".
+        if pd.isna(v):
+            return "not measured"
+        if col == "oldpeak":
+            return f"{v:.1f}"
+        if isinstance(v, float) and v.is_integer():
+            return str(int(v))
+        return str(v)
+
+    for col in preview.columns[preview.isna().any()]:
+        preview[col] = preview[col].map(lambda v, c=col: show(v, c))
     st.dataframe(preview, use_container_width=True)
 
     csv = display_df.to_csv(index=False).encode("utf-8")

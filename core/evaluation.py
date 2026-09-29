@@ -20,7 +20,7 @@ from sklearn.metrics import accuracy_score, f1_score, roc_auc_score
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import NearestNeighbors
 
-from core.ingestion import FLAGGED_COLS, add_missing_flags, mark_missing
+from core.ingestion import CAT_COLS, CONDITION_COL, FLAGGED_COLS, add_missing_flags, mark_missing
 from core.medical_logic import MedicalLogicFilter
 
 HOLDOUT_FRACTION = 0.2
@@ -28,6 +28,20 @@ SPLIT_SEED = 42
 
 # Raw source columns -> column names used in main.py's synthetic report
 REAL_TO_REPORT = {"sex": "gender", "cp": "chest_pain", "dataset": "origin_study"}
+
+# Categorical columns under their report names
+REPORT_CATEGORICAL = [REAL_TO_REPORT.get(c, c) for c in CAT_COLS + [CONDITION_COL]]
+
+
+def normalize_report(df):
+    """Categorical report columns as strings, blanks kept blank. Needed
+    because pandas reads a True/False column from CSV as booleans, while the
+    generator produces the text "True"/"False"."""
+    df = df.copy()
+    for col in REPORT_CATEGORICAL:
+        if col in df.columns:
+            df[col] = df[col].map(lambda v: v if pd.isna(v) else str(v)).astype(object)
+    return df
 
 
 def split_real_data(raw_df, seed=SPLIT_SEED):
@@ -46,19 +60,23 @@ def align_real_to_report(raw_df, report_cols):
 
     "Not measured" zeros become blanks, then the same MedicalLogicFilter the
     synthetic data went through is applied, so both sides are cleaned the
-    same way. Blank flagged columns (e.g. chol) are kept -- they're a real
-    property of those patients -- while rows missing anything else are dropped.
+    same way. Blanks in flagged or categorical columns are kept -- "not
+    measured" is a real property of those patients -- while rows missing
+    anything else (never the case in this data) are dropped.
     """
     real_df = MedicalLogicFilter().apply_rules(mark_missing(raw_df))
-    real_df = real_df.rename(columns=REAL_TO_REPORT)
+    real_df = normalize_report(real_df.rename(columns=REAL_TO_REPORT))
     shared_cols = [c for c in report_cols if c in real_df.columns]
-    required = [c for c in shared_cols if c not in FLAGGED_COLS]
+    required = [
+        c for c in shared_cols if c not in FLAGGED_COLS and c not in REPORT_CATEGORICAL
+    ]
     return real_df[shared_cols].dropna(subset=required)
 
 
 def fill_missing(frames, reference):
     """Turns blanks in flagged columns into a 0/1 flag plus the reference
-    median, for classifiers and distance metrics that can't take NaN."""
+    median, and blank categories into NOT_MEASURED, for classifiers and
+    distance metrics that can't take NaN."""
     fill_values = {c: reference[c].median() for c in FLAGGED_COLS if c in reference.columns}
     return [add_missing_flags(f, fill_values) for f in frames]
 
@@ -163,7 +181,7 @@ def evaluate_synthetic(train_raw, holdout_raw, synth_report):
     schema) and the synthetic report (report schema)."""
     train_real = align_real_to_report(train_raw, synth_report.columns)
     holdout_real = align_real_to_report(holdout_raw, synth_report.columns)
-    synth = synth_report[train_real.columns]
+    synth = normalize_report(synth_report[train_real.columns])
     return {
         "utility": evaluate_utility(train_real, holdout_real, synth),
         "privacy": evaluate_privacy(train_real, holdout_real, synth),

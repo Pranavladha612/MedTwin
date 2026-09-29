@@ -1,3 +1,4 @@
+import glob
 import hashlib
 import json
 import os
@@ -5,7 +6,6 @@ import sys
 from datetime import datetime
 
 import pandas as pd
-import torch
 
 # Ensure emoji/unicode prints don't crash on Windows' default cp1252 console.
 os.environ["PYTHONIOENCODING"] = "utf-8"
@@ -27,9 +27,18 @@ from core.ingestion import mark_missing
 
 # Bump when preprocessing changes, so a model trained on the old
 # preprocessing is never reused (the CSV hash alone wouldn't notice).
-PREP_VERSION = 2  # v2: zeros in chol/trestbps treated as "not measured"
+# v2: zeros in chol/trestbps treated as "not measured"
+# v3: all 15 columns, "not measured" for every column, site as condition
+# v4: "exactly zero" flag for oldpeak
+PREP_VERSION = 4
 # Same idea for the training code in core/generator.py.
-TRAIN_VERSION = 2  # v2: correlation loss skips constant columns (NaN fix)
+# v2: correlation loss skips constant columns (NaN fix)
+# v3: conditional generator with Gumbel-softmax categorical outputs
+TRAIN_VERSION = 3
+
+# Dated reports kept in data/synthetic/; older ones are deleted on each run.
+KEEP_REPORTS = 10
+
 from core.metrics import calculate_fidelity_score
 from research.adversarial_audit import calculate_privacy_score
 
@@ -80,17 +89,17 @@ def run_pipeline():
         with open(HASH_FILE, "r") as f:
             if f.read() == current_hash:
                 print("⚠️ DATA UNCHANGED: Loading Boosted AI Model...")
-                trained_gen = load_model(medtwin.new_generator(processed_df), MODEL_PATH)
+                trained_gen = load_model(medtwin.new_generator(ingestor), MODEL_PATH)
 
     if trained_gen is None:
         print("🚀 NEW DATA: retraining.")
-        trained_gen = medtwin.train(processed_df)
+        trained_gen = medtwin.train(ingestor, processed_df)
         save_model(trained_gen, MODEL_PATH)
         with open(HASH_FILE, "w") as f:
             f.write(current_hash)
 
     # 4-7. GENERATION, CLINICAL FILTERING, ROUNDING, READABLE CATEGORIES
-    final_report = medtwin.generate_report(trained_gen, ingestor, processed_df.columns)
+    final_report = medtwin.generate_report(trained_gen, ingestor)
 
     # 8. SAVE OUTPUTS (HISTORY + LATEST)
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
@@ -101,6 +110,12 @@ def run_pipeline():
 
     final_report.to_csv(dated_path, index=False)
     final_report.to_csv(latest_path, index=False)
+
+    # Timestamped names sort by date, so everything before the newest
+    # KEEP_REPORTS is old. The "latest" copy above is always kept.
+    dated_reports = sorted(glob.glob(os.path.join(SYNTH_DIR, "synthetic_report_*.csv")))
+    for old in dated_reports[:-KEEP_REPORTS]:
+        os.remove(old)
 
     # 9. FINAL VALIDATION
     # Compared against real data with "not measured" zeros removed, otherwise
@@ -125,6 +140,10 @@ def run_pipeline():
     evaluation = evaluate_synthetic(train_raw, holdout_raw, final_report)
     metrics = {
         "timestamp": timestamp,
+        # Patients removed by the plausibility filter: shows whether the
+        # generator itself respects the clinical ranges.
+        "generated": medtwin.N_SAMPLES,
+        "kept_after_filter": len(final_report),
         "fidelity_pct": fidelity_score,
         "discriminator_pct": privacy_score,
         **evaluation,

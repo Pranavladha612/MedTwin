@@ -23,14 +23,17 @@ import torch
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from ctgan import CTGAN, TVAE
 
+from core import medtwin
 from core.evaluation import (
     HOLDOUT_FRACTION,
+    REPORT_CATEGORICAL,
     SPLIT_SEED,
     align_real_to_report,
     evaluate_synthetic,
     fill_missing,
     split_real_data,
 )
+from core.medtwin import REPORT_COLS
 from core.ingestion import FLAGGED_COLS, blank_flagged, mark_missing, missing_flag
 from core.medical_logic import MedicalLogicFilter, quantize_clinical
 from core.metrics import calculate_fidelity_score
@@ -50,13 +53,11 @@ REAL_PATH = os.path.join(BASE_DIR, "data", "heart_disease_uci.csv")
 SYNTH_DIR = os.path.join(BASE_DIR, "data", "synthetic")
 OUT_DIR = os.path.join(SYNTH_DIR, "baselines")
 
-# Same columns as MedTwin's grounded report (main.py)
-REPORT_COLS = [
-    "age", "gender", "chest_pain", "trestbps", "chol",
-    "thalch", "oldpeak", "num", "origin_study",
-]
-DISCRETE_COLS = ["gender", "chest_pain", "origin_study", "num"]
-N_SAMPLES = 2000  # same as main.py, before clinical filtering
+# Same 15 columns as MedTwin's report. The baselines are unconditional (the
+# standard way to run them), so they generate origin_study like any other
+# categorical column instead of being told the site.
+DISCRETE_COLS = REPORT_CATEGORICAL + ["num"]
+N_SAMPLES = medtwin.N_SAMPLES  # same as main.py, before clinical filtering
 
 
 def build_models(seed=SPLIT_SEED):
@@ -78,8 +79,9 @@ def set_seed(seed):
 
 def prepare_train(train_raw):
     """Baselines get the clean report-schema view of the train split. Like
-    MedTwin, blank cholesterol becomes a "was it measured?" flag plus a
-    placeholder value, since none of these models accept blanks."""
+    MedTwin, each blank numeric value becomes a "was it measured?" flag plus a
+    placeholder value, and each blank category a "not measured" category,
+    since none of these models accept blanks."""
     train_df = align_real_to_report(train_raw, REPORT_COLS)
     (train_df,) = fill_missing([train_df], train_df)
     discrete_cols = DISCRETE_COLS + [missing_flag(c) for c in FLAGGED_COLS]

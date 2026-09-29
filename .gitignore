@@ -1,3 +1,8 @@
 venv/
 __pycache__/
 *.pyc
+
+# Regenerated on every run (the "latest" report and metrics stay tracked)
+data/synthetic/synthetic_report_*.csv
+data/synthetic/multi_seed/logs/
+.pytest_cache/

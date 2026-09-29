@@ -10,7 +10,7 @@ from sklearn.model_selection import train_test_split
 # project root (e.g. by main.py) or run directly as `python
 # research/adversarial_audit.py`.
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from core.evaluation import align_real_to_report, fill_missing
+from core.evaluation import align_real_to_report, fill_missing, normalize_report
 
 # Ensure emoji/unicode prints don't crash on Windows' default cp1252 console.
 os.environ["PYTHONIOENCODING"] = "utf-8"
@@ -40,14 +40,16 @@ def calculate_privacy_score(raw_real_df, synth_df):
     core.evaluation.align_real_to_report): "not measured" zeros become blanks
     and the MedicalLogicFilter is applied. Otherwise the classifier could
     "win" purely on that data-cleaning gap rather than on genuine
-    similarity/leakage. Blank cholesterol is encoded as a 0/1 flag.
+    similarity/leakage. Blank numeric values are encoded as a 0/1 flag and
+    blank categories as a "not measured" category.
     """
     real_df = align_real_to_report(raw_real_df, synth_df.columns)
     shared_cols = list(real_df.columns)
     if not shared_cols:
         raise ValueError("No shared columns between real and synthetic data.")
 
-    real_df, synth_df = fill_missing([real_df, synth_df[shared_cols]], real_df)
+    synth_df = normalize_report(synth_df[shared_cols])
+    real_df, synth_df = fill_missing([real_df, synth_df], real_df)
     shared_cols = list(real_df.columns)
 
     # Balance the two classes so the classifier can't win on class imbalance alone

@@ -86,9 +86,9 @@ def run_seed(seed):
         set_seed(seed)
         ingestor, processed_df = medtwin.prepare(train_raw)
         start = pd.Timestamp.now()
-        generator = medtwin.train(processed_df)
+        generator = medtwin.train(ingestor, processed_df)
         seconds = round((pd.Timestamp.now() - start).total_seconds(), 1)
-        save(MEDTWIN, medtwin.generate_report(generator, ingestor, processed_df.columns), seconds)
+        save(MEDTWIN, medtwin.generate_report(generator, ingestor), seconds)
 
     train_df, discrete_cols = prepare_train(train_raw)
     for name, make in build_models(seed).items():
