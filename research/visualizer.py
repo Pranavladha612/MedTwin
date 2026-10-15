@@ -28,6 +28,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from core import config
 from core.evaluation import align_real_to_report, normalize_report
 from core.ingestion import NOT_MEASURED
+from research.multi_seed import LEGACY_NAMES
 
 # Ensure emoji/unicode prints don't crash on Windows' default cp1252 console.
 os.environ["PYTHONIOENCODING"] = "utf-8"
@@ -246,12 +247,12 @@ def fig_benchmark(runs_path):
         print(f"⏭️ No multi-seed results yet ({os.path.relpath(runs_path, BASE_DIR)}); "
               "run research/multi_seed.py for this dataset first.")
         return
-    runs = pd.read_csv(runs_path)
+    runs = pd.read_csv(runs_path).rename(columns=LEGACY_NAMES)
     models = ["MedTwin WGAN-GP"] + sorted(m for m in runs.model.unique() if m != "MedTwin WGAN-GP")
     metrics = [
         ("fidelity_pct", "Fidelity (%) ↑", None),
         ("auc_ratio", "Utility: TSTR / TRTR AUC → 1", 1.0),
-        ("discriminator_pct", "Real-vs-synthetic classifier (%) → 50", 50),
+        ("detectability_pct", "Detectability (%) → 50", 50),
         ("mia_auc", "Membership-inference AUC → 0.5", 0.5),
     ]
     fig, axes = plt.subplots(1, len(metrics), figsize=(16, 3.8))

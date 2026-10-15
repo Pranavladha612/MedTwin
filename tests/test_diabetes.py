@@ -19,7 +19,7 @@ from core import config, medtwin
 from core.evaluation import evaluate_synthetic, split_real_data
 from core.ingestion import mark_missing
 from core.metrics import calculate_fidelity_score
-from research.adversarial_audit import calculate_privacy_score
+from research.adversarial_audit import calculate_detectability
 from research.baselines import prepare_train, train_and_generate
 from research.tabddpm import TabDDPM
 
@@ -79,7 +79,7 @@ def test_values_respect_plausible_ranges(cfg, report):
 def test_evaluation_and_fidelity_cover_every_column(cfg, raw, split, report):
     result = evaluate_synthetic(split[0], split[1], report)
     assert 0 <= result["privacy"]["mia_auc"] <= 1
-    assert 0 <= calculate_privacy_score(raw, report) <= 100
+    assert 0 <= calculate_detectability(raw, report) <= 100
     # All four fidelity columns must be compared (renamed ones included)
     real = mark_missing(raw).rename(columns=cfg.rename)
     assert calculate_fidelity_score(real, report, cfg.fidelity_report) > 0

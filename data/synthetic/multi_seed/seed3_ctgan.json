@@ -2,7 +2,7 @@
   "model": "CTGAN",
   "rows_kept": 1909,
   "fidelity_pct": 73.95,
-  "discriminator_pct": 93.48,
+  "detectability_pct": 93.48,
   "tstr_auc": 0.664,
   "trtr_auc": 0.892,
   "auc_ratio": 0.744,

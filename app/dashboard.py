@@ -13,7 +13,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from core import config
 from core.ingestion import mark_missing
 from core.metrics import calculate_fidelity_score
-from research.adversarial_audit import calculate_privacy_score
+from research.adversarial_audit import calculate_detectability
 
 # Dataset: pass a settings file after "--", like the other scripts' --config:
 #   streamlit run app/dashboard.py -- --config configs/diabetes.yaml
@@ -54,8 +54,9 @@ def get_data(synth_mtime):
 
 
 @st.cache_data
-def get_privacy_score(real_df, synth_df):
-    """Runs the adversarial privacy audit (real vs. synthetic distinguishability).
+def get_detectability(real_df, synth_df):
+    """Runs the real-vs-synthetic detectability test (a realism check; the
+    privacy checks are DCR and membership inference below).
 
     This is a property of the whole generation run, not of the current
     sidebar filter, so it's computed once against the full datasets and
@@ -63,7 +64,7 @@ def get_privacy_score(real_df, synth_df):
     change.
     """
     try:
-        return calculate_privacy_score(real_df, synth_df)
+        return calculate_detectability(real_df, synth_df)
     except Exception:
         return None
 
@@ -99,18 +100,18 @@ if synth_df is not None:
     # Calculate score based on filtered view
     score = calculate_fidelity_score(real_df, display_df, cont_cols)
 
-    # Privacy score is a property of the full generation run (not the
+    # Detectability is a property of the full generation run (not the
     # current filter), so it's computed once against the unfiltered data.
-    privacy_score = get_privacy_score(real_df, synth_df)
+    detectability = get_detectability(real_df, synth_df)
 
-    if privacy_score is None:
-        privacy_value, privacy_note = "N/A", "Audit failed to run"
-    elif privacy_score <= 60:
-        privacy_value, privacy_note = f"✅ {privacy_score}%", "High Privacy (Low Distinguishability)"
-    elif privacy_score <= 75:
-        privacy_value, privacy_note = f"⚠️ {privacy_score}%", "Moderate Privacy Risk"
+    if detectability is None:
+        detect_value, detect_note = "N/A", "Test failed to run"
+    elif detectability <= 60:
+        detect_value, detect_note = f"✅ {detectability}%", "Hard to tell from real"
+    elif detectability <= 75:
+        detect_value, detect_note = f"⚠️ {detectability}%", "Partly distinguishable"
     else:
-        privacy_value, privacy_note = f"🚨 {privacy_score}%", "Low Privacy (Easily Distinguished)"
+        detect_value, detect_note = f"🚨 {detectability}%", "Easily told apart"
 
     m1, m2, m3, m4 = st.columns(4)
     m1.metric("Total Digital Twins", len(display_df))
@@ -120,7 +121,15 @@ if synth_df is not None:
         f"Avg {cfg.labels.get(headline, headline)}",
         f"{display_df[headline].mean():.1f} {ui.get('headline_unit', '')}".strip(),
     )
-    m4.metric("Privacy Audit Score", privacy_value, delta=privacy_note, delta_color="off")
+    m4.metric(
+        "Detectability",
+        detect_value,
+        delta=detect_note,
+        delta_color="off",
+        help="Accuracy of a classifier telling real from synthetic patients. "
+        "50% = indistinguishable. A realism check, not privacy: see DCR and "
+        "membership inference below.",
+    )
 
     # 1b. HELD-OUT EVALUATION (from the last main.py run)
     st.subheader("🧪 Held-Out Evaluation")

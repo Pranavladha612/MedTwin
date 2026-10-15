@@ -2,7 +2,7 @@
   "model": "TVAE",
   "rows_kept": 2000,
   "fidelity_pct": 85.68,
-  "discriminator_pct": 77.72,
+  "detectability_pct": 77.72,
   "tstr_auc": 0.884,
   "trtr_auc": 0.889,
   "auc_ratio": 0.994,

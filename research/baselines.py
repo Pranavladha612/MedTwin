@@ -36,7 +36,7 @@ from core.evaluation import (
 from core.ingestion import blank_flagged, mark_missing, missing_flag
 from core.medical_logic import MedicalLogicFilter, quantize_clinical
 from core.metrics import calculate_fidelity_score
-from research.adversarial_audit import calculate_privacy_score
+from research.adversarial_audit import calculate_detectability
 from research.tabddpm import TabDDPM
 
 # Ensure emoji/unicode prints don't crash on Windows' default cp1252 console.
@@ -108,7 +108,7 @@ def score(raw_df, train_raw, holdout_raw, synth):
             synth,
             config.active().fidelity_report,
         ),
-        "discriminator_pct": calculate_privacy_score(raw_df, synth),
+        "detectability_pct": calculate_detectability(raw_df, synth),
         **evaluation,
     }
 
@@ -119,7 +119,8 @@ def flatten(name, n_kept, metrics, seconds):
         "model": name,
         "rows_kept": n_kept,
         "fidelity_pct": metrics["fidelity_pct"],
-        "discriminator_pct": metrics["discriminator_pct"],
+        # main.py runs from before the rename call it discriminator_pct
+        "detectability_pct": metrics.get("detectability_pct", metrics.get("discriminator_pct")),
         "tstr_auc": u["tstr"]["auc"],
         "trtr_auc": u["trtr"]["auc"],
         "auc_ratio": u["auc_ratio"],
@@ -168,7 +169,7 @@ def run_baselines():
     table.to_csv(os.path.join(synth_dir, "baseline_comparison.csv"), index=False)
 
     print("\n📊 Baseline comparison (targets: auc_ratio → 1.0, "
-          "dcr_closer_to_train_pct → 50, mia_auc → 0.5, discriminator_pct → 50)")
+          "dcr_closer_to_train_pct → 50, mia_auc → 0.5, detectability_pct → 50)")
     print(table.drop(columns=["train_seconds"]).to_string(index=False))
     return table
 

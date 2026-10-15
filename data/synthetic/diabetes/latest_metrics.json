@@ -3,7 +3,7 @@
   "generated": 2000,
   "kept_after_filter": 2000,
   "fidelity_pct": 92.62,
-  "discriminator_pct": 61.04,
+  "detectability_pct": 61.04,
   "utility": {
     "trtr": {
       "accuracy": 74.03,

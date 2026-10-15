@@ -13,10 +13,14 @@ paired runs is the component switched off. Results are saved per
 
 Add --config configs/<dataset>.yaml to run on another dataset; variants that
 change nothing for it (e.g. no_condition without a site column) are skipped.
+
+`--study sensitivity` runs the full model with its correlation weight and
+training length moved away from their defaults instead (core.medtwin.
+SENSITIVITY), to check the results don't hinge on one setting. Both studies
+share the results folder, so the full model's runs are reused.
 """
 
 import argparse
-import glob
 import json
 import os
 import sys
@@ -34,7 +38,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from core import config, medtwin
 from core.evaluation import split_real_data
 from research.baselines import flatten, score, set_seed
-from research.multi_seed import SEEDS, mean_sd_table, paired_table
+from research.multi_seed import SEEDS, load_runs, mean_sd_table, paired_table
 
 # Ensure emoji/unicode prints don't crash on Windows' default cp1252 console.
 os.environ["PYTHONIOENCODING"] = "utf-8"
@@ -46,6 +50,12 @@ except Exception:
 
 FULL = "full"
 
+# Which variants each study runs, and the prefix of its summary files
+STUDIES = {
+    "ablation": (medtwin.applicable_ablations, ""),
+    "sensitivity": (lambda: medtwin.SENSITIVITY, "sensitivity_"),
+}
+
 
 def out_dir():
     """Results for the active dataset, e.g. data/synthetic/ablation/."""
@@ -56,13 +66,13 @@ def result_path(seed, name):
     return os.path.join(out_dir(), f"seed{seed}_{name}.json")
 
 
-def run_seed(seed, names=None):
+def run_seed(seed, names=None, study="ablation"):
     warnings.filterwarnings("ignore")
     os.makedirs(out_dir(), exist_ok=True)
     raw_df = pd.read_csv(config.active().data_file)
     train_raw, holdout_raw = split_real_data(raw_df, seed=seed)
 
-    for name, variant in medtwin.applicable_ablations().items():
+    for name, variant in STUDIES[study][0]().items():
         if names and name not in names:
             continue
         if os.path.exists(result_path(seed, name)):
@@ -83,31 +93,31 @@ def run_seed(seed, names=None):
         print(f"✅ seed {seed} | {name}: saved")
 
 
-def summarize():
-    rows = []
-    for path in glob.glob(os.path.join(out_dir(), "seed*.json")):
-        with open(path) as f:
-            rows.append(json.load(f))
-    if not rows:
-        print(f"No ablation results yet in {out_dir()}")
+def summarize(study="ablation"):
+    variants, prefix = STUDIES[study]
+    runs = load_runs(out_dir())
+    if runs.empty:
+        print(f"No results yet in {out_dir()}")
         return
-    runs = pd.DataFrame(rows).sort_values(["variant", "seed"])
+    runs = runs.sort_values(["variant", "seed"])
     runs.to_csv(os.path.join(out_dir(), "all_runs.csv"), index=False)
 
-    order = [n for n in medtwin.ABLATIONS if n in set(runs.variant)]
+    order = [n for n in variants() if n in set(runs.variant)]
+    runs = runs[runs.variant.isin(order)]
     print(f"Seeds completed per variant: {runs.groupby('variant').seed.nunique().to_dict()}")
 
     summary = mean_sd_table(runs, order, column="variant")
-    summary.to_csv(os.path.join(out_dir(), "summary.csv"), index=False)
+    summary.to_csv(os.path.join(out_dir(), f"{prefix}summary.csv"), index=False)
     print("\n📊 Mean ± SD across seeds")
     print(summary.to_string(index=False))
 
-    # Advantage > 0 = the full model is better, i.e. the switched-off
-    # component helps on that metric.
+    # Advantage > 0 = the full model is better: for an ablation, the
+    # switched-off component helps on that metric; for a sensitivity
+    # variant, the default setting beats the changed one.
     comparisons = paired_table(runs, FULL, order[1:], column="variant", label="full model")
-    comparisons.to_csv(os.path.join(out_dir(), "paired_comparisons.csv"), index=False)
-    print("\n⚖️ Full model vs each ablation, paired by seed "
-          "(advantage > 0 = the removed component helps; 'clear' = 95% CI excludes 0)")
+    comparisons.to_csv(os.path.join(out_dir(), f"{prefix}paired_comparisons.csv"), index=False)
+    print(f"\n⚖️ Full model vs each {study} variant, paired by seed "
+          "(advantage > 0 = full model better; 'clear' = 95% CI excludes 0)")
     print(comparisons.to_string(index=False))
 
 
@@ -116,6 +126,7 @@ if __name__ == "__main__":
     parser.add_argument("--seed", type=int, help="run one seed")
     parser.add_argument("--variant", nargs="+", help="run only these variants")
     parser.add_argument("--threads", type=int, default=2, help="torch threads per process")
+    parser.add_argument("--study", choices=STUDIES, default="ablation")
     parser.add_argument("--summarize", action="store_true")
     config.add_argument(parser)
     args = parser.parse_args()
@@ -123,10 +134,10 @@ if __name__ == "__main__":
     config.use(args.config)
     torch.set_num_threads(args.threads)
     if args.summarize:
-        summarize()
+        summarize(args.study)
     elif args.seed is not None:
-        run_seed(args.seed, args.variant)
+        run_seed(args.seed, args.variant, args.study)
     else:
         for s in SEEDS:
-            run_seed(s, args.variant)
-        summarize()
+            run_seed(s, args.variant, args.study)
+        summarize(args.study)

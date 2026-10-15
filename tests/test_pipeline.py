@@ -19,7 +19,7 @@ from core import config, medtwin
 from core.evaluation import align_real_to_report, evaluate_synthetic, split_real_data
 from core.ingestion import NOT_MEASURED, mark_missing, missing_flag, zero_flag
 from core.medical_logic import MedicalLogicFilter
-from research.adversarial_audit import calculate_privacy_score
+from research.adversarial_audit import calculate_detectability
 from research.baselines import prepare_train, train_and_generate
 from research.tabddpm import TabDDPM
 
@@ -147,7 +147,7 @@ def test_evaluation_runs_on_report_read_back_from_csv(tmp_path, split, report):
     roundtrip = evaluate_synthetic(split[0], split[1], reread)
     assert direct["privacy"]["mia_auc"] == roundtrip["privacy"]["mia_auc"]
     assert direct["utility"]["tstr"]["auc"] == roundtrip["utility"]["tstr"]["auc"]
-    assert 0 <= calculate_privacy_score(RAW, reread) <= 100
+    assert 0 <= calculate_detectability(RAW, reread) <= 100
 
 
 def test_privacy_tests_flag_copied_patients(split):
@@ -202,3 +202,26 @@ def test_every_ablation_trains_and_produces_a_valid_report(split, name):
 
 def test_ablations_skip_components_the_dataset_lacks():
     assert set(medtwin.applicable_ablations()) == set(medtwin.ABLATIONS)
+
+
+def test_sensitivity_settings_reach_training(split, monkeypatch):
+    seen = {}
+    real_train = medtwin.train_wgan_gp
+
+    def spy(*args, **kwargs):
+        seen.update(kwargs)
+        return real_train(*args, **kwargs)
+
+    monkeypatch.setattr(medtwin, "train_wgan_gp", spy)
+    ingestor, processed = medtwin.prepare(split[0], medtwin.Variant(corr_weight=0.5, epochs=1))
+    medtwin.train(ingestor, processed)
+    assert seen["epochs"] == 1 and seen["corr_weight"] == 0.5
+    assert all(v.epochs or v.corr_weight != 2.0 for n, v in medtwin.SENSITIVITY.items() if n != "full")
+
+
+def test_results_saved_under_the_old_metric_name_still_load(tmp_path):
+    from research.multi_seed import load_runs
+
+    (tmp_path / "seed0_x.json").write_text('{"model": "x", "seed": 0, "discriminator_pct": 61.5}')
+    runs = load_runs(str(tmp_path))
+    assert runs["detectability_pct"].tolist() == [61.5]

@@ -24,7 +24,8 @@ class Variant:
     """Which MedTwin components are switched on. The default is the full
     model; each ablation switches exactly one component off.
 
-    - corr_loss: the correlation penalty in the generator's loss.
+    - corr_weight: weight of the correlation penalty in the generator's
+      loss (0 = off).
     - missing_flags: a "was it measured?" flag per sometimes-missing numeric
       column. Off = blanks filled with the median and never generated (the
       usual imputation approach). Missing categories stay a category.
@@ -34,22 +35,35 @@ class Variant:
     - filter: drop generated patients outside the plausible ranges.
     """
 
-    corr_loss: bool = True
+    corr_weight: float = CORR_WEIGHT
     missing_flags: bool = True
     zero_flags: bool = True
     condition: bool = True
     filter: bool = True
+    # Training length; None = EPOCHS. Only the sensitivity check changes it.
+    epochs: int = None
 
 
 FULL = Variant()
 
 ABLATIONS = {
     "full": FULL,
-    "no_corr_loss": Variant(corr_loss=False),
+    "no_corr_loss": Variant(corr_weight=0.0),
     "no_missing_flags": Variant(missing_flags=False),
     "no_zero_flags": Variant(zero_flags=False),
     "no_condition": Variant(condition=False),
     "no_filter": Variant(filter=False),
+}
+
+
+# Does the result hinge on one setting? The full model with its two main
+# hand-picked settings moved well below and above their defaults.
+SENSITIVITY = {
+    "full": FULL,
+    "corr_weight_0.5": Variant(corr_weight=0.5),
+    "corr_weight_8": Variant(corr_weight=8.0),
+    "epochs_300": Variant(epochs=300),
+    "epochs_1200": Variant(epochs=1200),
 }
 
 
@@ -82,14 +96,15 @@ def new_generator(ingestor):
 
 
 def train(ingestor, processed_df):
-    print(f"🚀 Training Boosted GAN ({EPOCHS} Epochs)...")
+    epochs = ingestor.variant.epochs or EPOCHS
+    print(f"🚀 Training Boosted GAN ({epochs} Epochs)...")
     return train_wgan_gp(
         torch.FloatTensor(processed_df.values),
         torch.FloatTensor(ingestor.cond_df.values),
         ingestor.output_info,
-        epochs=EPOCHS,
+        epochs=epochs,
         latent_dim=LATENT_DIM,
-        corr_weight=CORR_WEIGHT if ingestor.variant.corr_loss else 0.0,
+        corr_weight=ingestor.variant.corr_weight,
     )
 
 

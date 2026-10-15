@@ -57,10 +57,25 @@ METRICS = {
     "fidelity_pct": {"higher": True},
     "tstr_auc": {"higher": True},
     "auc_ratio": {"higher": True},
-    "discriminator_pct": {"target": 50},
+    "detectability_pct": {"target": 50},
     "dcr_closer_to_train_pct": {"target": 50},
     "mia_auc": {"target": 0.5},
 }
+
+# Metric names used by results saved before a rename. Detectability (the
+# real-vs-synthetic classifier) was once called discriminator_pct and shown
+# as a privacy score, which it isn't.
+LEGACY_NAMES = {"discriminator_pct": "detectability_pct"}
+
+
+def load_runs(directory):
+    """Every seed*.json result in `directory` as one table, old metric names
+    updated."""
+    rows = []
+    for path in glob.glob(os.path.join(directory, "seed*.json")):
+        with open(path) as f:
+            rows.append(json.load(f))
+    return pd.DataFrame(rows).rename(columns=LEGACY_NAMES)
 
 
 def out_dir():
@@ -153,11 +168,7 @@ def paired_table(runs, reference, others, column="model", label=None):
 
 
 def summarize():
-    rows = []
-    for path in glob.glob(os.path.join(out_dir(), "seed*.json")):
-        with open(path) as f:
-            rows.append(json.load(f))
-    runs = pd.DataFrame(rows).sort_values(["model", "seed"])
+    runs = load_runs(out_dir()).sort_values(["model", "seed"])
     runs.to_csv(os.path.join(out_dir(), "all_runs.csv"), index=False)
 
     models = [MEDTWIN] + sorted(m for m in runs.model.unique() if m != MEDTWIN)

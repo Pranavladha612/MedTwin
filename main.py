@@ -42,7 +42,7 @@ TRAIN_VERSION = 3
 KEEP_REPORTS = 10
 
 from core.metrics import calculate_fidelity_score
-from research.adversarial_audit import calculate_privacy_score
+from research.adversarial_audit import calculate_detectability
 
 
 def get_data_hash(file_path):
@@ -128,16 +128,17 @@ def run_pipeline():
         mark_missing(raw_df).rename(columns=cfg.rename), final_report, cfg.fidelity_report
     )
 
-    # 10. PRIVACY VALIDATION
-    # Trains a classifier to distinguish real patients from synthetic ones.
-    # ~50% = indistinguishable (good privacy); closer to 100% = the
-    # generator is leaking/overfitting to real records (bad privacy).
-    print("🕵️ Running Adversarial Privacy Audit...")
+    # 10. DETECTABILITY
+    # Trains a classifier to tell real patients from synthetic ones.
+    # ~50% = indistinguishable; closer to 100% = easy to spot. A realism
+    # check, not a privacy one (copied patients would score 50%); privacy is
+    # the DCR and membership-inference part of the held-out evaluation.
+    print("🕵️ Running Real-vs-Synthetic Detectability Test...")
     try:
-        privacy_score = calculate_privacy_score(raw_df, final_report)
+        detectability = calculate_detectability(raw_df, final_report)
     except Exception as e:
-        print(f"⚠️ Privacy audit failed to run: {e}")
-        privacy_score = None
+        print(f"⚠️ Detectability test failed to run: {e}")
+        detectability = None
 
     # 11. HELD-OUT EVALUATION (utility + memorisation checks)
     print("🧪 Running Held-Out Evaluation...")
@@ -149,7 +150,7 @@ def run_pipeline():
         "generated": medtwin.N_SAMPLES,
         "kept_after_filter": len(final_report),
         "fidelity_pct": fidelity_score,
-        "discriminator_pct": privacy_score,
+        "detectability_pct": detectability,
         **evaluation,
     }
     with open(os.path.join(SYNTH_DIR, "latest_metrics.json"), "w") as f:
@@ -159,9 +160,9 @@ def run_pipeline():
 
     print(f"\n🎉 PIPELINE SUCCESS!")
     print(f"📊 Statistical Fidelity: {fidelity_score}%")
-    if privacy_score is not None:
-        print(f"🔒 Privacy Audit (real vs. synthetic distinguishability): {privacy_score}%")
-        print("   (~50% = strong privacy; closer to 100% = data may be leaking real patients)")
+    if detectability is not None:
+        print(f"🔍 Detectability (real-vs-synthetic classifier accuracy): {detectability}%")
+        print("   (~50% = indistinguishable from real; closer to 100% = easy to spot)")
     print("\n🧪 Held-out evaluation (real patients the GAN never saw):")
     print(
         f"   Utility  TRTR AUC {utility['trtr']['auc']} | TSTR AUC {utility['tstr']['auc']}"

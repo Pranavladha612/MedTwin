@@ -1,4 +1,4 @@
-model,rows_kept,fidelity_pct,discriminator_pct,tstr_auc,trtr_auc,auc_ratio,dcr_closer_to_train_pct,mia_auc,exact_copies,train_seconds,seed
+model,rows_kept,fidelity_pct,detectability_pct,tstr_auc,trtr_auc,auc_ratio,dcr_closer_to_train_pct,mia_auc,exact_copies,train_seconds,seed
 CTGAN,1938,81.05,91.85,0.743,0.889,0.836,52.48,0.481,0,73.4,0
 CTGAN,1952,68.2,95.11,0.759,0.889,0.854,51.49,0.506,0,73.6,1
 CTGAN,1875,72.91,92.66,0.725,0.864,0.839,51.04,0.52,0,73.2,2

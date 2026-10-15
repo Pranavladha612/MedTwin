@@ -2,7 +2,7 @@
   "model": "TabDDPM",
   "rows_kept": 2000,
   "fidelity_pct": 86.87,
-  "discriminator_pct": 77.99,
+  "detectability_pct": 77.99,
   "tstr_auc": 0.831,
   "trtr_auc": 0.889,
   "auc_ratio": 0.935,

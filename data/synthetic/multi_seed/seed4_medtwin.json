@@ -2,7 +2,7 @@
   "model": "MedTwin WGAN-GP",
   "rows_kept": 2000,
   "fidelity_pct": 87.12,
-  "discriminator_pct": 63.04,
+  "detectability_pct": 63.04,
   "tstr_auc": 0.893,
   "trtr_auc": 0.892,
   "auc_ratio": 1.001,

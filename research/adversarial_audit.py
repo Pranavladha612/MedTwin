@@ -23,13 +23,16 @@ except Exception:
     pass
 
 
-def calculate_privacy_score(raw_real_df, synth_df):
-    """Trains a classifier to distinguish real patients from synthetic ones.
+def calculate_detectability(raw_real_df, synth_df):
+    """Detectability: trains a classifier to tell real patients from
+    synthetic ones.
 
     Returns the held-out accuracy as a percentage (0-100). ~50% means the
-    synthetic data is statistically indistinguishable from real records
-    (good privacy); closer to 100% means the generator is leaking/overfitting
-    to real records (bad privacy).
+    synthetic records are indistinguishable from real ones; closer to 100%
+    means they are easy to spot. This measures realism (fidelity of the
+    joint distribution), NOT privacy: a generator that copied real patients
+    would score a perfect 50%. Privacy is measured by DCR and membership
+    inference against held-out patients (core/evaluation.py).
 
     `raw_real_df` is the raw source dataframe (e.g. heart_disease_uci.csv,
     with columns like 'sex'/'cp'/'dataset'). `synth_df` is the grounded
@@ -81,9 +84,9 @@ def calculate_privacy_score(raw_real_df, synth_df):
     return round(accuracy_score(y_test, clf.predict(X_test)) * 100, 2)
 
 
-def run_privacy_audit():
+def run_detectability_audit():
     """CLI entry point: loads main.py's real/synthetic outputs from disk and
-    prints the privacy audit score."""
+    prints the detectability score."""
     cfg = config.active()
     real_path = cfg.data_file
     synth_path = os.path.join(cfg.output_dir, "grounded_synthetic_data_latest.csv")
@@ -95,11 +98,11 @@ def run_privacy_audit():
     raw_df = pd.read_csv(real_path)
     synth_df = pd.read_csv(synth_path)
 
-    score = calculate_privacy_score(raw_df, synth_df)
-    print(f"\n📊 Privacy Audit Score: {score}%")
+    score = calculate_detectability(raw_df, synth_df)
+    print(f"\n📊 Detectability: {score}%")
     print(
         "   (~50% = synthetic data is indistinguishable from real; "
-        "closer to 100% = synthetic data is leaking/overfitting to real records)"
+        "closer to 100% = synthetic records are easy to tell apart from real ones)"
     )
 
 
@@ -107,4 +110,4 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     config.add_argument(parser)
     config.use(parser.parse_args().config)
-    run_privacy_audit()
+    run_detectability_audit()
