@@ -84,12 +84,22 @@ def blank_flagged(df):
 
 
 class DataIngestion:
-    def __init__(self):
+    def __init__(self, variant):
+        """`variant` (core.medtwin.Variant) says which components are on; the
+        ablations switch them off one at a time."""
         cfg = config.active()
+        self.variant = variant
         self.scaler = MinMaxScaler()
         self.num_imputer = SimpleImputer(strategy="median")
         self.num_cols = cfg.numeric
-        self.cat_cols = cfg.categorical
+        self.flagged_cols = cfg.flagged if variant.missing_flags else []
+        self.zero_cols = cfg.exactly_zero_spike if variant.zero_flags else []
+        # Unconditioned, the condition column (if any) is generated like any
+        # other categorical column instead.
+        self.conditioned = bool(cfg.condition_on) and variant.condition
+        self.cat_cols = list(cfg.categorical)
+        if cfg.condition_on and not self.conditioned:
+            self.cat_cols.append(cfg.condition_on)
 
     def de_identify(self, df):
         id_column = config.active().id_column
@@ -110,10 +120,10 @@ class DataIngestion:
         df = mark_missing(df)
 
         flags = pd.DataFrame(
-            {missing_flag(c): df[c].isna().astype(float) for c in cfg.flagged},
+            {missing_flag(c): df[c].isna().astype(float) for c in self.flagged_cols},
             index=df.index,
         )
-        for col in cfg.exactly_zero_spike:
+        for col in self.zero_cols:
             flags[zero_flag(col)] = (df[col] == 0).astype(float)  # blanks count as not zero
 
         # A flagged-missing value still needs *some* number in the matrix; the
@@ -139,7 +149,7 @@ class DataIngestion:
 
         # Without a condition column every patient gets the same constant
         # condition, which makes the model an ordinary unconditional GAN.
-        if cfg.condition_on:
+        if self.conditioned:
             sites = df[cfg.condition_on].astype(str)
         else:
             sites = pd.Series("all", index=df.index)

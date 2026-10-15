@@ -93,3 +93,10 @@ def test_baseline_runs_from_settings(cfg, split):
         lambda: TabDDPM(steps=30, num_timesteps=20, seed=0), train_df, discrete, seed=0
     )
     assert list(synth.columns) == cfg.report_columns
+
+
+def test_only_applicable_ablations_run(cfg):
+    # No site column and no zero-spiked column in this data
+    assert set(medtwin.applicable_ablations()) == {
+        "full", "no_corr_loss", "no_missing_flags", "no_filter"
+    }

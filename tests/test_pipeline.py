@@ -170,3 +170,35 @@ def test_baseline_produces_valid_15_column_report(split, make):
     synth, _ = train_and_generate(make, train_df, discrete, seed=0)
     assert list(synth.columns) == CFG.report_columns
     assert len(synth) > 0
+
+
+# ---------- ablations ----------
+
+@pytest.mark.parametrize("name", list(medtwin.ABLATIONS))
+def test_every_ablation_trains_and_produces_a_valid_report(split, name):
+    variant = medtwin.ABLATIONS[name]
+    torch.manual_seed(0)
+    np.random.seed(0)
+    ingestor, processed = medtwin.prepare(split[0], variant)
+    old_epochs, medtwin.EPOCHS = medtwin.EPOCHS, 1
+    try:
+        generator = medtwin.train(ingestor, processed)
+    finally:
+        medtwin.EPOCHS = old_epochs
+    report = medtwin.generate_report(generator, ingestor, n=200)
+    assert list(report.columns) == CFG.report_columns
+    assert set(report["origin_study"]) <= set(RAW["dataset"])
+
+    columns = " ".join(processed.columns)
+    assert ("_missing" in columns) == variant.missing_flags
+    assert ("oldpeak_zero" in columns) == variant.zero_flags
+    # Unconditioned, the site is an output column and the condition is constant
+    assert ("dataset_" in columns) == (not variant.condition)
+    assert len(ingestor.site_names) == (4 if variant.condition else 1)
+    if not variant.missing_flags:
+        for col in CFG.flagged_report:
+            assert report[col].notna().all(), col  # imputed, never blank
+
+
+def test_ablations_skip_components_the_dataset_lacks():
+    assert set(medtwin.applicable_ablations()) == set(medtwin.ABLATIONS)

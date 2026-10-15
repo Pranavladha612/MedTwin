@@ -5,6 +5,9 @@ from torch.utils.data import DataLoader, TensorDataset
 
 # Gumbel-softmax temperature for categorical outputs (the CTGAN default).
 GUMBEL_TAU = 0.2
+# Weight of the correlation penalty in the generator's loss (0 switches it
+# off, as in the no_corr_loss ablation).
+CORR_WEIGHT = 2.0
 
 
 class Generator(nn.Module):
@@ -86,7 +89,15 @@ def compute_gradient_penalty(critic, real_samples, fake_samples, cond):
     return ((gradients.norm(2, dim=1) - 1) ** 2).mean()
 
 
-def train_wgan_gp(data_tensor, cond_tensor, output_info, epochs=600, batch_size=64, latent_dim=128):
+def train_wgan_gp(
+    data_tensor,
+    cond_tensor,
+    output_info,
+    epochs=600,
+    batch_size=64,
+    latent_dim=128,
+    corr_weight=CORR_WEIGHT,
+):
     """Trains the conditional WGAN-GP with correlation loss.
 
     Named for what it is: no differential-privacy mechanism is applied here.
@@ -155,8 +166,9 @@ def train_wgan_gp(data_tensor, cond_tensor, output_info, epochs=600, batch_size=
             fake_corr = torch.corrcoef(fake_full[:, keep].T)
             corr_loss = F.mse_loss(fake_corr, real_corr)
 
-            # Combine losses (Generator Loss + Correlation Penalty)
-            total_lossG = lossG + (corr_loss * 2.0)
+            # Combine losses (Generator Loss + Correlation Penalty). With the
+            # penalty off, corr_loss is still computed so the log shows it.
+            total_lossG = lossG + corr_loss * corr_weight
             total_lossG.backward()
             optG.step()
 

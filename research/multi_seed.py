@@ -103,6 +103,55 @@ def run_seed(seed):
         save(name, synth, seconds)
 
 
+def mean_sd_table(runs, models, column="model"):
+    """Mean ± SD of every metric per model (or per ablation variant)."""
+    summary = []
+    for model in models:
+        sub = runs[runs[column] == model]
+        row = {column: model, "n_seeds": len(sub)}
+        for m in METRICS:
+            row[m] = f"{sub[m].mean():.3f} ± {sub[m].std(ddof=1):.3f}"
+        summary.append(row)
+    return pd.DataFrame(summary)
+
+
+def paired_table(runs, reference, others, column="model", label=None):
+    """`reference` vs each of `others` on the same seeds. For target metrics,
+    compares distance from the target (smaller = better). Positive
+    "advantage" = the reference is better. `label` names the reference in
+    the verdicts (default: its full name)."""
+    label = label or reference
+    comparisons = []
+    for other in others:
+        both = runs[runs[column].isin([reference, other])].pivot(index="seed", columns=column)
+        both = both.dropna()
+        for m, rule in METRICS.items():
+            a, b = both[m][reference].astype(float), both[m][other].astype(float)
+            if "target" in rule:
+                adv = (b - rule["target"]).abs() - (a - rule["target"]).abs()
+            else:
+                adv = a - b
+            n = len(adv)
+            mean = adv.mean()
+            half = stats.t.ppf(0.975, n - 1) * adv.std(ddof=1) / np.sqrt(n) if n > 1 else np.nan
+            p = stats.ttest_1samp(adv, 0).pvalue if n > 1 else np.nan
+            comparisons.append({
+                "vs": other,
+                "metric": m,
+                "advantage": round(mean, 4),
+                "ci95_low": round(mean - half, 4),
+                "ci95_high": round(mean + half, 4),
+                "p_value": round(p, 3),
+                "wins": f"{int((adv > 0).sum())}/{n}",
+                "verdict": (
+                    f"{label} better" if mean - half > 0
+                    else f"{other} better" if mean + half < 0
+                    else "no clear difference"
+                ),
+            })
+    return pd.DataFrame(comparisons)
+
+
 def summarize():
     rows = []
     for path in glob.glob(os.path.join(out_dir(), "seed*.json")):
@@ -116,50 +165,15 @@ def summarize():
     print(f"Seeds completed per model: {seeds_per_model.to_dict()}")
 
     # 1. Mean ± SD per model
-    summary = []
-    for model in models:
-        sub = runs[runs.model == model]
-        row = {"model": model, "n_seeds": len(sub)}
-        for m in METRICS:
-            row[m] = f"{sub[m].mean():.3f} ± {sub[m].std(ddof=1):.3f}"
-        summary.append(row)
-    summary = pd.DataFrame(summary)
+    summary = mean_sd_table(runs, models)
     summary.to_csv(os.path.join(out_dir(), "summary.csv"), index=False)
     print("\n📊 Mean ± SD across seeds")
     print(summary.to_string(index=False))
 
     # 2. Paired comparison: MedTwin vs each baseline on the same seeds.
-    # For target metrics, compare distance from the target (smaller = better).
-    # Positive "advantage" = MedTwin is better.
-    comparisons = []
-    for other in models[1:]:
-        both = runs[runs.model.isin([MEDTWIN, other])].pivot(index="seed", columns="model")
-        both = both.dropna()
-        for m, rule in METRICS.items():
-            a, b = both[m][MEDTWIN].astype(float), both[m][other].astype(float)
-            if "target" in rule:
-                adv = (b - rule["target"]).abs() - (a - rule["target"]).abs()
-            else:
-                adv = a - b
-            n = len(adv)
-            mean = adv.mean()
-            half = stats.t.ppf(0.975, n - 1) * adv.std(ddof=1) / np.sqrt(n) if n > 1 else np.nan
-            p = stats.ttest_1samp(adv, 0).pvalue if n > 1 else np.nan
-            comparisons.append({
-                "vs": other,
-                "metric": m,
-                "medtwin_advantage": round(mean, 4),
-                "ci95_low": round(mean - half, 4),
-                "ci95_high": round(mean + half, 4),
-                "p_value": round(p, 3),
-                "medtwin_wins": f"{int((adv > 0).sum())}/{n}",
-                "verdict": (
-                    "MedTwin better" if mean - half > 0
-                    else f"{other} better" if mean + half < 0
-                    else "no clear difference"
-                ),
-            })
-    comparisons = pd.DataFrame(comparisons)
+    comparisons = paired_table(runs, MEDTWIN, models[1:], label="MedTwin").rename(
+        columns={"advantage": "medtwin_advantage", "wins": "medtwin_wins"}
+    )
     comparisons.to_csv(os.path.join(out_dir(), "paired_comparisons.csv"), index=False)
     print("\n⚖️ MedTwin vs each baseline, paired by seed "
           "(advantage > 0 = MedTwin better; 'clear' = 95% CI excludes 0)")
