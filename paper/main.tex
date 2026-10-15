@@ -18,8 +18,8 @@
 
 \begin{document}
 
-\title{Missingness-Aware Conditional WGAN-GP for Synthetic Multi-Site Clinical Records}
-\titlerunning{Missingness-Aware Synthetic Clinical Records}
+\title{Measuring What Is Missing: Fidelity and Privacy of Missing-Value Patterns in Synthetic Multi-Site Clinical Records}
+\titlerunning{Measuring What Is Missing}
 
 \author{Aarzoo Jain \and Pranav Ladha}
 \authorrunning{A. Jain and P. Ladha}
@@ -30,28 +30,28 @@
 
 \begin{abstract}
 Synthetic patient records are a promising way to share clinical data
-without exposing real patients, but real clinical tables are incomplete in
-structured ways: whether a test was performed often depends on the hospital
-that recorded it. Common tabular generators either require complete data or
-fill gaps before training, so the synthetic cohort loses this structure. We
-present MedTwin, a conditional Wasserstein GAN with gradient penalty that
-treats ``not measured'' as part of the record: it generates a measurement
-flag for every incompletely observed column, a separate flag for values with
-a large spike at exactly zero, and conditions each record on its site. We
-evaluate on the four-site UCI heart disease data (920 patients) and the Pima
-diabetes data (768 patients) against CTGAN, TVAE and TabDDPM, using five
-seeds with held-out patients and paired confidence intervals. MedTwin gives
-the highest histogram fidelity on both datasets and the least detectable
-records on heart disease (61.5\% real-vs-synthetic classifier accuracy
-against 74.9--92.8\% for the baselines), with downstream utility matching
-the best baseline (TSTR/TRTR AUC ratio 0.975 and 0.983). Membership
-inference and distance-to-closest-record tests show no detectable
-memorisation, unlike TabDDPM on diabetes (membership-inference AUC 0.80).
-Ablations show that the measurement flags, the zero flag and site
-conditioning each make records clearly harder to detect, while a
-correlation-matching loss leaves realism and utility unchanged but roughly
-halves the gap between real and synthetic correlations of numeric columns
-(0.075 to 0.041 on heart disease, 0.063 to 0.034 on diabetes).
+without exposing real patients. Real clinical tables are incomplete in
+structured ways --- whether a test was done often depends on the hospital
+--- and recent generators can keep these gaps. But there is no standard way
+to check whether the gaps are \emph{realistic}, and no study of whether
+keeping them \emph{leaks} who was in the training data. We propose
+missing-value fidelity scores (per-column and per-site missing rates and the
+distribution of whole missingness patterns), each calibrated against the gap
+between two real samples, and a missing-value privacy audit that attacks
+patients through their missingness patterns. We apply them to MedTwin, a
+conditional WGAN-GP that generates a ``measured'' flag per incomplete column
+conditioned on the hospital, and to CTGAN, TVAE and TabDDPM, on the four-site
+UCI heart disease data (920 patients) and Pima diabetes (768 patients), over
+five seeds with held-out patients. MedTwin reproduces missingness patterns
+almost as closely as a second real sample does (pattern distance 0.174
+against 0.152 for real data; baselines 0.209--0.683), and is the only model
+that matches site-specific missing rates. Keeping the gaps has a small,
+consistent privacy cost: a membership attack on patients with rare
+missingness patterns rises from AUC 0.531 to 0.575 when the flags are added,
+while other patients and overall privacy are unaffected and unique patterns
+are not copied. MedTwin also gives the highest histogram fidelity, the least
+detectable records on heart disease (61.5\% against 74.9--92.8\%) and
+utility matching the best baseline (TSTR/TRTR AUC ratio 0.975 and 0.983).
 \keywords{Synthetic data \and Generative adversarial networks \and Missing data \and Electronic health records \and Privacy evaluation}
 \end{abstract}
 
@@ -77,32 +77,33 @@ most tabular generators require complete input, so missing values are
 usually imputed first, and the generated cohort then contains invented
 measurements that no real record had.
 
-We present MedTwin, a conditional WGAN-GP~\cite{gulrajani2017wgangp} for
-mixed-type clinical tables that generates missingness instead of removing
-it. Our contributions are:
+Recent generators can keep missing values in synthetic
+data~\cite{bing2022healthgen,ouyang2023missdiff,wang2025reinvented,wang2024igamt}.
+Two questions, however, have no standard answer: \emph{are the generated
+gaps realistic}, and \emph{do they leak who was in the training data}? A
+missingness pattern can be as identifying as a value --- the one patient at
+a site who did have a rare test stands out --- yet privacy evaluations of
+synthetic data look only at values. Our contributions are:
 \begin{enumerate}
-\item \textbf{Site-conditioned missingness for small multi-site tables.}
-  Building on recent work that preserves missingness in synthetic
-  data~\cite{bing2022healthgen,ouyang2023missdiff,wang2025reinvented}, we
-  use a deliberately simple mechanism suited to small tables: each
-  incompletely observed numeric column gets a generated ``measured'' flag,
-  missing categories are a category of their own, zeros that encode
-  ``not measured'' are recognised from the dataset's settings, and the
-  flags are generated conditionally on the site.
-\item \textbf{Site conditioning and zero-spike flags.} Records are generated
-  for a given hospital, so site-specific measurement practice is learned,
-  and a binary flag reproduces the large point mass at zero of ST
-  depression (40\% of patients).
-\item \textbf{A held-out evaluation that separates realism from privacy.}
-  We report utility (train-on-synthetic, test-on-real), realism
-  (fidelity, real-vs-synthetic \emph{detectability}) and privacy
-  (distance to closest record, membership inference) against patients
-  never seen in training, and argue that detectability, sometimes reported
-  as a privacy score, is not one.
-\item \textbf{A five-seed benchmark with ablations.} On two datasets we
-  compare against CTGAN, TVAE and TabDDPM under identical preprocessing and
-  scoring, ablate each component, and test sensitivity to the main
-  hyperparameters, with paired confidence intervals throughout.
+\item \textbf{Missing-value fidelity scores.} We measure how well synthetic
+  data reproduces per-column missing rates, per-site missing rates, and the
+  joint distribution of whole missingness patterns. Each score is reported
+  next to a real-vs-real reference --- the gap between held-out and training
+  patients --- so ``good'' has a concrete meaning.
+\item \textbf{A missing-value privacy audit.} We test whether keeping gaps
+  exposes training patients: membership attacks restricted to patients with
+  rare missingness patterns, compared with common ones, and a test of whether
+  patterns unique to a training patient reappear in the synthetic data.
+\item \textbf{MedTwin, a site-conditioned generator.} A conditional
+  WGAN-GP~\cite{gulrajani2017wgangp} with a generated ``measured'' flag per
+  incomplete column, a flag for values spiked at zero, recognition of zeros
+  that encode ``not measured'', and a correlation-matching loss, all
+  conditioned on the hospital.
+\item \textbf{A five-seed benchmark with ablations.} Against CTGAN, TVAE and
+  TabDDPM on two datasets, with held-out patients, paired confidence
+  intervals, ablations of every component, and a sensitivity check. We also
+  separate realism from privacy, arguing that real-vs-synthetic
+  detectability, sometimes reported as a privacy score, is not one.
 \end{enumerate}
 
 % ---------------------------------------------------------------------------
@@ -226,7 +227,57 @@ filtered --- and values are rounded to their recorded precision (e.g.\ ST
 depression to 0.1), with counts and scores clipped to their ranges.
 
 % ---------------------------------------------------------------------------
+\section{Evaluating Missing Values}
+\label{sec:missing-eval}
+
+We call a record's \emph{missingness pattern} the set of its values that are
+blank (not measured), together with its site when the data has one. Both
+real and synthetic records are compared in the same report form, in which a
+blank always means ``not measured''.
+
+\subsection{Fidelity}
+
+Let $\mathcal{R}$ be the real training patients and $\mathcal{S}$ a
+synthetic sample. We report three scores, all 0 when $\mathcal{S}$ matches
+$\mathcal{R}$:
+\begin{itemize}
+\item \emph{Rate gap}: the mean over columns of the absolute difference in
+  the share of blank values.
+\item \emph{Site gap}: the same per site and column, averaged with site
+  weights; it catches a model that gets overall rates right but puts the
+  gaps at the wrong hospital.
+\item \emph{Pattern distance}: the total variation distance between the
+  distributions of whole patterns,
+  $\tfrac{1}{2}\sum_{p} |P_{\mathcal{R}}(p) - P_{\mathcal{S}}(p)|$, which
+  also captures which values go missing \emph{together}.
+\end{itemize}
+These scores depend on sample size, so synthetic data is scored on 20
+random subsamples the size of the held-out set and averaged. As a
+reference we score the held-out real patients the same way: a synthetic
+score close to this \emph{real-vs-real} value is as good as a second
+sample of real patients.
+
+\subsection{Privacy}
+
+Members are training patients and non-members are held-out patients, in
+equal numbers; results are averaged over 20 random member samples.
+\begin{itemize}
+\item \emph{Rare- vs.\ common-pattern membership inference.} The
+  distance-based membership attack of Sect.~\ref{sec:setup}, evaluated
+  separately on patients whose pattern is rare (held by at most 2\% of real
+  patients) and on the rest. If keeping gaps exposes unusual patients, the
+  attack AUC is higher for rare patterns.
+\item \emph{Unique-pattern leak.} For patterns held by exactly one patient,
+  the share that reappears in the synthetic data when that patient was a
+  member, minus the share when they were held out (0 = no leak).
+\end{itemize}
+An attacker scoring patients only by how often their pattern occurs in the
+synthetic data proved uninformative even for copied records, so we do not
+report it.
+
+% ---------------------------------------------------------------------------
 \section{Experimental Setup}
+\label{sec:setup}
 
 \paragraph{Datasets.}
 \emph{Heart disease} (UCI) has 920 patients from Cleveland (304), Hungary
@@ -327,18 +378,45 @@ lines mark the ideal value.}
 \label{fig:benchmark}
 \end{figure}
 
-\subsection{Reproducing site-specific missingness}
+\subsection{Missing-value fidelity}
 \label{sec:missingness}
 
-Fig.~\ref{fig:missingness} compares, for each site, the share of patients
-with each value not measured. MedTwin reproduces the structure of the real
-data: cholesterol missing for every Swiss patient and 28\% of VA patients,
-vessel counts missing almost everywhere except Cleveland, and thalassemia
-missing for most Hungarian and VA patients. Because each record is
-generated for its site, these patterns need not be inferred from the other
-columns. The largest deviations are for fasting blood sugar in Switzerland
-(61\% real, 72\% synthetic), cholesterol at VA Long Beach (28\% against
-35\%) and ST slope in Switzerland (14\% against 7\%).
+\begin{table}[t]
+\caption{Missing-value fidelity (left, lower is better) and privacy (right),
+mean $\pm$ SD over five seeds. The reference row compares held-out with
+training patients. MIA rare/common: membership-inference AUC on patients with
+rare/common missingness patterns; unique leak in percentage points. Ablation
+rows come from separate runs and are compared with their own full model
+($^*$: clear paired difference). Bold marks the best fidelity among models.
+On diabetes only $\approx$8 patients per draw have a rare pattern and
+$\approx$2 patterns are unique, so its privacy columns are inconclusive.}
+\label{tab:missing}
+\centering\scriptsize\setlength{\tabcolsep}{2.2pt}
+\input{tables/missingness}
+\end{table}
+
+Table~\ref{tab:missing} gives the missing-value fidelity scores. On heart
+disease, MedTwin's patterns are almost as close to the training patients as
+a second real sample is (pattern distance 0.174 against a real-vs-real
+reference of 0.152), against 0.209 for TVAE, 0.487 for TabDDPM and 0.683
+for CTGAN; it is clearly better than every baseline in all five seeds. It is
+also the only model whose site gap (0.022) matches the real reference
+(0.024); the unconditional baselines put gaps at the wrong hospitals (0.035,
+0.101 and 0.131). The ablations show where this comes from. Without the
+measurement flags, numeric values are never blank and the pattern distance
+jumps to 0.693. Without site conditioning, overall missing rates stay right
+(rate gap 0.019) but the site gap and pattern distance worsen clearly (0.028
+and 0.223): the hospital is what places each gap. On diabetes, which has no
+site, MedTwin again has the lowest pattern distance (0.063; baselines
+0.111--0.299; without flags 0.486).
+
+Fig.~\ref{fig:missingness} shows the per-site rates behind these scores.
+MedTwin reproduces cholesterol missing for every Swiss patient and 28\% of
+VA patients, vessel counts missing almost everywhere except Cleveland, and
+thalassemia missing for most Hungarian and VA patients. The largest
+deviations are for fasting blood sugar in Switzerland (61\% real, 72\%
+synthetic), cholesterol at VA Long Beach (28\% against 35\%) and ST slope in
+Switzerland (14\% against 7\%).
 
 \begin{figure}[t]
 \centering
@@ -347,6 +425,23 @@ columns. The largest deviations are for fasting blood sugar in Switzerland
 site: real (blue) and MedTwin (orange).}
 \label{fig:missingness}
 \end{figure}
+
+\subsection{The privacy cost of keeping missing values}
+
+Keeping gaps has a small but consistent cost, concentrated on unusual
+patients. On heart disease about 64 of the 368 attacked patients per draw
+have a rare missingness pattern. For them, the membership attack reaches an
+AUC of 0.575 against MedTwin, compared with 0.531 for the same model trained
+without measurement flags --- higher in every one of the five seeds. For
+patients with common patterns (0.542 against 0.516) and over all patients
+(0.532 against 0.515) the difference is not clear. The attack works through
+distances, not through copied patterns: patterns unique to one patient
+reappear no more often when that patient was in training than when they were
+held out (unique leak $-4.7 \pm 25.3$ points). Between models the rare-pattern
+AUCs (0.50--0.57) do not differ clearly. On diabetes, with only about eight
+rare-pattern patients per draw, the audit is inconclusive; there, TabDDPM's
+memorisation is visible for all patients alike (AUC 0.80 for common
+patterns).
 
 \subsection{Ablations}
 
@@ -417,8 +512,22 @@ are easy to tell apart from real ones --- consistent with the bias of
 The correlation loss, in turn, preserves pairwise structure without
 affecting the other metrics.
 
+The missing-value scores make a difference that standard metrics hide
+visible. CTGAN, TVAE and TabDDPM are given exactly the same measurement flags
+as MedTwin, and their overall missing rates are close to real (rate gap
+0.028--0.059), yet their missingness patterns are far from real because
+nothing ties a gap to its hospital. Reporting only per-column rates, or only
+value distributions, would miss this. The privacy audit adds a caution:
+keeping realistic gaps slightly exposes the patients whose gaps are unusual.
+The effect is modest (AUC 0.575) and does not appear as copied patterns, but
+it is exactly the group a data custodian would worry about; coarsening or
+merging rare patterns before release is a natural mitigation to test.
+
 Several limitations apply. Both datasets are small (under 1000 patients)
-and single-table; larger and longitudinal EHRs may behave differently.
+and single-table; larger and longitudinal EHRs may behave differently. The
+missing-value privacy audit needs enough rare-pattern patients: it is
+conclusive on heart disease but not on diabetes, and the unique-pattern test
+rests on about 14 patterns per draw, so its spread is wide.
 Detectability remains well above 50\%, so the synthetic records are still
 distinguishable from real ones. Our privacy evidence is empirical --- one
 distance-based membership attack and DCR --- and MedTwin applies no
@@ -435,15 +544,19 @@ about the underlying missingness mechanism.
 % ---------------------------------------------------------------------------
 \section{Conclusion}
 
-MedTwin generates synthetic clinical records that keep their real
-missingness structure: which values were measured, at which site. On two
-public datasets and five seeds it matches the best baseline's downstream
-utility, has the highest fidelity, is the least detectable model on the
-multi-site heart disease data, and shows no detectable memorisation.
-Ablations show that this comes from treating ``not measured'' as data.
-Future work includes larger multi-site and longitudinal cohorts, formal
-privacy through differentially private training, and comparison with
-latent diffusion models such as TabSyn.
+We proposed scores that measure whether synthetic clinical data has
+realistic gaps --- per column, per site, and as whole patterns, each against a
+real-vs-real reference --- and an audit of whether those gaps leak training
+patients. On two public datasets and five seeds, a site-conditioned
+generator, MedTwin, reproduces missingness patterns almost as closely as a
+second real sample, while standard generators given the same flags do not.
+Keeping gaps carries a small, consistent privacy cost for patients with rare
+patterns, not visible in overall privacy metrics. MedTwin also matches the
+best baseline's downstream utility, has the highest fidelity, and is the
+least detectable model on the multi-site data. Future work includes
+mitigations for rare patterns, larger and longitudinal cohorts, differentially
+private training, and comparison with missingness-preserving generators such
+as MissDiff~\cite{ouyang2023missdiff}.
 
 \paragraph{Code and data availability.}
 Code, settings files, per-seed results and the scripts that produce every

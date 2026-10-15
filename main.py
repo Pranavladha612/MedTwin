@@ -180,6 +180,13 @@ def run_pipeline():
         f"   Corr gap {evaluation['correlation']['corr_gap']} all features |"
         f" {evaluation['correlation']['corr_gap_numeric']} numeric (0 = same correlations)"
     )
+    gaps, leaks = evaluation["missingness"], evaluation["missingness_privacy"]
+    if gaps:
+        print(
+            f"   Missing  pattern TVD {gaps['pattern_tvd']} (real-vs-real {gaps['pattern_tvd_ref']})"
+            f" | rare-pattern MIA AUC {leaks['rare_pattern_dist_mia_auc']}"
+            f" | unique-pattern leak {leaks['unique_pattern_leak_pct']} pts"
+        )
     print(f"📄 Saved Archive: {dated_filename}")
 
 

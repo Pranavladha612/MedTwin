@@ -63,6 +63,13 @@ METRICS = {
     "mia_auc": {"target": 0.5},
     "corr_gap": {"target": 0},
     "corr_gap_numeric": {"target": 0},
+    # Missing-value fidelity and privacy (core/missingness.py)
+    "miss_rate_gap": {"target": 0},
+    "site_miss_gap": {"target": 0},
+    "pattern_tvd": {"target": 0},
+    "common_pattern_dist_mia_auc": {"target": 0.5},
+    "rare_pattern_dist_mia_auc": {"target": 0.5},
+    "unique_pattern_leak_pct": {"target": 0},
 }
 
 # Metric names used by results saved before a rename. Detectability (the
@@ -97,6 +104,11 @@ def result_path(seed, model):
     return os.path.join(out_dir(), f"seed{seed}_{model.split()[0].lower()}.json")
 
 
+def synth_path(result_json):
+    """The synthetic records a result was scored on, saved next to it."""
+    return result_json[: -len(".json")] + ".csv.gz"
+
+
 def run_seed(seed):
     warnings.filterwarnings("ignore")
     os.makedirs(out_dir(), exist_ok=True)
@@ -108,6 +120,8 @@ def run_seed(seed):
         row["seed"] = seed
         with open(result_path(seed, name), "w") as f:
             json.dump(row, f, indent=2, default=float)
+        # Kept so new metrics can be computed later without retraining
+        synth.to_csv(synth_path(result_path(seed, name)), index=False)
         print(f"✅ seed {seed} | {name}: saved")
 
     if not os.path.exists(result_path(seed, MEDTWIN)):

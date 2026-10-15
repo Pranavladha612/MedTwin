@@ -5,15 +5,36 @@ CTGAN,auc_ratio,0.2866,0.184,0.3892,0.001,5/5,MedTwin better
 CTGAN,detectability_pct,22.274,17.4679,27.0801,0.0,5/5,MedTwin better
 CTGAN,dcr_closer_to_train_pct,3.388,-2.4255,9.2015,0.181,4/5,no clear difference
 CTGAN,mia_auc,0.0018,-0.014,0.0176,0.767,3/5,no clear difference
+CTGAN,corr_gap,0.0851,0.075,0.0952,0.0,5/5,MedTwin better
+CTGAN,corr_gap_numeric,0.1683,0.163,0.1736,0.0,5/5,MedTwin better
+CTGAN,miss_rate_gap,0.0701,0.0297,0.1104,0.009,5/5,MedTwin better
+CTGAN,pattern_tvd,0.2352,0.1968,0.2736,0.0,5/5,MedTwin better
+CTGAN,common_pattern_dist_mia_auc,0.0048,-0.0196,0.0292,0.613,3/5,no clear difference
+CTGAN,rare_pattern_dist_mia_auc,-0.001,-0.1398,0.1378,0.985,2/5,no clear difference
+CTGAN,unique_pattern_leak_pct,-27.255,-50.5295,-3.9805,0.034,0/4,CTGAN better
 TVAE,fidelity_pct,2.888,0.1109,5.6651,0.045,4/5,MedTwin better
 TVAE,tstr_auc,-0.0048,-0.0427,0.0331,0.743,3/5,no clear difference
 TVAE,auc_ratio,-0.0058,-0.0523,0.0407,0.747,3/5,no clear difference
 TVAE,detectability_pct,5.972,1.4846,10.4594,0.021,5/5,MedTwin better
 TVAE,dcr_closer_to_train_pct,2.202,-0.8998,5.3038,0.12,4/5,no clear difference
 TVAE,mia_auc,0.0042,-0.0194,0.0278,0.648,1/5,no clear difference
+TVAE,corr_gap,0.0685,0.0583,0.0787,0.0,5/5,MedTwin better
+TVAE,corr_gap_numeric,0.1047,0.0793,0.13,0.0,5/5,MedTwin better
+TVAE,miss_rate_gap,0.0123,0.0088,0.0157,0.001,5/5,MedTwin better
+TVAE,pattern_tvd,0.0542,0.033,0.0753,0.002,5/5,MedTwin better
+TVAE,common_pattern_dist_mia_auc,0.004,-0.0298,0.0378,0.759,2/5,no clear difference
+TVAE,rare_pattern_dist_mia_auc,-0.0232,-0.1594,0.113,0.661,2/5,no clear difference
+TVAE,unique_pattern_leak_pct,-30.7025,-49.3807,-12.0243,0.014,0/4,TVAE better
 TabDDPM,fidelity_pct,5.462,3.7217,7.2023,0.001,5/5,MedTwin better
 TabDDPM,tstr_auc,0.0204,-0.0378,0.0786,0.386,2/5,no clear difference
 TabDDPM,auc_ratio,0.0266,-0.0469,0.1001,0.372,2/5,no clear difference
 TabDDPM,detectability_pct,-8.12,-13.4161,-2.8239,0.013,0/5,TabDDPM better
 TabDDPM,dcr_closer_to_train_pct,8.94,3.5093,14.3707,0.01,5/5,MedTwin better
 TabDDPM,mia_auc,0.2834,0.2404,0.3264,0.0,5/5,MedTwin better
+TabDDPM,corr_gap,0.0984,0.0763,0.1205,0.0,5/5,MedTwin better
+TabDDPM,corr_gap_numeric,0.2136,0.1793,0.2479,0.0,5/5,MedTwin better
+TabDDPM,miss_rate_gap,0.0101,-0.0029,0.0231,0.098,4/5,no clear difference
+TabDDPM,pattern_tvd,0.048,0.0286,0.0674,0.002,5/5,MedTwin better
+TabDDPM,common_pattern_dist_mia_auc,0.285,0.2514,0.3186,0.0,5/5,MedTwin better
+TabDDPM,rare_pattern_dist_mia_auc,0.0322,-0.1225,0.1869,0.594,3/5,no clear difference
+TabDDPM,unique_pattern_leak_pct,-30.7025,-49.3807,-12.0243,0.014,0/4,TabDDPM better

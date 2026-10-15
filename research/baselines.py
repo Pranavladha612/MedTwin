@@ -129,6 +129,8 @@ def flatten(name, n_kept, metrics, seconds):
         "exact_copies": p["exact_copies_of_train"],
         # Absent from runs scored before the correlation metric existed
         **metrics.get("correlation", {}),
+        **metrics.get("missingness", {}),
+        **metrics.get("missingness_privacy", {}),
         "train_seconds": seconds,
     }
 

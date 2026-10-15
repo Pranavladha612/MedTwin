@@ -23,6 +23,7 @@ from sklearn.neighbors import NearestNeighbors
 from core import config
 from core.ingestion import add_missing_flags, mark_missing
 from core.medical_logic import MedicalLogicFilter
+from core.missingness import evaluate_missingness, evaluate_missingness_privacy
 
 HOLDOUT_FRACTION = 0.2
 SPLIT_SEED = 42
@@ -221,4 +222,6 @@ def evaluate_synthetic(train_raw, holdout_raw, synth_report):
         "utility": evaluate_utility(train_real, holdout_real, synth),
         "privacy": evaluate_privacy(train_real, holdout_real, synth),
         "correlation": evaluate_correlation(train_real, synth),
+        "missingness": evaluate_missingness(train_real, holdout_real, synth),
+        "missingness_privacy": evaluate_missingness_privacy(train_real, holdout_real, synth),
     }

@@ -53,6 +53,16 @@ ABLATION_COLS = [
     ("mia_auc", r"MIA AUC", 3),
 ]
 
+# Missing-value fidelity (gaps, 0 = same as real) and privacy (attacks)
+MISSING_COLS = [
+    ("miss_rate_gap", r"Rate gap $\downarrow$", 3),
+    ("site_miss_gap", r"Site gap $\downarrow$", 3),
+    ("pattern_tvd", r"Pattern TVD $\downarrow$", 3),
+    ("rare_pattern_dist_mia_auc", r"MIA rare $\to 0.5$", 3),
+    ("common_pattern_dist_mia_auc", r"MIA common $\to 0.5$", 3),
+    ("unique_pattern_leak_pct", r"Unique leak $\to 0$", 1),
+]
+
 
 def cell(values, decimals, bold=False, star=False):
     values = values.dropna()
@@ -107,6 +117,42 @@ def variant_table(blocks):
     return "\n".join(lines)
 
 
+def missingness_table(blocks):
+    """blocks: [(dataset label, multi-seed runs, ablation runs)]. Per dataset:
+    a real-vs-real reference row (held-out vs training patients), every
+    model, then the ablations that touch missingness."""
+    cols = MISSING_COLS
+    header = " & ".join(["Data"] + [h for _, h, _ in cols])
+    lines = [r"\begin{tabular}{l" + "c" * len(cols) + "}", r"\toprule", header + r" \\"]
+    for label, runs, ablation in blocks:
+        lines += [r"\midrule", rf"\multicolumn{{{len(cols) + 1}}}{{l}}{{\textit{{{label}}}}} \\"]
+        reference = runs[runs.model == MEDTWIN]
+        ref_cells = [cell(reference[f"{c}_ref"], d) if f"{c}_ref" in reference else "" for c, _, d in cols]
+        lines.append(" & ".join([r"Real vs.\ real (reference)"] + ref_cells) + r" \\")
+        models = [MEDTWIN] + sorted(m for m in runs.model.unique() if m != MEDTWIN)
+        means = runs.groupby("model")[[c for c, _, _ in cols if c in runs]].mean()
+        # Only the fidelity columns get a winner: the privacy scores are too
+        # noisy across seeds for a best mean to mean much.
+        winners = {c: best(means[c], c) for c in ["miss_rate_gap", "site_miss_gap", "pattern_tvd"]
+                   if c in means and means[c].notna().any()}
+        for model in models:
+            sub = runs[runs.model == model]
+            cells = [cell(sub[c], d, bold=winners.get(c) == model) if c in sub else "--" for c, _, d in cols]
+            lines.append(" & ".join([MODEL_LABELS.get(model, model)] + cells) + r" \\")
+        order = [v for v in ["full", "no_missing_flags", "no_condition"]
+                 if v in set(ablation.variant) and ablation[ablation.variant == v]["pattern_tvd"].notna().any()]
+        if len(order) > 1:
+            stars = clear_differences(ablation, "full", order[1:])
+            lines.append(r"\cmidrule(l){1-" + str(len(cols) + 1) + "}")
+            for v in order:
+                sub = ablation[ablation.variant == v]
+                name = "MedTwin, ablation run" if v == "full" else "MedTwin " + VARIANT_LABELS.get(v, v)
+                cells = [cell(sub[c], d, star=(v, c) in stars) if c in sub else "--" for c, _, d in cols]
+                lines.append(" & ".join([name] + cells) + r" \\")
+    lines += [r"\bottomrule", r"\end{tabular}"]
+    return "\n".join(lines)
+
+
 def write(name, text):
     os.makedirs(OUT, exist_ok=True)
     path = os.path.join(OUT, name)
@@ -116,7 +162,7 @@ def write(name, text):
 
 
 def main():
-    ablation_blocks, sensitivity_blocks = [], []
+    ablation_blocks, sensitivity_blocks, missing_blocks = [], [], []
     for key, (settings, label) in DATASETS.items():
         config.use(settings)
         runs = load_runs(os.path.join(config.active().output_dir, "multi_seed"))
@@ -124,11 +170,15 @@ def main():
 
         ablation = load_runs(os.path.join(config.active().output_dir, "ablation"))
         ablation_blocks.append((label, ablation, list(medtwin.applicable_ablations())))
+        if "pattern_tvd" in runs:
+            missing_blocks.append((label, runs, ablation))
         if any(v in set(ablation.variant) for v in medtwin.SENSITIVITY if v != "full"):
             sensitivity_blocks.append((label, ablation, list(medtwin.SENSITIVITY)))
 
     write("ablation.tex", variant_table(ablation_blocks))
     write("sensitivity.tex", variant_table(sensitivity_blocks))
+    if missing_blocks:
+        write("missingness.tex", missingness_table(missing_blocks))
 
 
 if __name__ == "__main__":

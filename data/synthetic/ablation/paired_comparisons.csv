@@ -13,6 +13,14 @@ no_missing_flags,auc_ratio,-0.0148,-0.041,0.0114,0.191,2/5,no clear difference
 no_missing_flags,detectability_pct,21.954,19.147,24.761,0.0,5/5,full model better
 no_missing_flags,dcr_closer_to_train_pct,-0.06,-3.3291,3.2091,0.962,2/5,no clear difference
 no_missing_flags,mia_auc,-0.0074,-0.0451,0.0303,0.615,2/5,no clear difference
+no_missing_flags,corr_gap,-0.0017,-0.0049,0.0015,0.214,1/5,no clear difference
+no_missing_flags,corr_gap_numeric,0.0303,0.014,0.0466,0.007,5/5,full model better
+no_missing_flags,miss_rate_gap,0.0974,0.0935,0.1014,0.0,5/5,full model better
+no_missing_flags,site_miss_gap,0.0989,0.0958,0.102,0.0,5/5,full model better
+no_missing_flags,pattern_tvd,0.5216,0.5142,0.5289,0.0,5/5,full model better
+no_missing_flags,common_pattern_dist_mia_auc,-0.03,-0.0664,0.0064,0.084,1/5,no clear difference
+no_missing_flags,rare_pattern_dist_mia_auc,-0.0416,-0.0658,-0.0174,0.009,0/5,no_missing_flags better
+no_missing_flags,unique_pattern_leak_pct,-3.978,-29.2926,21.3366,0.685,1/5,no clear difference
 no_zero_flags,fidelity_pct,0.166,-0.802,1.134,0.659,2/5,no clear difference
 no_zero_flags,tstr_auc,-0.0028,-0.0157,0.0101,0.58,3/5,no clear difference
 no_zero_flags,auc_ratio,-0.0032,-0.0175,0.0111,0.568,3/5,no clear difference
@@ -25,3 +33,11 @@ no_condition,auc_ratio,-0.0006,-0.0161,0.0149,0.92,2/5,no clear difference
 no_condition,detectability_pct,3.368,1.2544,5.4816,0.011,5/5,full model better
 no_condition,dcr_closer_to_train_pct,-0.44,-0.9977,0.1177,0.094,1/5,no clear difference
 no_condition,mia_auc,-0.006,-0.0281,0.0161,0.492,2/5,no clear difference
+no_condition,corr_gap,0.0023,-0.001,0.0056,0.128,4/5,no clear difference
+no_condition,corr_gap_numeric,0.0045,-0.0079,0.0169,0.369,3/5,no clear difference
+no_condition,miss_rate_gap,-0.0022,-0.0054,0.001,0.132,1/5,no clear difference
+no_condition,site_miss_gap,0.0066,0.0038,0.0094,0.003,5/5,full model better
+no_condition,pattern_tvd,0.0521,0.031,0.0732,0.002,5/5,full model better
+no_condition,common_pattern_dist_mia_auc,-0.0046,-0.022,0.0128,0.503,2/5,no clear difference
+no_condition,rare_pattern_dist_mia_auc,-0.0204,-0.0906,0.0498,0.465,1/5,no clear difference
+no_condition,unique_pattern_leak_pct,-1.216,-28.303,25.871,0.907,2/5,no clear difference

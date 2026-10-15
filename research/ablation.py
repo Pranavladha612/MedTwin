@@ -38,7 +38,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from core import config, medtwin
 from core.evaluation import split_real_data
 from research.baselines import flatten, score, set_seed
-from research.multi_seed import SEEDS, load_runs, mean_sd_table, paired_table
+from research.multi_seed import SEEDS, load_runs, mean_sd_table, paired_table, synth_path
 
 # Ensure emoji/unicode prints don't crash on Windows' default cp1252 console.
 os.environ["PYTHONIOENCODING"] = "utf-8"
@@ -90,6 +90,7 @@ def run_seed(seed, names=None, study="ablation"):
         row["seed"] = seed
         with open(result_path(seed, name), "w") as f:
             json.dump(row, f, indent=2, default=float)
+        synth.to_csv(synth_path(result_path(seed, name)), index=False)
         print(f"✅ seed {seed} | {name}: saved")
 
 

@@ -13,3 +13,10 @@ no_missing_flags,auc_ratio,-0.0094,-0.0559,0.0371,0.605,1/5,no clear difference
 no_missing_flags,detectability_pct,17.468,12.8842,22.0518,0.0,5/5,full model better
 no_missing_flags,dcr_closer_to_train_pct,1.31,-2.7446,5.3646,0.42,3/5,no clear difference
 no_missing_flags,mia_auc,0.0284,-0.0105,0.0673,0.113,4/5,no clear difference
+no_missing_flags,corr_gap,0.0102,0.0039,0.0164,0.011,5/5,full model better
+no_missing_flags,corr_gap_numeric,0.0081,0.0036,0.0126,0.007,5/5,full model better
+no_missing_flags,miss_rate_gap,0.148,0.143,0.1531,0.0,5/5,full model better
+no_missing_flags,pattern_tvd,0.4229,0.4065,0.4392,0.0,5/5,full model better
+no_missing_flags,common_pattern_dist_mia_auc,0.0266,-0.011,0.0642,0.121,4/5,no clear difference
+no_missing_flags,rare_pattern_dist_mia_auc,0.0376,-0.0619,0.1371,0.353,3/5,no clear difference
+no_missing_flags,unique_pattern_leak_pct,-30.7025,-49.3807,-12.0243,0.014,0/4,no_missing_flags better
