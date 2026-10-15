@@ -5,6 +5,8 @@ no_corr_loss,auc_ratio,0.0196,-0.0266,0.0658,0.304,3/5,no clear difference
 no_corr_loss,detectability_pct,-0.26,-6.0587,5.5387,0.907,1/5,no clear difference
 no_corr_loss,dcr_closer_to_train_pct,1.13,-0.9618,3.2218,0.208,3/5,no clear difference
 no_corr_loss,mia_auc,0.0058,-0.0126,0.0242,0.432,2/5,no clear difference
+no_corr_loss,corr_gap,0.0207,0.0156,0.0257,0.0,5/5,full model better
+no_corr_loss,corr_gap_numeric,0.0296,0.02,0.0393,0.001,5/5,full model better
 no_missing_flags,fidelity_pct,2.534,-0.2036,5.2716,0.062,5/5,no clear difference
 no_missing_flags,tstr_auc,-0.0082,-0.0452,0.0288,0.571,1/5,no clear difference
 no_missing_flags,auc_ratio,-0.0094,-0.0559,0.0371,0.605,1/5,no clear difference

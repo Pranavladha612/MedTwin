@@ -1,14 +1,16 @@
 {
   "rows_kept": 2000,
   "fidelity_pct": 90.52,
-  "discriminator_pct": 61.36,
+  "detectability_pct": 61.36,
   "tstr_auc": 0.755,
   "trtr_auc": 0.783,
   "auc_ratio": 0.964,
   "dcr_closer_to_train_pct": 52.4,
   "mia_auc": 0.529,
   "exact_copies": 0,
-  "train_seconds": 735.0,
+  "corr_gap": 0.0461,
+  "corr_gap_numeric": 0.0737,
+  "train_seconds": 274.3,
   "variant": "no_corr_loss",
   "seed": 4
 }

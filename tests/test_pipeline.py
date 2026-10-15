@@ -231,3 +231,16 @@ def test_results_saved_under_the_old_metric_name_still_load(tmp_path):
     runs = load_runs(str(tmp_path)).sort_values("seed")
     assert list(runs.columns).count("detectability_pct") == 1
     assert runs["detectability_pct"].tolist() == [61.5, 70.0]
+
+
+def test_correlation_gap_is_zero_for_copies_and_positive_for_noise(split):
+    from core.evaluation import evaluate_correlation
+
+    real = align_real_to_report(split[0], CFG.report_columns)
+    assert evaluate_correlation(real, real) == {"corr_gap": 0.0, "corr_gap_numeric": 0.0}
+
+    # Shuffling each column independently destroys every correlation
+    rng = np.random.RandomState(0)
+    shuffled = real.apply(lambda c: pd.Series(rng.permutation(c.values), index=c.index))
+    gap = evaluate_correlation(real, shuffled)
+    assert gap["corr_gap"] > 0.02 and gap["corr_gap_numeric"] > 0.05

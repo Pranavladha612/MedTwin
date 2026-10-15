@@ -178,6 +178,39 @@ def evaluate_privacy(train_real, holdout_real, synth):
     }
 
 
+def _mean_abs_corr_gap(real_corr, synth_corr):
+    """Mean |real - synthetic| over the distinct pairs (upper triangle),
+    skipping pairs whose correlation is undefined on either side."""
+    upper = np.triu_indices(len(real_corr), 1)
+    gaps = np.abs(np.asarray(real_corr)[upper] - np.asarray(synth_corr)[upper])
+    return round(float(np.nanmean(gaps)), 4)
+
+
+def evaluate_correlation(train_real, synth):
+    """How far the synthetic data's pairwise correlations are from the real
+    training patients' (0 = identical; Pearson, so at most 2).
+
+    - corr_gap: over every encoded feature, i.e. numerics, "not measured"
+      flags and one-hot categories -- the same kind of matrix the correlation
+      loss in core/generator.py matches. Features constant in either set have
+      no correlation and are left out.
+    - corr_gap_numeric: between the numeric columns only, on measured values
+      (pairwise), the easiest version to read.
+    """
+    X_real, X_synth = _encode([train_real, synth], train_real)
+    keep = (X_real.std(axis=0) > 1e-8) & (X_synth.std(axis=0) > 1e-8)
+    full = _mean_abs_corr_gap(
+        np.corrcoef(X_real[:, keep].T), np.corrcoef(X_synth[:, keep].T)
+    )
+
+    numeric = [config.active().report_name(c) for c in config.active().numeric]
+    numeric = [c for c in numeric if c in train_real.columns]
+    numeric_gap = _mean_abs_corr_gap(
+        train_real[numeric].astype(float).corr(), synth[numeric].astype(float).corr()
+    )
+    return {"corr_gap": full, "corr_gap_numeric": numeric_gap}
+
+
 def evaluate_synthetic(train_raw, holdout_raw, synth_report):
     """Runs the full held-out evaluation. Takes raw real splits (source
     schema) and the synthetic report (report schema)."""
@@ -187,4 +220,5 @@ def evaluate_synthetic(train_raw, holdout_raw, synth_report):
     return {
         "utility": evaluate_utility(train_real, holdout_real, synth),
         "privacy": evaluate_privacy(train_real, holdout_real, synth),
+        "correlation": evaluate_correlation(train_real, synth),
     }

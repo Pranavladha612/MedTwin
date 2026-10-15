@@ -176,6 +176,10 @@ def run_pipeline():
         f"   MIA      AUC {privacy['mia_auc']} (0.5 = attacker can't identify training"
         f" patients) | exact copies of train: {privacy['exact_copies_of_train']}"
     )
+    print(
+        f"   Corr gap {evaluation['correlation']['corr_gap']} all features |"
+        f" {evaluation['correlation']['corr_gap_numeric']} numeric (0 = same correlations)"
+    )
     print(f"📄 Saved Archive: {dated_filename}")
 
 

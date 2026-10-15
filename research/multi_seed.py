@@ -52,7 +52,8 @@ SEEDS = [0, 1, 2, 3, 4]
 MEDTWIN = "MedTwin WGAN-GP"
 
 # How each metric is judged. "target" metrics are best when closest to the
-# target value (e.g. MIA AUC 0.5); the others are best when highest.
+# target value (e.g. MIA AUC 0.5, correlation gap 0); the others are best
+# when highest. Runs saved before a metric existed simply lack it.
 METRICS = {
     "fidelity_pct": {"higher": True},
     "tstr_auc": {"higher": True},
@@ -60,6 +61,8 @@ METRICS = {
     "detectability_pct": {"target": 50},
     "dcr_closer_to_train_pct": {"target": 50},
     "mia_auc": {"target": 0.5},
+    "corr_gap": {"target": 0},
+    "corr_gap_numeric": {"target": 0},
 }
 
 # Metric names used by results saved before a rename. Detectability (the
@@ -132,7 +135,8 @@ def mean_sd_table(runs, models, column="model"):
         sub = runs[runs[column] == model]
         row = {column: model, "n_seeds": len(sub)}
         for m in METRICS:
-            row[m] = f"{sub[m].mean():.3f} ± {sub[m].std(ddof=1):.3f}"
+            values = sub[m].dropna() if m in sub else sub.iloc[:0, 0]
+            row[m] = f"{values.mean():.3f} ± {values.std(ddof=1):.3f}" if len(values) else "–"
         summary.append(row)
     return pd.DataFrame(summary)
 
@@ -146,9 +150,13 @@ def paired_table(runs, reference, others, column="model", label=None):
     comparisons = []
     for other in others:
         both = runs[runs[column].isin([reference, other])].pivot(index="seed", columns=column)
-        both = both.dropna()
         for m, rule in METRICS.items():
-            a, b = both[m][reference].astype(float), both[m][other].astype(float)
+            if m not in both:
+                continue
+            pair = both[m][[reference, other]].astype(float).dropna()  # seeds with both
+            if pair.empty:
+                continue
+            a, b = pair[reference], pair[other]
             if "target" in rule:
                 adv = (b - rule["target"]).abs() - (a - rule["target"]).abs()
             else:

@@ -127,6 +127,8 @@ def flatten(name, n_kept, metrics, seconds):
         "dcr_closer_to_train_pct": p["dcr_closer_to_train_pct"],
         "mia_auc": p["mia_auc"],
         "exact_copies": p["exact_copies_of_train"],
+        # Absent from runs scored before the correlation metric existed
+        **metrics.get("correlation", {}),
         "train_seconds": seconds,
     }
 
