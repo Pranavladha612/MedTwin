@@ -8,3 +8,6 @@ data/synthetic/multi_seed/logs/
 data/synthetic/**/ablation/logs/
 data/synthetic/diabetes/multi_seed/logs/
 .pytest_cache/
+
+# Intermediate file of docs/build_report.py (the PDF is kept)
+docs/report.html
