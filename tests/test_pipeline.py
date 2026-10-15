@@ -225,3 +225,9 @@ def test_results_saved_under_the_old_metric_name_still_load(tmp_path):
     (tmp_path / "seed0_x.json").write_text('{"model": "x", "seed": 0, "discriminator_pct": 61.5}')
     runs = load_runs(str(tmp_path))
     assert runs["detectability_pct"].tolist() == [61.5]
+
+    # Old and new names mixed in one folder merge into one column
+    (tmp_path / "seed1_x.json").write_text('{"model": "x", "seed": 1, "detectability_pct": 70.0}')
+    runs = load_runs(str(tmp_path)).sort_values("seed")
+    assert list(runs.columns).count("detectability_pct") == 1
+    assert runs["detectability_pct"].tolist() == [61.5, 70.0]

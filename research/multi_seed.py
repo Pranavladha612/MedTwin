@@ -75,7 +75,14 @@ def load_runs(directory):
     for path in glob.glob(os.path.join(directory, "seed*.json")):
         with open(path) as f:
             rows.append(json.load(f))
-    return pd.DataFrame(rows).rename(columns=LEGACY_NAMES)
+    runs = pd.DataFrame(rows)
+    # A folder can hold both: older runs under the old name, newer ones
+    # under the new name (e.g. ablation and sensitivity runs side by side).
+    for old, new in LEGACY_NAMES.items():
+        if old in runs:
+            runs[new] = runs[new].fillna(runs[old]) if new in runs else runs[old]
+            runs = runs.drop(columns=old)
+    return runs
 
 
 def out_dir():

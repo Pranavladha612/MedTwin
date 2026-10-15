@@ -1,0 +1,25 @@
+vs,metric,advantage,ci95_low,ci95_high,p_value,wins,verdict
+corr_weight_0.5,fidelity_pct,0.262,-0.2529,0.7769,0.231,4/5,no clear difference
+corr_weight_0.5,tstr_auc,-0.0076,-0.021,0.0058,0.19,2/5,no clear difference
+corr_weight_0.5,auc_ratio,-0.0084,-0.0236,0.0068,0.2,2/5,no clear difference
+corr_weight_0.5,detectability_pct,0.544,-2.034,3.122,0.589,3/5,no clear difference
+corr_weight_0.5,dcr_closer_to_train_pct,0.03,-1.3524,1.4124,0.955,3/5,no clear difference
+corr_weight_0.5,mia_auc,-0.003,-0.0165,0.0105,0.572,1/5,no clear difference
+corr_weight_8,fidelity_pct,-0.65,-1.5254,0.2254,0.108,1/5,no clear difference
+corr_weight_8,tstr_auc,-0.0132,-0.0366,0.0102,0.192,1/5,no clear difference
+corr_weight_8,auc_ratio,-0.015,-0.0414,0.0114,0.189,1/5,no clear difference
+corr_weight_8,detectability_pct,0.542,-2.038,3.122,0.591,3/5,no clear difference
+corr_weight_8,dcr_closer_to_train_pct,0.65,-0.0385,1.3385,0.059,4/5,no clear difference
+corr_weight_8,mia_auc,0.0016,-0.0161,0.0193,0.814,2/5,no clear difference
+epochs_300,fidelity_pct,0.266,-0.6656,1.1976,0.472,3/5,no clear difference
+epochs_300,tstr_auc,0.0118,-0.0014,0.025,0.069,4/5,no clear difference
+epochs_300,auc_ratio,0.013,-0.0018,0.0278,0.072,4/5,no clear difference
+epochs_300,detectability_pct,1.414,-1.2261,4.0541,0.211,3/5,no clear difference
+epochs_300,dcr_closer_to_train_pct,-1.08,-2.9047,0.7447,0.176,2/5,no clear difference
+epochs_300,mia_auc,0.0014,-0.0149,0.0177,0.823,2/5,no clear difference
+epochs_1200,fidelity_pct,0.066,-1.1126,1.2446,0.884,2/5,no clear difference
+epochs_1200,tstr_auc,-0.0086,-0.0341,0.0169,0.402,1/5,no clear difference
+epochs_1200,auc_ratio,-0.0096,-0.038,0.0188,0.401,1/5,no clear difference
+epochs_1200,detectability_pct,0.814,-2.1843,3.8123,0.493,3/5,no clear difference
+epochs_1200,dcr_closer_to_train_pct,2.07,0.7942,3.3458,0.011,5/5,full model better
+epochs_1200,mia_auc,0.014,0.0084,0.0196,0.002,5/5,full model better

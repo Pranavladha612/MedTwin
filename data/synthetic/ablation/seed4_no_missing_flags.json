@@ -1,0 +1,14 @@
+{
+  "rows_kept": 2000,
+  "fidelity_pct": 87.85,
+  "discriminator_pct": 83.15,
+  "tstr_auc": 0.876,
+  "trtr_auc": 0.892,
+  "auc_ratio": 0.982,
+  "dcr_closer_to_train_pct": 50.45,
+  "mia_auc": 0.471,
+  "exact_copies": 0,
+  "train_seconds": 930.7,
+  "variant": "no_missing_flags",
+  "seed": 4
+}
