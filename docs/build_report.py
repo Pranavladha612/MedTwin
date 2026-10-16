@@ -124,7 +124,7 @@ def cover():
     tested on two public medical datasets against three well-known methods, with new ways to measure
     whether the <em>missing</em> parts of the data are realistic and whether they leak private information.
   </div>
-  <div class='cover-authors'>Pranav Ladha &nbsp;&middot;&nbsp; Devisha Jain &nbsp;&middot;&nbsp; Nandani Nahata &nbsp;&middot;&nbsp; Jiya Gakhar</div>
+  <div class='cover-authors'>Pranav Ladha &nbsp;&middot;&nbsp; Devisha Jain &nbsp;&middot;&nbsp; Nandini Nahata &nbsp;&middot;&nbsp; Jiya Gakhar</div>
   <div class='cover-date'>October 2026</div>
   <div class='cover-glance'>
     <div><b>{f(mean('h', MEDTWIN, 'detectability_pct'), 1)}%</b><span>how often a classifier can spot our fake heart patients (50% = impossible to spot; other methods 74.9&ndash;92.8%)</span></div>
