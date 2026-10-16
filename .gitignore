@@ -14,3 +14,7 @@ docs/report.html
 
 # LaTeX build output (the finished PDF is kept as paper/MedTwin_paper.pdf)
 paper/build/
+
+# Node packages for docs/muj_report (reinstall with: cd docs/muj_report && npm install docx@9)
+docs/muj_report/node_modules/
+docs/muj_report/package-lock.json

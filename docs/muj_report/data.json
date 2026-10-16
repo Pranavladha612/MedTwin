@@ -1,0 +1,3573 @@
+{
+ "heart": {
+  "name": "heart_disease",
+  "n": 920,
+  "positive_pct": 55.326086956521735,
+  "numeric": [
+   "age",
+   "trestbps",
+   "chol",
+   "thalch",
+   "oldpeak",
+   "ca",
+   "num"
+  ],
+  "categorical": [
+   "sex",
+   "cp",
+   "fbs",
+   "restecg",
+   "exang",
+   "slope",
+   "thal"
+  ],
+  "condition": "dataset",
+  "zero_means_missing": [
+   "trestbps",
+   "chol"
+  ],
+  "flagged": [
+   "trestbps",
+   "chol",
+   "thalch",
+   "oldpeak",
+   "ca"
+  ],
+  "missing_pct": {
+   "age": 0.0,
+   "sex": 0.0,
+   "dataset": 0.0,
+   "cp": 0.0,
+   "trestbps": 6.521739130434782,
+   "chol": 21.956521739130437,
+   "fbs": 9.782608695652174,
+   "restecg": 0.21739130434782608,
+   "thalch": 5.978260869565218,
+   "exang": 5.978260869565218,
+   "oldpeak": 6.739130434782608,
+   "slope": 33.58695652173913,
+   "ca": 66.41304347826087,
+   "thal": 52.826086956521735,
+   "num": 0.0
+  },
+  "labels": {
+   "age": "Age (years)",
+   "trestbps": "Resting BP (mmHg)",
+   "chol": "Cholesterol (mg/dl)",
+   "thalch": "Max heart rate (bpm)",
+   "oldpeak": "ST depression (oldpeak)",
+   "gender": "Sex",
+   "chest_pain": "Chest pain type",
+   "fbs": "Fasting blood sugar > 120",
+   "restecg": "Resting ECG",
+   "exang": "Exercise angina",
+   "slope": "ST slope",
+   "thal": "Thalassemia",
+   "ca": "Major vessels (ca)",
+   "num": "Disease severity (num)",
+   "origin_study": "Hospital site"
+  },
+  "rename": {
+   "sex": "gender",
+   "cp": "chest_pain",
+   "dataset": "origin_study"
+  },
+  "zero_pct": {
+   "oldpeak": 40.21739130434783
+  },
+  "sites": {
+   "Cleveland": 304,
+   "Hungary": 293,
+   "VA Long Beach": 200,
+   "Switzerland": 123
+  },
+  "missing_by_site": {
+   "Cleveland": {
+    "chol": 0.0,
+    "trestbps": 0.0,
+    "ca": 1.644736842105263,
+    "thal": 0.9868421052631579,
+    "slope": 0.3289473684210526,
+    "fbs": 0.0
+   },
+   "Hungary": {
+    "chol": 7.849829351535837,
+    "trestbps": 0.3412969283276451,
+    "ca": 98.97610921501706,
+    "thal": 90.44368600682594,
+    "slope": 64.50511945392492,
+    "fbs": 2.7303754266211606
+   },
+   "Switzerland": {
+    "chol": 100.0,
+    "trestbps": 1.6260162601626018,
+    "ca": 95.9349593495935,
+    "thal": 42.27642276422765,
+    "slope": 13.821138211382115,
+    "fbs": 60.97560975609756
+   },
+   "VA Long Beach": {
+    "chol": 28.000000000000004,
+    "trestbps": 28.499999999999996,
+    "ca": 99.0,
+    "thal": 83.0,
+    "slope": 51.0,
+    "fbs": 3.5000000000000004
+   }
+  },
+  "models": {
+   "MedTwin WGAN-GP": {
+    "fidelity_pct": {
+     "mean": 87.48599999999999,
+     "sd": 0.8031687244906865,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 61.52,
+     "sd": 1.2827509501068404,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.8629999999999999,
+     "sd": 0.02337733945512194,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8852,
+     "sd": 0.011945710527214371,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.9753999999999999,
+     "sd": 0.03186377253245441,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 52.879999999999995,
+     "sd": 2.835180770250815,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.5326,
+     "sd": 0.03017117829982779,
+     "n": 5
+    },
+    "corr_gap": {
+     "mean": 0.024699999999999996,
+     "sd": 0.0019390719429665314,
+     "n": 5
+    },
+    "corr_gap_numeric": {
+     "mean": 0.04379999999999999,
+     "sd": 0.0036830693721405785,
+     "n": 5
+    },
+    "miss_rate_gap": {
+     "mean": 0.02074,
+     "sd": 0.001755847373777118,
+     "n": 5
+    },
+    "site_miss_gap": {
+     "mean": 0.021540000000000004,
+     "sd": 0.0011148990985734991,
+     "n": 5
+    },
+    "pattern_tvd": {
+     "mean": 0.17404000000000003,
+     "sd": 0.006156541236765988,
+     "n": 5
+    },
+    "miss_rate_gap_ref": {
+     "mean": 0.01974,
+     "sd": 0.003477499101365807,
+     "n": 5
+    },
+    "site_miss_gap_ref": {
+     "mean": 0.02426,
+     "sd": 0.006061600448726393,
+     "n": 5
+    },
+    "pattern_tvd_ref": {
+     "mean": 0.1519,
+     "sd": 0.00955196314900765,
+     "n": 5
+    },
+    "rare_pattern_dist_mia_auc": {
+     "mean": 0.5588000000000001,
+     "sd": 0.03653354622809013,
+     "n": 5
+    },
+    "common_pattern_dist_mia_auc": {
+     "mean": 0.545,
+     "sd": 0.0365444934292432,
+     "n": 5
+    },
+    "unique_pattern_leak_pct": {
+     "mean": -4.676,
+     "sd": 19.2269883237079,
+     "n": 5
+    },
+    "n_rare_patients": {
+     "mean": 63.580000000000005,
+     "sd": 2.0474374227311576,
+     "n": 5
+    },
+    "n_unique_patterns": {
+     "mean": 13.86,
+     "sd": 1.3315404612703285,
+     "n": 5
+    },
+    "train_seconds": {
+     "mean": 405.84000000000003,
+     "sd": 3.3694213153003068,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   },
+   "TVAE": {
+    "fidelity_pct": {
+     "mean": 85.58,
+     "sd": 1.071284275997739,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 79.45599999999999,
+     "sd": 2.809257909128314,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.8734,
+     "sd": 0.021617122842783703,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8852,
+     "sd": 0.011945710527214371,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.9865999999999999,
+     "sd": 0.02420330555936524,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 50.105999999999995,
+     "sd": 3.4219044405126238,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.5306000000000001,
+     "sd": 0.023071627597549355,
+     "n": 5
+    },
+    "corr_gap": {
+     "mean": 0.06795999999999999,
+     "sd": 0.0038383590243748697,
+     "n": 5
+    },
+    "corr_gap_numeric": {
+     "mean": 0.10014,
+     "sd": 0.004128922377570205,
+     "n": 5
+    },
+    "miss_rate_gap": {
+     "mean": 0.027559999999999994,
+     "sd": 0.005304997643731804,
+     "n": 5
+    },
+    "site_miss_gap": {
+     "mean": 0.03452,
+     "sd": 0.0024488772937817835,
+     "n": 5
+    },
+    "pattern_tvd": {
+     "mean": 0.20851999999999998,
+     "sd": 0.009214499443811367,
+     "n": 5
+    },
+    "miss_rate_gap_ref": {
+     "mean": 0.01974,
+     "sd": 0.003477499101365807,
+     "n": 5
+    },
+    "site_miss_gap_ref": {
+     "mean": 0.02426,
+     "sd": 0.006061600448726393,
+     "n": 5
+    },
+    "pattern_tvd_ref": {
+     "mean": 0.1519,
+     "sd": 0.00955196314900765,
+     "n": 5
+    },
+    "rare_pattern_dist_mia_auc": {
+     "mean": 0.5660000000000001,
+     "sd": 0.06026192827980201,
+     "n": 5
+    },
+    "common_pattern_dist_mia_auc": {
+     "mean": 0.5406000000000001,
+     "sd": 0.031157663583779808,
+     "n": 5
+    },
+    "unique_pattern_leak_pct": {
+     "mean": -3.9120000000000004,
+     "sd": 13.126887292880975,
+     "n": 5
+    },
+    "n_rare_patients": {
+     "mean": 63.580000000000005,
+     "sd": 2.0474374227311576,
+     "n": 5
+    },
+    "n_unique_patterns": {
+     "mean": 13.86,
+     "sd": 1.3315404612703285,
+     "n": 5
+    },
+    "train_seconds": {
+     "mean": 23.86,
+     "sd": 1.1970797801316335,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   },
+   "TabDDPM": {
+    "fidelity_pct": {
+     "mean": 86.058,
+     "sd": 1.0799398131377502,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 74.946,
+     "sd": 2.794365759881838,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.8196,
+     "sd": 0.029837895368138797,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8852,
+     "sd": 0.011945710527214371,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.9258000000000001,
+     "sd": 0.021936271333114005,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 52.69,
+     "sd": 3.04680160168003,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.5262,
+     "sd": 0.03282834141408916,
+     "n": 5
+    },
+    "corr_gap": {
+     "mean": 0.07731999999999999,
+     "sd": 0.0050246392905361845,
+     "n": 5
+    },
+    "corr_gap_numeric": {
+     "mean": 0.1172,
+     "sd": 0.038020060494428465,
+     "n": 5
+    },
+    "miss_rate_gap": {
+     "mean": 0.031740000000000004,
+     "sd": 0.005302169367343898,
+     "n": 5
+    },
+    "site_miss_gap": {
+     "mean": 0.10098,
+     "sd": 0.00414692657277652,
+     "n": 5
+    },
+    "pattern_tvd": {
+     "mean": 0.48702000000000006,
+     "sd": 0.02826777317016675,
+     "n": 5
+    },
+    "miss_rate_gap_ref": {
+     "mean": 0.01974,
+     "sd": 0.003477499101365807,
+     "n": 5
+    },
+    "site_miss_gap_ref": {
+     "mean": 0.02426,
+     "sd": 0.006061600448726393,
+     "n": 5
+    },
+    "pattern_tvd_ref": {
+     "mean": 0.1519,
+     "sd": 0.00955196314900765,
+     "n": 5
+    },
+    "rare_pattern_dist_mia_auc": {
+     "mean": 0.5014000000000001,
+     "sd": 0.03181666230137914,
+     "n": 5
+    },
+    "common_pattern_dist_mia_auc": {
+     "mean": 0.5391999999999999,
+     "sd": 0.03734568248137928,
+     "n": 5
+    },
+    "unique_pattern_leak_pct": {
+     "mean": -5.534,
+     "sd": 26.24846338359638,
+     "n": 5
+    },
+    "n_rare_patients": {
+     "mean": 63.580000000000005,
+     "sd": 2.0474374227311576,
+     "n": 5
+    },
+    "n_unique_patterns": {
+     "mean": 13.86,
+     "sd": 1.3315404612703285,
+     "n": 5
+    },
+    "train_seconds": {
+     "mean": 194.8,
+     "sd": 1.079351657246139,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   },
+   "CTGAN": {
+    "fidelity_pct": {
+     "mean": 74.18,
+     "sd": 4.60964206853417,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 92.826,
+     "sd": 1.5692450414132277,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.6964,
+     "sd": 0.06904201619304003,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8852,
+     "sd": 0.011945710527214371,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.7872,
+     "sd": 0.0818822325049824,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 51.064,
+     "sd": 3.4207499177811855,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.5066,
+     "sd": 0.020243517480912274,
+     "n": 5
+    },
+    "corr_gap": {
+     "mean": 0.10438,
+     "sd": 0.0042079686310617865,
+     "n": 5
+    },
+    "corr_gap_numeric": {
+     "mean": 0.20934,
+     "sd": 0.01859282119528933,
+     "n": 5
+    },
+    "miss_rate_gap": {
+     "mean": 0.0588,
+     "sd": 0.0052502380898393555,
+     "n": 5
+    },
+    "site_miss_gap": {
+     "mean": 0.13104,
+     "sd": 0.005606959960620371,
+     "n": 5
+    },
+    "pattern_tvd": {
+     "mean": 0.68254,
+     "sd": 0.014143302301796421,
+     "n": 5
+    },
+    "miss_rate_gap_ref": {
+     "mean": 0.01974,
+     "sd": 0.003477499101365807,
+     "n": 5
+    },
+    "site_miss_gap_ref": {
+     "mean": 0.02426,
+     "sd": 0.006061600448726393,
+     "n": 5
+    },
+    "pattern_tvd_ref": {
+     "mean": 0.1519,
+     "sd": 0.00955196314900765,
+     "n": 5
+    },
+    "rare_pattern_dist_mia_auc": {
+     "mean": 0.5442,
+     "sd": 0.06953200701835091,
+     "n": 5
+    },
+    "common_pattern_dist_mia_auc": {
+     "mean": 0.5146,
+     "sd": 0.029125590122776934,
+     "n": 5
+    },
+    "unique_pattern_leak_pct": {
+     "mean": -13.872,
+     "sd": 18.537349325078814,
+     "n": 5
+    },
+    "n_rare_patients": {
+     "mean": 63.580000000000005,
+     "sd": 2.0474374227311576,
+     "n": 5
+    },
+    "n_unique_patterns": {
+     "mean": 13.86,
+     "sd": 1.3315404612703285,
+     "n": 5
+    },
+    "train_seconds": {
+     "mean": 74.42,
+     "sd": 0.8074651695274522,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   }
+  },
+  "vs_baselines": {
+   "TVAE": {
+    "fidelity_pct": {
+     "clear": true,
+     "advantage": 1.906,
+     "low": 0.3986,
+     "high": 3.4134,
+     "wins": "5/5"
+    },
+    "detectability_pct": {
+     "clear": true,
+     "advantage": 17.936,
+     "low": 14.9454,
+     "high": 20.9266,
+     "wins": "5/5"
+    },
+    "tstr_auc": {
+     "clear": false,
+     "advantage": -0.0104,
+     "low": -0.0454,
+     "high": 0.0246,
+     "wins": "2/5"
+    },
+    "trtr_auc": null,
+    "auc_ratio": {
+     "clear": false,
+     "advantage": -0.0112,
+     "low": -0.0507,
+     "high": 0.0283,
+     "wins": "2/5"
+    },
+    "dcr_closer_to_train_pct": {
+     "clear": false,
+     "advantage": -0.114,
+     "low": -3.6879,
+     "high": 3.4599,
+     "wins": "3/5"
+    },
+    "mia_auc": {
+     "clear": false,
+     "advantage": -0.0016,
+     "low": -0.0321,
+     "high": 0.0289,
+     "wins": "2/5"
+    },
+    "corr_gap": {
+     "clear": true,
+     "advantage": 0.0433,
+     "low": 0.0368,
+     "high": 0.0497,
+     "wins": "5/5"
+    },
+    "corr_gap_numeric": {
+     "clear": true,
+     "advantage": 0.0563,
+     "low": 0.0496,
+     "high": 0.0631,
+     "wins": "5/5"
+    },
+    "miss_rate_gap": {
+     "clear": false,
+     "advantage": 0.0068,
+     "low": -0.0,
+     "high": 0.0136,
+     "wins": "5/5"
+    },
+    "site_miss_gap": {
+     "clear": true,
+     "advantage": 0.013,
+     "low": 0.0091,
+     "high": 0.0169,
+     "wins": "5/5"
+    },
+    "pattern_tvd": {
+     "clear": true,
+     "advantage": 0.0345,
+     "low": 0.0183,
+     "high": 0.0507,
+     "wins": "5/5"
+    },
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": {
+     "clear": false,
+     "advantage": 0.0076,
+     "low": -0.0579,
+     "high": 0.0731,
+     "wins": "3/5"
+    }
+   },
+   "TabDDPM": {
+    "fidelity_pct": {
+     "clear": true,
+     "advantage": 1.428,
+     "low": 0.2661,
+     "high": 2.5899,
+     "wins": "5/5"
+    },
+    "detectability_pct": {
+     "clear": true,
+     "advantage": 13.426,
+     "low": 9.4957,
+     "high": 17.3563,
+     "wins": "5/5"
+    },
+    "tstr_auc": {
+     "clear": false,
+     "advantage": 0.0434,
+     "low": -0.0074,
+     "high": 0.0942,
+     "wins": "4/5"
+    },
+    "trtr_auc": null,
+    "auc_ratio": {
+     "clear": false,
+     "advantage": 0.0496,
+     "low": -0.009,
+     "high": 0.1082,
+     "wins": "4/5"
+    },
+    "dcr_closer_to_train_pct": {
+     "clear": false,
+     "advantage": 0.71,
+     "low": -3.3214,
+     "high": 4.7414,
+     "wins": "4/5"
+    },
+    "mia_auc": {
+     "clear": false,
+     "advantage": -0.0004,
+     "low": -0.0358,
+     "high": 0.035,
+     "wins": "2/5"
+    },
+    "corr_gap": {
+     "clear": true,
+     "advantage": 0.0526,
+     "low": 0.0444,
+     "high": 0.0608,
+     "wins": "5/5"
+    },
+    "corr_gap_numeric": {
+     "clear": true,
+     "advantage": 0.0734,
+     "low": 0.0255,
+     "high": 0.1213,
+     "wins": "5/5"
+    },
+    "miss_rate_gap": {
+     "clear": true,
+     "advantage": 0.011,
+     "low": 0.0046,
+     "high": 0.0174,
+     "wins": "5/5"
+    },
+    "site_miss_gap": {
+     "clear": true,
+     "advantage": 0.0794,
+     "low": 0.0732,
+     "high": 0.0857,
+     "wins": "5/5"
+    },
+    "pattern_tvd": {
+     "clear": true,
+     "advantage": 0.313,
+     "low": 0.2736,
+     "high": 0.3524,
+     "wins": "5/5"
+    },
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": {
+     "clear": false,
+     "advantage": -0.0318,
+     "low": -0.0889,
+     "high": 0.0253,
+     "wins": "1/5"
+    }
+   },
+   "CTGAN": {
+    "fidelity_pct": {
+     "clear": true,
+     "advantage": 13.306,
+     "low": 8.0944,
+     "high": 18.5176,
+     "wins": "5/5"
+    },
+    "detectability_pct": {
+     "clear": true,
+     "advantage": 31.306,
+     "low": 27.8113,
+     "high": 34.8007,
+     "wins": "5/5"
+    },
+    "tstr_auc": {
+     "clear": true,
+     "advantage": 0.1666,
+     "low": 0.0595,
+     "high": 0.2737,
+     "wins": "5/5"
+    },
+    "trtr_auc": null,
+    "auc_ratio": {
+     "clear": true,
+     "advantage": 0.1882,
+     "low": 0.0689,
+     "high": 0.3075,
+     "wins": "5/5"
+    },
+    "dcr_closer_to_train_pct": {
+     "clear": false,
+     "advantage": -0.024,
+     "low": -2.7808,
+     "high": 2.7328,
+     "wins": "2/5"
+    },
+    "mia_auc": {
+     "clear": false,
+     "advantage": -0.0172,
+     "low": -0.048,
+     "high": 0.0136,
+     "wins": "1/5"
+    },
+    "corr_gap": {
+     "clear": true,
+     "advantage": 0.0797,
+     "low": 0.0742,
+     "high": 0.0852,
+     "wins": "5/5"
+    },
+    "corr_gap_numeric": {
+     "clear": true,
+     "advantage": 0.1655,
+     "low": 0.1421,
+     "high": 0.189,
+     "wins": "5/5"
+    },
+    "miss_rate_gap": {
+     "clear": true,
+     "advantage": 0.0381,
+     "low": 0.0327,
+     "high": 0.0434,
+     "wins": "5/5"
+    },
+    "site_miss_gap": {
+     "clear": true,
+     "advantage": 0.1095,
+     "low": 0.1038,
+     "high": 0.1152,
+     "wins": "5/5"
+    },
+    "pattern_tvd": {
+     "clear": true,
+     "advantage": 0.5085,
+     "low": 0.4963,
+     "high": 0.5207,
+     "wins": "5/5"
+    },
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": {
+     "clear": false,
+     "advantage": -0.0086,
+     "low": -0.065,
+     "high": 0.0478,
+     "wins": "2/5"
+    }
+   }
+  },
+  "variants": {
+   "full": {
+    "fidelity_pct": {
+     "mean": 87.232,
+     "sd": 0.6661981687155876,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 62.23,
+     "sd": 1.6873944411429125,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.8624,
+     "sd": 0.019932385707686892,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8852,
+     "sd": 0.011945710527214371,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.9743999999999999,
+     "sd": 0.028023204670415507,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 53.25,
+     "sd": 2.0414455662593602,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.5322,
+     "sd": 0.029760712357065646,
+     "n": 5
+    },
+    "corr_gap": {
+     "mean": 0.0248,
+     "sd": 0.0011979148550710934,
+     "n": 5
+    },
+    "corr_gap_numeric": {
+     "mean": 0.04118000000000001,
+     "sd": 0.007005140969316749,
+     "n": 5
+    },
+    "miss_rate_gap": {
+     "mean": 0.020880000000000003,
+     "sd": 0.002140560674215987,
+     "n": 5
+    },
+    "site_miss_gap": {
+     "mean": 0.0216,
+     "sd": 0.001489966442575134,
+     "n": 5
+    },
+    "pattern_tvd": {
+     "mean": 0.17126000000000002,
+     "sd": 0.005507086343975371,
+     "n": 5
+    },
+    "miss_rate_gap_ref": {
+     "mean": 0.01974,
+     "sd": 0.003477499101365807,
+     "n": 5
+    },
+    "site_miss_gap_ref": {
+     "mean": 0.02426,
+     "sd": 0.006061600448726393,
+     "n": 5
+    },
+    "pattern_tvd_ref": {
+     "mean": 0.1519,
+     "sd": 0.00955196314900765,
+     "n": 5
+    },
+    "rare_pattern_dist_mia_auc": {
+     "mean": 0.575,
+     "sd": 0.04550824101193102,
+     "n": 5
+    },
+    "common_pattern_dist_mia_auc": {
+     "mean": 0.5424000000000001,
+     "sd": 0.04154876652802101,
+     "n": 5
+    },
+    "unique_pattern_leak_pct": {
+     "mean": -4.736000000000002,
+     "sd": 25.28017464338409,
+     "n": 5
+    },
+    "n_rare_patients": {
+     "mean": 63.580000000000005,
+     "sd": 2.0474374227311576,
+     "n": 5
+    },
+    "n_unique_patterns": {
+     "mean": 13.86,
+     "sd": 1.3315404612703285,
+     "n": 5
+    },
+    "train_seconds": {
+     "mean": 335.41999999999996,
+     "sd": 0.8348652585896756,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   },
+   "no_corr_loss": {
+    "fidelity_pct": {
+     "mean": 87.71000000000001,
+     "sd": 0.3747665940288696,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 65.16,
+     "sd": 2.4178502848605024,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.8694000000000001,
+     "sd": 0.009555103348473011,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8852,
+     "sd": 0.011945710527214371,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.9823999999999999,
+     "sd": 0.011304866208850073,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 52.760000000000005,
+     "sd": 2.4704250646396875,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.5252000000000001,
+     "sd": 0.031830802691732454,
+     "n": 5
+    },
+    "corr_gap": {
+     "mean": 0.03016,
+     "sd": 0.002528438253151539,
+     "n": 5
+    },
+    "corr_gap_numeric": {
+     "mean": 0.07498,
+     "sd": 0.01816169044995537,
+     "n": 5
+    },
+    "miss_rate_gap": null,
+    "site_miss_gap": null,
+    "pattern_tvd": null,
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": null,
+    "common_pattern_dist_mia_auc": null,
+    "unique_pattern_leak_pct": null,
+    "n_rare_patients": null,
+    "n_unique_patterns": null,
+    "train_seconds": {
+     "mean": 321.86,
+     "sd": 2.8474550040342894,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   },
+   "no_missing_flags": {
+    "fidelity_pct": {
+     "mean": 87.65599999999999,
+     "sd": 0.15598076804529373,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 84.184,
+     "sd": 1.1755551879856574,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.8756,
+     "sd": 0.014518953130305242,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8852,
+     "sd": 0.011945710527214371,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.9892,
+     "sd": 0.025400787389370454,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 53.19,
+     "sd": 2.646082009311124,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.5147999999999999,
+     "sd": 0.027325811973297358,
+     "n": 5
+    },
+    "corr_gap": {
+     "mean": 0.023100000000000002,
+     "sd": 0.0015116216457830977,
+     "n": 5
+    },
+    "corr_gap_numeric": {
+     "mean": 0.07146000000000001,
+     "sd": 0.007075521182216897,
+     "n": 5
+    },
+    "miss_rate_gap": {
+     "mean": 0.11832000000000001,
+     "sd": 0.0016679328523654625,
+     "n": 5
+    },
+    "site_miss_gap": {
+     "mean": 0.12052,
+     "sd": 0.001889973544788394,
+     "n": 5
+    },
+    "pattern_tvd": {
+     "mean": 0.69282,
+     "sd": 0.009464776806665881,
+     "n": 5
+    },
+    "miss_rate_gap_ref": {
+     "mean": 0.01974,
+     "sd": 0.003477499101365807,
+     "n": 5
+    },
+    "site_miss_gap_ref": {
+     "mean": 0.02426,
+     "sd": 0.006061600448726393,
+     "n": 5
+    },
+    "pattern_tvd_ref": {
+     "mean": 0.1519,
+     "sd": 0.00955196314900765,
+     "n": 5
+    },
+    "rare_pattern_dist_mia_auc": {
+     "mean": 0.5309999999999999,
+     "sd": 0.04886716689148246,
+     "n": 5
+    },
+    "common_pattern_dist_mia_auc": {
+     "mean": 0.5164,
+     "sd": 0.016471186963907626,
+     "n": 5
+    },
+    "unique_pattern_leak_pct": {
+     "mean": 1.9019999999999986,
+     "sd": 21.836637103730055,
+     "n": 5
+    },
+    "n_rare_patients": {
+     "mean": 63.580000000000005,
+     "sd": 2.0474374227311576,
+     "n": 5
+    },
+    "n_unique_patterns": {
+     "mean": 13.86,
+     "sd": 1.3315404612703285,
+     "n": 5
+    },
+    "train_seconds": {
+     "mean": 247.87999999999997,
+     "sd": 0.47644516998286146,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   },
+   "no_zero_flags": {
+    "fidelity_pct": {
+     "mean": 87.066,
+     "sd": 0.8438779532610174,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 74.89000000000001,
+     "sd": 0.9155053249435544,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.8652,
+     "sd": 0.025936460822556365,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8852,
+     "sd": 0.011945710527214371,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.9776,
+     "sd": 0.03173011188130284,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 53.760000000000005,
+     "sd": 2.401666088364491,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.5386,
+     "sd": 0.038095931541307644,
+     "n": 5
+    },
+    "corr_gap": null,
+    "corr_gap_numeric": null,
+    "miss_rate_gap": null,
+    "site_miss_gap": null,
+    "pattern_tvd": null,
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": null,
+    "common_pattern_dist_mia_auc": null,
+    "unique_pattern_leak_pct": null,
+    "n_rare_patients": null,
+    "n_unique_patterns": null,
+    "train_seconds": {
+     "mean": 572.24,
+     "sd": 4.072222980142426,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   },
+   "no_condition": {
+    "fidelity_pct": {
+     "mean": 87.22999999999999,
+     "sd": 0.16598192672697892,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 65.598,
+     "sd": 1.7045879267435866,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.8628,
+     "sd": 0.02927797807226451,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8852,
+     "sd": 0.011945710527214371,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.975,
+     "sd": 0.03807886552931951,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 52.81,
+     "sd": 1.9600382649325991,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.5269999999999999,
+     "sd": 0.024576411454888994,
+     "n": 5
+    },
+    "corr_gap": {
+     "mean": 0.027099999999999996,
+     "sd": 0.0024688053791257015,
+     "n": 5
+    },
+    "corr_gap_numeric": {
+     "mean": 0.04568,
+     "sd": 0.005398796162108733,
+     "n": 5
+    },
+    "miss_rate_gap": {
+     "mean": 0.01868,
+     "sd": 0.00204132310034448,
+     "n": 5
+    },
+    "site_miss_gap": {
+     "mean": 0.028200000000000003,
+     "sd": 0.001408900280360537,
+     "n": 5
+    },
+    "pattern_tvd": {
+     "mean": 0.22334,
+     "sd": 0.011883097239356417,
+     "n": 5
+    },
+    "miss_rate_gap_ref": {
+     "mean": 0.01974,
+     "sd": 0.003477499101365807,
+     "n": 5
+    },
+    "site_miss_gap_ref": {
+     "mean": 0.02426,
+     "sd": 0.006061600448726393,
+     "n": 5
+    },
+    "pattern_tvd_ref": {
+     "mean": 0.1519,
+     "sd": 0.00955196314900765,
+     "n": 5
+    },
+    "rare_pattern_dist_mia_auc": {
+     "mean": 0.5138,
+     "sd": 0.0695966953238442,
+     "n": 5
+    },
+    "common_pattern_dist_mia_auc": {
+     "mean": 0.5426,
+     "sd": 0.025363359398943977,
+     "n": 5
+    },
+    "unique_pattern_leak_pct": {
+     "mean": -20.056,
+     "sd": 12.377424206998805,
+     "n": 5
+    },
+    "n_rare_patients": {
+     "mean": 63.580000000000005,
+     "sd": 2.0474374227311576,
+     "n": 5
+    },
+    "n_unique_patterns": {
+     "mean": 13.86,
+     "sd": 1.3315404612703285,
+     "n": 5
+    },
+    "train_seconds": {
+     "mean": 256.54,
+     "sd": 1.0188228501559988,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   },
+   "corr_weight_0.5": {
+    "fidelity_pct": {
+     "mean": 86.97,
+     "sd": 0.771005836553784,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 62.774,
+     "sd": 2.817504214726217,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.8699999999999999,
+     "sd": 0.015378556499229711,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8852,
+     "sd": 0.011945710527214371,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.9827999999999999,
+     "sd": 0.021135278564523362,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 53.28000000000001,
+     "sd": 2.1040437257813824,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.5308,
+     "sd": 0.02282980508020165,
+     "n": 5
+    },
+    "corr_gap": null,
+    "corr_gap_numeric": null,
+    "miss_rate_gap": null,
+    "site_miss_gap": null,
+    "pattern_tvd": null,
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": null,
+    "common_pattern_dist_mia_auc": null,
+    "unique_pattern_leak_pct": null,
+    "n_rare_patients": null,
+    "n_unique_patterns": null,
+    "train_seconds": {
+     "mean": 618.1200000000001,
+     "sd": 3.170488921286424,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   },
+   "corr_weight_8": {
+    "fidelity_pct": {
+     "mean": 87.882,
+     "sd": 0.4949444413264975,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 62.772000000000006,
+     "sd": 2.3389035892913577,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.8756,
+     "sd": 0.017896927110540528,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8852,
+     "sd": 0.011945710527214371,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.9894000000000001,
+     "sd": 0.030648001566170698,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 53.9,
+     "sd": 2.591090504015635,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.5254000000000001,
+     "sd": 0.032207142065076216,
+     "n": 5
+    },
+    "corr_gap": null,
+    "corr_gap_numeric": null,
+    "miss_rate_gap": null,
+    "site_miss_gap": null,
+    "pattern_tvd": null,
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": null,
+    "common_pattern_dist_mia_auc": null,
+    "unique_pattern_leak_pct": null,
+    "n_rare_patients": null,
+    "n_unique_patterns": null,
+    "train_seconds": {
+     "mean": 412.98,
+     "sd": 0.4381780460041164,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   },
+   "epochs_300": {
+    "fidelity_pct": {
+     "mean": 86.966,
+     "sd": 0.4935382457317781,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 63.64399999999999,
+     "sd": 2.8076199885312114,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.8505999999999998,
+     "sd": 0.02188149903457258,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8852,
+     "sd": 0.011945710527214371,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.9614,
+     "sd": 0.03444996371551059,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 52.17,
+     "sd": 2.528982008635094,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.524,
+     "sd": 0.03503569608270973,
+     "n": 5
+    },
+    "corr_gap": null,
+    "corr_gap_numeric": null,
+    "miss_rate_gap": null,
+    "site_miss_gap": null,
+    "pattern_tvd": null,
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": null,
+    "common_pattern_dist_mia_auc": null,
+    "unique_pattern_leak_pct": null,
+    "n_rare_patients": null,
+    "n_unique_patterns": null,
+    "train_seconds": {
+     "mean": 173.98,
+     "sd": 1.3103434664239786,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   },
+   "epochs_1200": {
+    "fidelity_pct": {
+     "mean": 87.166,
+     "sd": 0.5099803917799192,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 63.044000000000004,
+     "sd": 2.1731267795506106,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.8710000000000001,
+     "sd": 0.009082951062292483,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8852,
+     "sd": 0.011945710527214371,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.984,
+     "sd": 0.016658331248957697,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 55.32000000000001,
+     "sd": 2.646837735865197,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.5478000000000001,
+     "sd": 0.023562682360037012,
+     "n": 5
+    },
+    "corr_gap": null,
+    "corr_gap_numeric": null,
+    "miss_rate_gap": null,
+    "site_miss_gap": null,
+    "pattern_tvd": null,
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": null,
+    "common_pattern_dist_mia_auc": null,
+    "unique_pattern_leak_pct": null,
+    "n_rare_patients": null,
+    "n_unique_patterns": null,
+    "train_seconds": {
+     "mean": 858.0799999999999,
+     "sd": 3.6286361074100792,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.2,
+     "sd": 0.44721359549995804,
+     "n": 5
+    }
+   }
+  },
+  "vs_full": {
+   "no_corr_loss": {
+    "fidelity_pct": {
+     "clear": false,
+     "advantage": -0.478,
+     "low": -1.1653,
+     "high": 0.2093,
+     "wins": "1/5"
+    },
+    "detectability_pct": {
+     "clear": false,
+     "advantage": 2.93,
+     "low": -1.1284,
+     "high": 6.9884,
+     "wins": "4/5"
+    },
+    "tstr_auc": {
+     "clear": false,
+     "advantage": -0.007,
+     "low": -0.0304,
+     "high": 0.0164,
+     "wins": "2/5"
+    },
+    "trtr_auc": null,
+    "auc_ratio": {
+     "clear": false,
+     "advantage": -0.008,
+     "low": -0.0343,
+     "high": 0.0183,
+     "wins": "2/5"
+    },
+    "dcr_closer_to_train_pct": {
+     "clear": false,
+     "advantage": -0.49,
+     "low": -1.8341,
+     "high": 0.8541,
+     "wins": "2/5"
+    },
+    "mia_auc": {
+     "clear": false,
+     "advantage": 0.0018,
+     "low": -0.0269,
+     "high": 0.0305,
+     "wins": "3/5"
+    },
+    "corr_gap": {
+     "clear": true,
+     "advantage": 0.0054,
+     "low": 0.0025,
+     "high": 0.0082,
+     "wins": "5/5"
+    },
+    "corr_gap_numeric": {
+     "clear": true,
+     "advantage": 0.0338,
+     "low": 0.014,
+     "high": 0.0536,
+     "wins": "5/5"
+    },
+    "miss_rate_gap": null,
+    "site_miss_gap": null,
+    "pattern_tvd": null,
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": null,
+    "common_pattern_dist_mia_auc": null,
+    "unique_pattern_leak_pct": null,
+    "n_rare_patients": null,
+    "n_unique_patterns": null
+   },
+   "no_missing_flags": {
+    "fidelity_pct": {
+     "clear": false,
+     "advantage": -0.424,
+     "low": -1.1335,
+     "high": 0.2855,
+     "wins": "1/5"
+    },
+    "detectability_pct": {
+     "clear": true,
+     "advantage": 21.954,
+     "low": 19.147,
+     "high": 24.761,
+     "wins": "5/5"
+    },
+    "tstr_auc": {
+     "clear": false,
+     "advantage": -0.0132,
+     "low": -0.0365,
+     "high": 0.0101,
+     "wins": "2/5"
+    },
+    "trtr_auc": null,
+    "auc_ratio": {
+     "clear": false,
+     "advantage": -0.0148,
+     "low": -0.041,
+     "high": 0.0114,
+     "wins": "2/5"
+    },
+    "dcr_closer_to_train_pct": {
+     "clear": false,
+     "advantage": -0.06,
+     "low": -3.3291,
+     "high": 3.2091,
+     "wins": "2/5"
+    },
+    "mia_auc": {
+     "clear": false,
+     "advantage": -0.0074,
+     "low": -0.0451,
+     "high": 0.0303,
+     "wins": "2/5"
+    },
+    "corr_gap": {
+     "clear": false,
+     "advantage": -0.0017,
+     "low": -0.0049,
+     "high": 0.0015,
+     "wins": "1/5"
+    },
+    "corr_gap_numeric": {
+     "clear": true,
+     "advantage": 0.0303,
+     "low": 0.014,
+     "high": 0.0466,
+     "wins": "5/5"
+    },
+    "miss_rate_gap": {
+     "clear": true,
+     "advantage": 0.0974,
+     "low": 0.0935,
+     "high": 0.1014,
+     "wins": "5/5"
+    },
+    "site_miss_gap": {
+     "clear": true,
+     "advantage": 0.0989,
+     "low": 0.0958,
+     "high": 0.102,
+     "wins": "5/5"
+    },
+    "pattern_tvd": {
+     "clear": true,
+     "advantage": 0.5216,
+     "low": 0.5142,
+     "high": 0.5289,
+     "wins": "5/5"
+    },
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": {
+     "clear": true,
+     "advantage": -0.0416,
+     "low": -0.0658,
+     "high": -0.0174,
+     "wins": "0/5"
+    },
+    "common_pattern_dist_mia_auc": {
+     "clear": false,
+     "advantage": -0.03,
+     "low": -0.0664,
+     "high": 0.0064,
+     "wins": "1/5"
+    },
+    "unique_pattern_leak_pct": {
+     "clear": false,
+     "advantage": -3.978,
+     "low": -29.2926,
+     "high": 21.3366,
+     "wins": "1/5"
+    },
+    "n_rare_patients": null,
+    "n_unique_patterns": null
+   },
+   "no_zero_flags": {
+    "fidelity_pct": {
+     "clear": false,
+     "advantage": 0.166,
+     "low": -0.802,
+     "high": 1.134,
+     "wins": "2/5"
+    },
+    "detectability_pct": {
+     "clear": true,
+     "advantage": 12.66,
+     "low": 9.7663,
+     "high": 15.5537,
+     "wins": "5/5"
+    },
+    "tstr_auc": {
+     "clear": false,
+     "advantage": -0.0028,
+     "low": -0.0157,
+     "high": 0.0101,
+     "wins": "3/5"
+    },
+    "trtr_auc": null,
+    "auc_ratio": {
+     "clear": false,
+     "advantage": -0.0032,
+     "low": -0.0175,
+     "high": 0.0111,
+     "wins": "3/5"
+    },
+    "dcr_closer_to_train_pct": {
+     "clear": false,
+     "advantage": 0.51,
+     "low": -1.1234,
+     "high": 2.1434,
+     "wins": "2/5"
+    },
+    "mia_auc": {
+     "clear": false,
+     "advantage": 0.0076,
+     "low": -0.0055,
+     "high": 0.0207,
+     "wins": "3/5"
+    },
+    "corr_gap": null,
+    "corr_gap_numeric": null,
+    "miss_rate_gap": null,
+    "site_miss_gap": null,
+    "pattern_tvd": null,
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": null,
+    "common_pattern_dist_mia_auc": null,
+    "unique_pattern_leak_pct": null,
+    "n_rare_patients": null,
+    "n_unique_patterns": null
+   },
+   "no_condition": {
+    "fidelity_pct": {
+     "clear": false,
+     "advantage": 0.002,
+     "low": -0.8489,
+     "high": 0.8529,
+     "wins": "2/5"
+    },
+    "detectability_pct": {
+     "clear": true,
+     "advantage": 3.368,
+     "low": 1.2544,
+     "high": 5.4816,
+     "wins": "5/5"
+    },
+    "tstr_auc": {
+     "clear": false,
+     "advantage": -0.0004,
+     "low": -0.0144,
+     "high": 0.0136,
+     "wins": "2/5"
+    },
+    "trtr_auc": null,
+    "auc_ratio": {
+     "clear": false,
+     "advantage": -0.0006,
+     "low": -0.0161,
+     "high": 0.0149,
+     "wins": "2/5"
+    },
+    "dcr_closer_to_train_pct": {
+     "clear": false,
+     "advantage": -0.44,
+     "low": -0.9977,
+     "high": 0.1177,
+     "wins": "1/5"
+    },
+    "mia_auc": {
+     "clear": false,
+     "advantage": -0.006,
+     "low": -0.0281,
+     "high": 0.0161,
+     "wins": "2/5"
+    },
+    "corr_gap": {
+     "clear": false,
+     "advantage": 0.0023,
+     "low": -0.001,
+     "high": 0.0056,
+     "wins": "4/5"
+    },
+    "corr_gap_numeric": {
+     "clear": false,
+     "advantage": 0.0045,
+     "low": -0.0079,
+     "high": 0.0169,
+     "wins": "3/5"
+    },
+    "miss_rate_gap": {
+     "clear": false,
+     "advantage": -0.0022,
+     "low": -0.0054,
+     "high": 0.001,
+     "wins": "1/5"
+    },
+    "site_miss_gap": {
+     "clear": true,
+     "advantage": 0.0066,
+     "low": 0.0038,
+     "high": 0.0094,
+     "wins": "5/5"
+    },
+    "pattern_tvd": {
+     "clear": true,
+     "advantage": 0.0521,
+     "low": 0.031,
+     "high": 0.0732,
+     "wins": "5/5"
+    },
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": {
+     "clear": false,
+     "advantage": -0.0204,
+     "low": -0.0906,
+     "high": 0.0498,
+     "wins": "1/5"
+    },
+    "common_pattern_dist_mia_auc": {
+     "clear": false,
+     "advantage": -0.0046,
+     "low": -0.022,
+     "high": 0.0128,
+     "wins": "2/5"
+    },
+    "unique_pattern_leak_pct": {
+     "clear": false,
+     "advantage": -1.216,
+     "low": -28.303,
+     "high": 25.871,
+     "wins": "2/5"
+    },
+    "n_rare_patients": null,
+    "n_unique_patterns": null
+   },
+   "corr_weight_0.5": {
+    "fidelity_pct": {
+     "clear": false,
+     "advantage": 0.262,
+     "low": -0.2529,
+     "high": 0.7769,
+     "wins": "4/5"
+    },
+    "detectability_pct": {
+     "clear": false,
+     "advantage": 0.544,
+     "low": -2.034,
+     "high": 3.122,
+     "wins": "3/5"
+    },
+    "tstr_auc": {
+     "clear": false,
+     "advantage": -0.0076,
+     "low": -0.021,
+     "high": 0.0058,
+     "wins": "2/5"
+    },
+    "trtr_auc": null,
+    "auc_ratio": {
+     "clear": false,
+     "advantage": -0.0084,
+     "low": -0.0236,
+     "high": 0.0068,
+     "wins": "2/5"
+    },
+    "dcr_closer_to_train_pct": {
+     "clear": false,
+     "advantage": 0.03,
+     "low": -1.3524,
+     "high": 1.4124,
+     "wins": "3/5"
+    },
+    "mia_auc": {
+     "clear": false,
+     "advantage": -0.003,
+     "low": -0.0165,
+     "high": 0.0105,
+     "wins": "1/5"
+    },
+    "corr_gap": null,
+    "corr_gap_numeric": null,
+    "miss_rate_gap": null,
+    "site_miss_gap": null,
+    "pattern_tvd": null,
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": null,
+    "common_pattern_dist_mia_auc": null,
+    "unique_pattern_leak_pct": null,
+    "n_rare_patients": null,
+    "n_unique_patterns": null
+   },
+   "corr_weight_8": {
+    "fidelity_pct": {
+     "clear": false,
+     "advantage": -0.65,
+     "low": -1.5254,
+     "high": 0.2254,
+     "wins": "1/5"
+    },
+    "detectability_pct": {
+     "clear": false,
+     "advantage": 0.542,
+     "low": -2.038,
+     "high": 3.122,
+     "wins": "3/5"
+    },
+    "tstr_auc": {
+     "clear": false,
+     "advantage": -0.0132,
+     "low": -0.0366,
+     "high": 0.0102,
+     "wins": "1/5"
+    },
+    "trtr_auc": null,
+    "auc_ratio": {
+     "clear": false,
+     "advantage": -0.015,
+     "low": -0.0414,
+     "high": 0.0114,
+     "wins": "1/5"
+    },
+    "dcr_closer_to_train_pct": {
+     "clear": false,
+     "advantage": 0.65,
+     "low": -0.0385,
+     "high": 1.3385,
+     "wins": "4/5"
+    },
+    "mia_auc": {
+     "clear": false,
+     "advantage": 0.0016,
+     "low": -0.0161,
+     "high": 0.0193,
+     "wins": "2/5"
+    },
+    "corr_gap": null,
+    "corr_gap_numeric": null,
+    "miss_rate_gap": null,
+    "site_miss_gap": null,
+    "pattern_tvd": null,
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": null,
+    "common_pattern_dist_mia_auc": null,
+    "unique_pattern_leak_pct": null,
+    "n_rare_patients": null,
+    "n_unique_patterns": null
+   },
+   "epochs_300": {
+    "fidelity_pct": {
+     "clear": false,
+     "advantage": 0.266,
+     "low": -0.6656,
+     "high": 1.1976,
+     "wins": "3/5"
+    },
+    "detectability_pct": {
+     "clear": false,
+     "advantage": 1.414,
+     "low": -1.2261,
+     "high": 4.0541,
+     "wins": "3/5"
+    },
+    "tstr_auc": {
+     "clear": false,
+     "advantage": 0.0118,
+     "low": -0.0014,
+     "high": 0.025,
+     "wins": "4/5"
+    },
+    "trtr_auc": null,
+    "auc_ratio": {
+     "clear": false,
+     "advantage": 0.013,
+     "low": -0.0018,
+     "high": 0.0278,
+     "wins": "4/5"
+    },
+    "dcr_closer_to_train_pct": {
+     "clear": false,
+     "advantage": -1.08,
+     "low": -2.9047,
+     "high": 0.7447,
+     "wins": "2/5"
+    },
+    "mia_auc": {
+     "clear": false,
+     "advantage": 0.0014,
+     "low": -0.0149,
+     "high": 0.0177,
+     "wins": "2/5"
+    },
+    "corr_gap": null,
+    "corr_gap_numeric": null,
+    "miss_rate_gap": null,
+    "site_miss_gap": null,
+    "pattern_tvd": null,
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": null,
+    "common_pattern_dist_mia_auc": null,
+    "unique_pattern_leak_pct": null,
+    "n_rare_patients": null,
+    "n_unique_patterns": null
+   },
+   "epochs_1200": {
+    "fidelity_pct": {
+     "clear": false,
+     "advantage": 0.066,
+     "low": -1.1126,
+     "high": 1.2446,
+     "wins": "2/5"
+    },
+    "detectability_pct": {
+     "clear": false,
+     "advantage": 0.814,
+     "low": -2.1843,
+     "high": 3.8123,
+     "wins": "3/5"
+    },
+    "tstr_auc": {
+     "clear": false,
+     "advantage": -0.0086,
+     "low": -0.0341,
+     "high": 0.0169,
+     "wins": "1/5"
+    },
+    "trtr_auc": null,
+    "auc_ratio": {
+     "clear": false,
+     "advantage": -0.0096,
+     "low": -0.038,
+     "high": 0.0188,
+     "wins": "1/5"
+    },
+    "dcr_closer_to_train_pct": {
+     "clear": true,
+     "advantage": 2.07,
+     "low": 0.7942,
+     "high": 3.3458,
+     "wins": "5/5"
+    },
+    "mia_auc": {
+     "clear": true,
+     "advantage": 0.014,
+     "low": 0.0084,
+     "high": 0.0196,
+     "wins": "5/5"
+    },
+    "corr_gap": null,
+    "corr_gap_numeric": null,
+    "miss_rate_gap": null,
+    "site_miss_gap": null,
+    "pattern_tvd": null,
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": null,
+    "common_pattern_dist_mia_auc": null,
+    "unique_pattern_leak_pct": null,
+    "n_rare_patients": null,
+    "n_unique_patterns": null
+   }
+  },
+  "sample": {
+   "columns": [
+    "age",
+    "gender",
+    "chest_pain",
+    "trestbps",
+    "chol",
+    "fbs",
+    "restecg",
+    "thalch",
+    "exang",
+    "oldpeak",
+    "slope",
+    "ca",
+    "thal",
+    "num",
+    "origin_study"
+   ],
+   "rows": [
+    [
+     58,
+     "Female",
+     "non-anginal",
+     110.0,
+     259.0,
+     false,
+     "normal",
+     120.0,
+     false,
+     0.5,
+     null,
+     null,
+     null,
+     0,
+     "Hungary"
+    ],
+    [
+     60,
+     "Male",
+     "non-anginal",
+     182.0,
+     null,
+     false,
+     "normal",
+     85.0,
+     false,
+     0.0,
+     "flat",
+     null,
+     "reversable defect",
+     3,
+     "Switzerland"
+    ],
+    [
+     45,
+     "Male",
+     "asymptomatic",
+     145.0,
+     239.0,
+     false,
+     "normal",
+     145.0,
+     false,
+     0.0,
+     null,
+     null,
+     null,
+     0,
+     "Hungary"
+    ],
+    [
+     42,
+     "Male",
+     "atypical angina",
+     118.0,
+     266.0,
+     false,
+     "normal",
+     149.0,
+     false,
+     0.0,
+     null,
+     null,
+     null,
+     0,
+     "Hungary"
+    ],
+    [
+     45,
+     "Male",
+     "non-anginal",
+     127.0,
+     168.0,
+     false,
+     "normal",
+     142.0,
+     true,
+     1.6,
+     "flat",
+     null,
+     null,
+     0,
+     "Hungary"
+    ],
+    [
+     51,
+     "Male",
+     "asymptomatic",
+     143.0,
+     317.0,
+     false,
+     "st-t abnormality",
+     149.0,
+     true,
+     2.1,
+     "flat",
+     null,
+     null,
+     2,
+     "Hungary"
+    ],
+    [
+     57,
+     "Male",
+     "asymptomatic",
+     158.0,
+     235.0,
+     false,
+     "normal",
+     103.0,
+     true,
+     2.7,
+     "flat",
+     null,
+     null,
+     0,
+     "Hungary"
+    ],
+    [
+     61,
+     "Male",
+     "asymptomatic",
+     172.0,
+     196.0,
+     true,
+     "st-t abnormality",
+     116.0,
+     true,
+     null,
+     null,
+     null,
+     null,
+     1,
+     "VA Long Beach"
+    ]
+   ]
+  }
+ },
+ "diabetes": {
+  "name": "diabetes",
+  "n": 768,
+  "positive_pct": 34.89583333333333,
+  "numeric": [
+   "preg",
+   "plas",
+   "pres",
+   "skin",
+   "insu",
+   "mass",
+   "pedi",
+   "age",
+   "outcome"
+  ],
+  "categorical": [],
+  "condition": null,
+  "zero_means_missing": [
+   "plas",
+   "pres",
+   "skin",
+   "insu",
+   "mass"
+  ],
+  "flagged": [
+   "plas",
+   "pres",
+   "skin",
+   "insu",
+   "mass"
+  ],
+  "missing_pct": {
+   "preg": 0.0,
+   "plas": 0.6510416666666667,
+   "pres": 4.557291666666666,
+   "skin": 29.557291666666668,
+   "insu": 48.69791666666667,
+   "mass": 1.4322916666666665,
+   "pedi": 0.0,
+   "age": 0.0,
+   "outcome": 0.0
+  },
+  "labels": {
+   "pregnancies": "Pregnancies",
+   "glucose": "Glucose (mg/dL)",
+   "blood_pressure": "Diastolic BP (mmHg)",
+   "skin_thickness": "Skin fold (mm)",
+   "insulin": "Insulin (mu U/ml)",
+   "bmi": "BMI",
+   "pedigree": "Diabetes pedigree",
+   "age": "Age (years)",
+   "outcome": "Diabetes (1 = yes)"
+  },
+  "rename": {
+   "preg": "pregnancies",
+   "plas": "glucose",
+   "pres": "blood_pressure",
+   "skin": "skin_thickness",
+   "insu": "insulin",
+   "mass": "bmi",
+   "pedi": "pedigree"
+  },
+  "zero_pct": {},
+  "models": {
+   "MedTwin WGAN-GP": {
+    "fidelity_pct": {
+     "mean": 90.898,
+     "sd": 0.8452041173586404,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 64.026,
+     "sd": 2.643204494548238,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.8012,
+     "sd": 0.029558416737031076,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8156000000000001,
+     "sd": 0.031189741903388662,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.9832000000000001,
+     "sd": 0.04098414327517412,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 51.760000000000005,
+     "sd": 1.77426040929735,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.4935999999999999,
+     "sd": 0.02141961717678448,
+     "n": 5
+    },
+    "corr_gap": {
+     "mean": 0.027380000000000005,
+     "sd": 0.0026593232221751462,
+     "n": 5
+    },
+    "corr_gap_numeric": {
+     "mean": 0.03352000000000001,
+     "sd": 0.006622461777919145,
+     "n": 5
+    },
+    "miss_rate_gap": {
+     "mean": 0.01906,
+     "sd": 0.0021007141642784247,
+     "n": 5
+    },
+    "site_miss_gap": null,
+    "pattern_tvd": {
+     "mean": 0.06344000000000001,
+     "sd": 0.005718653687713567,
+     "n": 5
+    },
+    "miss_rate_gap_ref": {
+     "mean": 0.030160000000000003,
+     "sd": 0.010537931485827757,
+     "n": 5
+    },
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": {
+     "mean": 0.08506,
+     "sd": 0.04647868328599682,
+     "n": 5
+    },
+    "rare_pattern_dist_mia_auc": {
+     "mean": 0.5006,
+     "sd": 0.17735923996228672,
+     "n": 5
+    },
+    "common_pattern_dist_mia_auc": {
+     "mean": 0.506,
+     "sd": 0.016777961735562532,
+     "n": 5
+    },
+    "unique_pattern_leak_pct": {
+     "mean": 6.7025,
+     "sd": 36.534196195710486,
+     "n": 4
+    },
+    "n_rare_patients": {
+     "mean": 7.8,
+     "sd": 1.2922847983320087,
+     "n": 5
+    },
+    "n_unique_patterns": {
+     "mean": 1.8799999999999997,
+     "sd": 0.4381780460041328,
+     "n": 5
+    },
+    "train_seconds": {
+     "mean": 267.74,
+     "sd": 0.5770615218501336,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   },
+   "TVAE": {
+    "fidelity_pct": {
+     "mean": 88.01,
+     "sd": 1.701763790894609,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 69.99799999999999,
+     "sd": 1.3883155260962794,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.806,
+     "sd": 0.012629330940315042,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8156000000000001,
+     "sd": 0.031189741903388662,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.9889999999999999,
+     "sd": 0.027595289453093266,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 54.04200000000001,
+     "sd": 2.420675525550668,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.5178,
+     "sd": 0.023530830839560275,
+     "n": 5
+    },
+    "corr_gap": {
+     "mean": 0.0959,
+     "sd": 0.0101811099591351,
+     "n": 5
+    },
+    "corr_gap_numeric": {
+     "mean": 0.13818,
+     "sd": 0.01957337477288983,
+     "n": 5
+    },
+    "miss_rate_gap": {
+     "mean": 0.03132,
+     "sd": 0.0046105314227320926,
+     "n": 5
+    },
+    "site_miss_gap": null,
+    "pattern_tvd": {
+     "mean": 0.11760000000000001,
+     "sd": 0.021625794783082537,
+     "n": 5
+    },
+    "miss_rate_gap_ref": {
+     "mean": 0.030160000000000003,
+     "sd": 0.010537931485827757,
+     "n": 5
+    },
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": {
+     "mean": 0.08506,
+     "sd": 0.04647868328599682,
+     "n": 5
+    },
+    "rare_pattern_dist_mia_auc": {
+     "mean": 0.5486,
+     "sd": 0.15172442123798,
+     "n": 5
+    },
+    "common_pattern_dist_mia_auc": {
+     "mean": 0.5184,
+     "sd": 0.028562212799431323,
+     "n": 5
+    },
+    "unique_pattern_leak_pct": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 4
+    },
+    "n_rare_patients": {
+     "mean": 7.8,
+     "sd": 1.2922847983320087,
+     "n": 5
+    },
+    "n_unique_patterns": {
+     "mean": 1.8799999999999997,
+     "sd": 0.4381780460041328,
+     "n": 5
+    },
+    "train_seconds": {
+     "mean": 13.98,
+     "sd": 0.14832396974191275,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   },
+   "TabDDPM": {
+    "fidelity_pct": {
+     "mean": 85.436,
+     "sd": 1.3415960643949434,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 55.90599999999999,
+     "sd": 2.6023124332024374,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.7807999999999999,
+     "sd": 0.05042519211663948,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8156000000000001,
+     "sd": 0.031189741903388662,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.9566000000000001,
+     "sd": 0.02560859230805158,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 60.779999999999994,
+     "sd": 4.850592747283572,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.8026,
+     "sd": 0.02836018335624787,
+     "n": 5
+    },
+    "corr_gap": {
+     "mean": 0.1258,
+     "sd": 0.016360317845323175,
+     "n": 5
+    },
+    "corr_gap_numeric": {
+     "mean": 0.24708000000000002,
+     "sd": 0.026789214247528788,
+     "n": 5
+    },
+    "miss_rate_gap": {
+     "mean": 0.029160000000000002,
+     "sd": 0.009854592837859917,
+     "n": 5
+    },
+    "site_miss_gap": null,
+    "pattern_tvd": {
+     "mean": 0.11147999999999998,
+     "sd": 0.01260484034012331,
+     "n": 5
+    },
+    "miss_rate_gap_ref": {
+     "mean": 0.030160000000000003,
+     "sd": 0.010537931485827757,
+     "n": 5
+    },
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": {
+     "mean": 0.08506,
+     "sd": 0.04647868328599682,
+     "n": 5
+    },
+    "rare_pattern_dist_mia_auc": {
+     "mean": 0.6816,
+     "sd": 0.08114369969381482,
+     "n": 5
+    },
+    "common_pattern_dist_mia_auc": {
+     "mean": 0.7994,
+     "sd": 0.028058866691297403,
+     "n": 5
+    },
+    "unique_pattern_leak_pct": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 4
+    },
+    "n_rare_patients": {
+     "mean": 7.8,
+     "sd": 1.2922847983320087,
+     "n": 5
+    },
+    "n_unique_patterns": {
+     "mean": 1.8799999999999997,
+     "sd": 0.4381780460041328,
+     "n": 5
+    },
+    "train_seconds": {
+     "mean": 166.62,
+     "sd": 0.614003257320352,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   },
+   "CTGAN": {
+    "fidelity_pct": {
+     "mean": 77.786,
+     "sd": 3.307042485363622,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 86.3,
+     "sd": 2.6925731187843382,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.5677999999999999,
+     "sd": 0.0618562850484896,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8156000000000001,
+     "sd": 0.031189741903388662,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.6966,
+     "sd": 0.07457412419867902,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 49.67199999999999,
+     "sd": 7.710964271736707,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.5054000000000001,
+     "sd": 0.02784420945187709,
+     "n": 5
+    },
+    "corr_gap": {
+     "mean": 0.11244000000000001,
+     "sd": 0.007381598742819881,
+     "n": 5
+    },
+    "corr_gap_numeric": {
+     "mean": 0.20183999999999996,
+     "sd": 0.006530543622088438,
+     "n": 5
+    },
+    "miss_rate_gap": {
+     "mean": 0.08912,
+     "sd": 0.032769147074649355,
+     "n": 5
+    },
+    "site_miss_gap": null,
+    "pattern_tvd": {
+     "mean": 0.29868,
+     "sd": 0.03161086838414914,
+     "n": 5
+    },
+    "miss_rate_gap_ref": {
+     "mean": 0.030160000000000003,
+     "sd": 0.010537931485827757,
+     "n": 5
+    },
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": {
+     "mean": 0.08506,
+     "sd": 0.04647868328599682,
+     "n": 5
+    },
+    "rare_pattern_dist_mia_auc": {
+     "mean": 0.5008,
+     "sd": 0.2023331411311553,
+     "n": 5
+    },
+    "common_pattern_dist_mia_auc": {
+     "mean": 0.5088,
+     "sd": 0.02282980508020165,
+     "n": 5
+    },
+    "unique_pattern_leak_pct": {
+     "mean": -3.4475,
+     "sd": 6.895,
+     "n": 4
+    },
+    "n_rare_patients": {
+     "mean": 7.8,
+     "sd": 1.2922847983320087,
+     "n": 5
+    },
+    "n_unique_patterns": {
+     "mean": 1.8799999999999997,
+     "sd": 0.4381780460041328,
+     "n": 5
+    },
+    "train_seconds": {
+     "mean": 40.160000000000004,
+     "sd": 0.33615472627943416,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   }
+  },
+  "vs_baselines": {
+   "TVAE": {
+    "fidelity_pct": {
+     "clear": true,
+     "advantage": 2.888,
+     "low": 0.1109,
+     "high": 5.6651,
+     "wins": "4/5"
+    },
+    "detectability_pct": {
+     "clear": true,
+     "advantage": 5.972,
+     "low": 1.4846,
+     "high": 10.4594,
+     "wins": "5/5"
+    },
+    "tstr_auc": {
+     "clear": false,
+     "advantage": -0.0048,
+     "low": -0.0427,
+     "high": 0.0331,
+     "wins": "3/5"
+    },
+    "trtr_auc": null,
+    "auc_ratio": {
+     "clear": false,
+     "advantage": -0.0058,
+     "low": -0.0523,
+     "high": 0.0407,
+     "wins": "3/5"
+    },
+    "dcr_closer_to_train_pct": {
+     "clear": false,
+     "advantage": 2.202,
+     "low": -0.8998,
+     "high": 5.3038,
+     "wins": "4/5"
+    },
+    "mia_auc": {
+     "clear": false,
+     "advantage": 0.0042,
+     "low": -0.0194,
+     "high": 0.0278,
+     "wins": "1/5"
+    },
+    "corr_gap": {
+     "clear": true,
+     "advantage": 0.0685,
+     "low": 0.0583,
+     "high": 0.0787,
+     "wins": "5/5"
+    },
+    "corr_gap_numeric": {
+     "clear": true,
+     "advantage": 0.1047,
+     "low": 0.0793,
+     "high": 0.13,
+     "wins": "5/5"
+    },
+    "miss_rate_gap": {
+     "clear": true,
+     "advantage": 0.0123,
+     "low": 0.0088,
+     "high": 0.0157,
+     "wins": "5/5"
+    },
+    "site_miss_gap": null,
+    "pattern_tvd": {
+     "clear": true,
+     "advantage": 0.0542,
+     "low": 0.033,
+     "high": 0.0753,
+     "wins": "5/5"
+    },
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": {
+     "clear": false,
+     "advantage": -0.0232,
+     "low": -0.1594,
+     "high": 0.113,
+     "wins": "2/5"
+    }
+   },
+   "TabDDPM": {
+    "fidelity_pct": {
+     "clear": true,
+     "advantage": 5.462,
+     "low": 3.7217,
+     "high": 7.2023,
+     "wins": "5/5"
+    },
+    "detectability_pct": {
+     "clear": true,
+     "advantage": -8.12,
+     "low": -13.4161,
+     "high": -2.8239,
+     "wins": "0/5"
+    },
+    "tstr_auc": {
+     "clear": false,
+     "advantage": 0.0204,
+     "low": -0.0378,
+     "high": 0.0786,
+     "wins": "2/5"
+    },
+    "trtr_auc": null,
+    "auc_ratio": {
+     "clear": false,
+     "advantage": 0.0266,
+     "low": -0.0469,
+     "high": 0.1001,
+     "wins": "2/5"
+    },
+    "dcr_closer_to_train_pct": {
+     "clear": true,
+     "advantage": 8.94,
+     "low": 3.5093,
+     "high": 14.3707,
+     "wins": "5/5"
+    },
+    "mia_auc": {
+     "clear": true,
+     "advantage": 0.2834,
+     "low": 0.2404,
+     "high": 0.3264,
+     "wins": "5/5"
+    },
+    "corr_gap": {
+     "clear": true,
+     "advantage": 0.0984,
+     "low": 0.0763,
+     "high": 0.1205,
+     "wins": "5/5"
+    },
+    "corr_gap_numeric": {
+     "clear": true,
+     "advantage": 0.2136,
+     "low": 0.1793,
+     "high": 0.2479,
+     "wins": "5/5"
+    },
+    "miss_rate_gap": {
+     "clear": false,
+     "advantage": 0.0101,
+     "low": -0.0029,
+     "high": 0.0231,
+     "wins": "4/5"
+    },
+    "site_miss_gap": null,
+    "pattern_tvd": {
+     "clear": true,
+     "advantage": 0.048,
+     "low": 0.0286,
+     "high": 0.0674,
+     "wins": "5/5"
+    },
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": {
+     "clear": false,
+     "advantage": 0.0322,
+     "low": -0.1225,
+     "high": 0.1869,
+     "wins": "3/5"
+    }
+   },
+   "CTGAN": {
+    "fidelity_pct": {
+     "clear": true,
+     "advantage": 13.112,
+     "low": 8.0794,
+     "high": 18.1446,
+     "wins": "5/5"
+    },
+    "detectability_pct": {
+     "clear": true,
+     "advantage": 22.274,
+     "low": 17.4679,
+     "high": 27.0801,
+     "wins": "5/5"
+    },
+    "tstr_auc": {
+     "clear": true,
+     "advantage": 0.2334,
+     "low": 0.1504,
+     "high": 0.3164,
+     "wins": "5/5"
+    },
+    "trtr_auc": null,
+    "auc_ratio": {
+     "clear": true,
+     "advantage": 0.2866,
+     "low": 0.184,
+     "high": 0.3892,
+     "wins": "5/5"
+    },
+    "dcr_closer_to_train_pct": {
+     "clear": false,
+     "advantage": 3.388,
+     "low": -2.4255,
+     "high": 9.2015,
+     "wins": "4/5"
+    },
+    "mia_auc": {
+     "clear": false,
+     "advantage": 0.0018,
+     "low": -0.014,
+     "high": 0.0176,
+     "wins": "3/5"
+    },
+    "corr_gap": {
+     "clear": true,
+     "advantage": 0.0851,
+     "low": 0.075,
+     "high": 0.0952,
+     "wins": "5/5"
+    },
+    "corr_gap_numeric": {
+     "clear": true,
+     "advantage": 0.1683,
+     "low": 0.163,
+     "high": 0.1736,
+     "wins": "5/5"
+    },
+    "miss_rate_gap": {
+     "clear": true,
+     "advantage": 0.0701,
+     "low": 0.0297,
+     "high": 0.1104,
+     "wins": "5/5"
+    },
+    "site_miss_gap": null,
+    "pattern_tvd": {
+     "clear": true,
+     "advantage": 0.2352,
+     "low": 0.1968,
+     "high": 0.2736,
+     "wins": "5/5"
+    },
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": {
+     "clear": false,
+     "advantage": -0.001,
+     "low": -0.1398,
+     "high": 0.1378,
+     "wins": "2/5"
+    }
+   }
+  },
+  "variants": {
+   "full": {
+    "fidelity_pct": {
+     "mean": 90.898,
+     "sd": 0.8452041173586404,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 64.026,
+     "sd": 2.643204494548238,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.8012,
+     "sd": 0.029558416737031076,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8156000000000001,
+     "sd": 0.031189741903388662,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.9832000000000001,
+     "sd": 0.04098414327517412,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 51.760000000000005,
+     "sd": 1.77426040929735,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.4935999999999999,
+     "sd": 0.02141961717678448,
+     "n": 5
+    },
+    "corr_gap": {
+     "mean": 0.027380000000000005,
+     "sd": 0.0026593232221751462,
+     "n": 5
+    },
+    "corr_gap_numeric": {
+     "mean": 0.03352000000000001,
+     "sd": 0.006622461777919145,
+     "n": 5
+    },
+    "miss_rate_gap": {
+     "mean": 0.01906,
+     "sd": 0.0021007141642784247,
+     "n": 5
+    },
+    "site_miss_gap": null,
+    "pattern_tvd": {
+     "mean": 0.06344000000000001,
+     "sd": 0.005718653687713567,
+     "n": 5
+    },
+    "miss_rate_gap_ref": {
+     "mean": 0.030160000000000003,
+     "sd": 0.010537931485827757,
+     "n": 5
+    },
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": {
+     "mean": 0.08506,
+     "sd": 0.04647868328599682,
+     "n": 5
+    },
+    "rare_pattern_dist_mia_auc": {
+     "mean": 0.5006,
+     "sd": 0.17735923996228672,
+     "n": 5
+    },
+    "common_pattern_dist_mia_auc": {
+     "mean": 0.506,
+     "sd": 0.016777961735562532,
+     "n": 5
+    },
+    "unique_pattern_leak_pct": {
+     "mean": 6.7025,
+     "sd": 36.534196195710486,
+     "n": 4
+    },
+    "n_rare_patients": {
+     "mean": 7.8,
+     "sd": 1.2922847983320087,
+     "n": 5
+    },
+    "n_unique_patterns": {
+     "mean": 1.8799999999999997,
+     "sd": 0.4381780460041328,
+     "n": 5
+    },
+    "train_seconds": {
+     "mean": 263.74,
+     "sd": 0.6024948132556759,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   },
+   "no_corr_loss": {
+    "fidelity_pct": {
+     "mean": 90.95599999999999,
+     "sd": 0.8784247264279375,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 63.766000000000005,
+     "sd": 2.8909998270494612,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.7856000000000001,
+     "sd": 0.02381806037443018,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8156000000000001,
+     "sd": 0.031189741903388662,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.9635999999999999,
+     "sd": 0.03154837555247492,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 52.029999999999994,
+     "sd": 2.922028405063853,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.5082,
+     "sd": 0.02899482712485108,
+     "n": 5
+    },
+    "corr_gap": {
+     "mean": 0.04804,
+     "sd": 0.003827923719198177,
+     "n": 5
+    },
+    "corr_gap_numeric": {
+     "mean": 0.06316,
+     "sd": 0.007862442368628212,
+     "n": 5
+    },
+    "miss_rate_gap": null,
+    "site_miss_gap": null,
+    "pattern_tvd": null,
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": null,
+    "common_pattern_dist_mia_auc": null,
+    "unique_pattern_leak_pct": null,
+    "n_rare_patients": null,
+    "n_unique_patterns": null,
+    "train_seconds": {
+     "mean": 273.08,
+     "sd": 1.1432410069622163,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   },
+   "no_missing_flags": {
+    "fidelity_pct": {
+     "mean": 88.36399999999999,
+     "sd": 2.5550303325009662,
+     "n": 5
+    },
+    "detectability_pct": {
+     "mean": 81.494,
+     "sd": 1.557603929116772,
+     "n": 5
+    },
+    "tstr_auc": {
+     "mean": 0.8093999999999999,
+     "sd": 0.0361012465158753,
+     "n": 5
+    },
+    "trtr_auc": {
+     "mean": 0.8156000000000001,
+     "sd": 0.031189741903388662,
+     "n": 5
+    },
+    "auc_ratio": {
+     "mean": 0.9926,
+     "sd": 0.03225368196035922,
+     "n": 5
+    },
+    "dcr_closer_to_train_pct": {
+     "mean": 52.54999999999999,
+     "sd": 4.542576361493553,
+     "n": 5
+    },
+    "mia_auc": {
+     "mean": 0.524,
+     "sd": 0.05491812087098392,
+     "n": 5
+    },
+    "corr_gap": {
+     "mean": 0.03754,
+     "sd": 0.0031989060630159185,
+     "n": 5
+    },
+    "corr_gap_numeric": {
+     "mean": 0.041639999999999996,
+     "sd": 0.0037253187783060932,
+     "n": 5
+    },
+    "miss_rate_gap": {
+     "mean": 0.1671,
+     "sd": 0.005819793810780579,
+     "n": 5
+    },
+    "site_miss_gap": null,
+    "pattern_tvd": {
+     "mean": 0.48630000000000007,
+     "sd": 0.018266225663776312,
+     "n": 5
+    },
+    "miss_rate_gap_ref": {
+     "mean": 0.030160000000000003,
+     "sd": 0.010537931485827757,
+     "n": 5
+    },
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": {
+     "mean": 0.08506,
+     "sd": 0.04647868328599682,
+     "n": 5
+    },
+    "rare_pattern_dist_mia_auc": {
+     "mean": 0.655,
+     "sd": 0.14706971136165325,
+     "n": 5
+    },
+    "common_pattern_dist_mia_auc": {
+     "mean": 0.5122,
+     "sd": 0.050844862080646876,
+     "n": 5
+    },
+    "unique_pattern_leak_pct": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 4
+    },
+    "n_rare_patients": {
+     "mean": 7.8,
+     "sd": 1.2922847983320087,
+     "n": 5
+    },
+    "n_unique_patterns": {
+     "mean": 1.8799999999999997,
+     "sd": 0.4381780460041328,
+     "n": 5
+    },
+    "train_seconds": {
+     "mean": 249.07999999999998,
+     "sd": 1.0709808588392267,
+     "n": 5
+    },
+    "exact_copies": {
+     "mean": 0.0,
+     "sd": 0.0,
+     "n": 5
+    }
+   }
+  },
+  "vs_full": {
+   "no_corr_loss": {
+    "fidelity_pct": {
+     "clear": false,
+     "advantage": -0.058,
+     "low": -0.9973,
+     "high": 0.8813,
+     "wins": "2/5"
+    },
+    "detectability_pct": {
+     "clear": false,
+     "advantage": -0.26,
+     "low": -6.0587,
+     "high": 5.5387,
+     "wins": "1/5"
+    },
+    "tstr_auc": {
+     "clear": false,
+     "advantage": 0.0156,
+     "low": -0.021,
+     "high": 0.0522,
+     "wins": "3/5"
+    },
+    "trtr_auc": null,
+    "auc_ratio": {
+     "clear": false,
+     "advantage": 0.0196,
+     "low": -0.0266,
+     "high": 0.0658,
+     "wins": "3/5"
+    },
+    "dcr_closer_to_train_pct": {
+     "clear": false,
+     "advantage": 1.13,
+     "low": -0.9618,
+     "high": 3.2218,
+     "wins": "3/5"
+    },
+    "mia_auc": {
+     "clear": false,
+     "advantage": 0.0058,
+     "low": -0.0126,
+     "high": 0.0242,
+     "wins": "2/5"
+    },
+    "corr_gap": {
+     "clear": true,
+     "advantage": 0.0207,
+     "low": 0.0156,
+     "high": 0.0257,
+     "wins": "5/5"
+    },
+    "corr_gap_numeric": {
+     "clear": true,
+     "advantage": 0.0296,
+     "low": 0.02,
+     "high": 0.0393,
+     "wins": "5/5"
+    },
+    "miss_rate_gap": null,
+    "site_miss_gap": null,
+    "pattern_tvd": null,
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": null,
+    "common_pattern_dist_mia_auc": null,
+    "unique_pattern_leak_pct": null,
+    "n_rare_patients": null,
+    "n_unique_patterns": null
+   },
+   "no_missing_flags": {
+    "fidelity_pct": {
+     "clear": false,
+     "advantage": 2.534,
+     "low": -0.2036,
+     "high": 5.2716,
+     "wins": "5/5"
+    },
+    "detectability_pct": {
+     "clear": true,
+     "advantage": 17.468,
+     "low": 12.8842,
+     "high": 22.0518,
+     "wins": "5/5"
+    },
+    "tstr_auc": {
+     "clear": false,
+     "advantage": -0.0082,
+     "low": -0.0452,
+     "high": 0.0288,
+     "wins": "1/5"
+    },
+    "trtr_auc": null,
+    "auc_ratio": {
+     "clear": false,
+     "advantage": -0.0094,
+     "low": -0.0559,
+     "high": 0.0371,
+     "wins": "1/5"
+    },
+    "dcr_closer_to_train_pct": {
+     "clear": false,
+     "advantage": 1.31,
+     "low": -2.7446,
+     "high": 5.3646,
+     "wins": "3/5"
+    },
+    "mia_auc": {
+     "clear": false,
+     "advantage": 0.0284,
+     "low": -0.0105,
+     "high": 0.0673,
+     "wins": "4/5"
+    },
+    "corr_gap": {
+     "clear": true,
+     "advantage": 0.0102,
+     "low": 0.0039,
+     "high": 0.0164,
+     "wins": "5/5"
+    },
+    "corr_gap_numeric": {
+     "clear": true,
+     "advantage": 0.0081,
+     "low": 0.0036,
+     "high": 0.0126,
+     "wins": "5/5"
+    },
+    "miss_rate_gap": {
+     "clear": true,
+     "advantage": 0.148,
+     "low": 0.143,
+     "high": 0.1531,
+     "wins": "5/5"
+    },
+    "site_miss_gap": null,
+    "pattern_tvd": {
+     "clear": true,
+     "advantage": 0.4229,
+     "low": 0.4065,
+     "high": 0.4392,
+     "wins": "5/5"
+    },
+    "miss_rate_gap_ref": null,
+    "site_miss_gap_ref": null,
+    "pattern_tvd_ref": null,
+    "rare_pattern_dist_mia_auc": {
+     "clear": false,
+     "advantage": 0.0376,
+     "low": -0.0619,
+     "high": 0.1371,
+     "wins": "3/5"
+    },
+    "common_pattern_dist_mia_auc": {
+     "clear": false,
+     "advantage": 0.0266,
+     "low": -0.011,
+     "high": 0.0642,
+     "wins": "4/5"
+    },
+    "unique_pattern_leak_pct": {
+     "clear": true,
+     "advantage": -30.7025,
+     "low": -49.3807,
+     "high": -12.0243,
+     "wins": "0/4"
+    },
+    "n_rare_patients": null,
+    "n_unique_patterns": null
+   }
+  },
+  "sample": {
+   "columns": [
+    "pregnancies",
+    "glucose",
+    "blood_pressure",
+    "skin_thickness",
+    "insulin",
+    "bmi",
+    "pedigree",
+    "age",
+    "outcome"
+   ],
+   "rows": [
+    [
+     1,
+     85,
+     70.0,
+     24.0,
+     103.0,
+     24.0,
+     1.309,
+     24,
+     0
+    ],
+    [
+     0,
+     189,
+     86.0,
+     70.0,
+     395.0,
+     50.1,
+     0.698,
+     21,
+     1
+    ],
+    [
+     6,
+     111,
+     77.0,
+     23.0,
+     169.0,
+     28.2,
+     0.367,
+     30,
+     0
+    ],
+    [
+     6,
+     134,
+     87.0,
+     null,
+     null,
+     28.9,
+     0.464,
+     30,
+     0
+    ],
+    [
+     10,
+     151,
+     82.0,
+     32.0,
+     245.0,
+     33.4,
+     0.585,
+     49,
+     1
+    ],
+    [
+     14,
+     132,
+     96.0,
+     31.0,
+     null,
+     36.8,
+     0.4,
+     41,
+     0
+    ],
+    [
+     0,
+     142,
+     64.0,
+     null,
+     null,
+     23.0,
+     0.284,
+     29,
+     0
+    ],
+    [
+     3,
+     109,
+     79.0,
+     36.0,
+     null,
+     39.1,
+     0.668,
+     69,
+     1
+    ]
+   ]
+  }
+ },
+ "settings": {
+  "epochs": 600,
+  "latent": 128,
+  "samples": 2000
+ },
+ "n_tests": 31
+}

@@ -1,0 +1,8 @@
+{
+  "name": "medtwin-muj-report",
+  "private": true,
+  "description": "Builds the MUJ-format project report (Word) for MedTwin",
+  "dependencies": {
+    "docx": "^9.11.0"
+  }
+}
