@@ -29,8 +29,8 @@
 \maketitle
 
 \begin{abstract}
-Synthetic patient records are a promising way to share clinical data
-without exposing real patients. Real clinical tables are incomplete in
+When patient data cannot leave a hospital, artificially generated records
+that mimic it are one way to let others study it. Real clinical tables are incomplete in
 structured ways --- whether a test was done often depends on the hospital
 --- and recent generators can keep these gaps. But there is no standard way
 to check whether the gaps are \emph{realistic}, and no study of whether
@@ -111,10 +111,12 @@ synthetic data look only at values. Our contributions are:
 \section{Related Work}
 
 \paragraph{Tabular and health-record generators.}
-Generative adversarial networks (GANs)~\cite{goodfellow2014gan} train a
-generator against a discriminator; Wasserstein GANs~\cite{arjovsky2017wgan}
-and their gradient-penalty variant~\cite{gulrajani2017wgangp} make this
-training more stable. medGAN~\cite{choi2017medgan} generated high-dimensional binary and count
+In a GAN~\cite{goodfellow2014gan}, one network learns to produce samples
+while a second learns to separate them from real ones, and each improves
+by competing with the other. Replacing the second network's real/fake
+decision with an estimate of the Wasserstein distance~\cite{arjovsky2017wgan},
+kept smooth by a gradient penalty~\cite{gulrajani2017wgangp}, makes this
+competition far less prone to collapse. medGAN~\cite{choi2017medgan} generated high-dimensional binary and count
 EHR features. CTGAN~\cite{xu2019ctgan} handled mixed-type tables with
 mode-specific normalisation and a conditional generator trained by
 sampling; the same work proposed TVAE. CTAB-GAN~\cite{zhao2021ctabgan}
@@ -137,9 +139,10 @@ diffusion models directly on incomplete tables and shows that
 ``impute-then-generate'' biases the learned distribution; Wang et
 al.~\cite{wang2025reinvented} preserve both the observed and the missing
 data distributions in a way that plugs into existing generators;
-IGAMT~\cite{wang2024igamt} handles missing and irregular EHR measurements
-under differential privacy; and Petrakos et al.~\cite{petrakos2025rct}
-add missingness models to synthetic trial data. MedTwin shares their goal.
+IGAMT~\cite{wang2024igamt} targets longitudinal records whose
+measurements are both incomplete and unevenly timed, and trains with
+differential privacy; and Petrakos et al.~\cite{petrakos2025rct} model the
+dropout process when synthesising randomised-trial data. MedTwin shares their goal.
 It differs in using an explicit site condition for missingness that is
 driven by hospital practice, in a simple flag encoding that also works for
 zero-coded gaps, and in a controlled ablation of that encoding against
@@ -153,9 +156,10 @@ common value, and report moderate train-on-synthetic, test-on-real accuracy
 (56\% on the five-level outcome). Subedi et al.~\cite{subedi2025health}
 trained CTGAN on the Pima diabetes data; a random forest fell from 82\%
 accuracy on real data to 63\% on synthetic data. Alqulaity and
-Yang~\cite{alqulaity2024cgan} proposed an enhanced conditional GAN for a
-single-hospital cardiovascular dataset of 218 patients, evaluated with
-distribution statistics only. Lazzaro et al.~\cite{lazzaro2026bayesian} used
+Yang~\cite{alqulaity2024cgan} gave continuous and categorical columns
+separate sub-networks in a conditional GAN and tested it on 218
+cardiovascular patients from one hospital, reporting only how closely the
+distributions match. Lazzaro et al.~\cite{lazzaro2026bayesian} used
 Bayesian networks trained on the Cleveland site to augment heart disease
 prediction. These studies use single runs, fill or drop missing values, and
 do not test on patients unseen by the generator or measure privacy; our
@@ -170,13 +174,15 @@ al.~\cite{alaa2022faithful} separate fidelity, diversity and generalisation
 privacy check~\cite{zhao2021ctabgan}, and membership inference attacks on
 generative models were shown by LOGAN~\cite{hayes2019logan} and
 systematised by GAN-Leaks~\cite{chen2020ganleaks}. Stadler et
-al.~\cite{stadler2022groundhog} show that synthetic data does not, in
-general, offer a better privacy--utility trade-off than traditional
-anonymisation, so empirical privacy checks must not be read as guarantees.
-Benchmarks of synthetic health data~\cite{yan2022benchmark,hernandez2025framework}
-and the Synthcity framework~\cite{qian2023synthcity} combine fidelity,
-utility and privacy metrics; Hernandez et al. find that simpler generators
-often match complex ones on fidelity and utility. Fang et
+al.~\cite{stadler2022groundhog} attacked many generators and found that
+how much privacy a synthetic release actually protects varies widely and is
+hard to predict in advance; passing a handful of attacks is therefore
+evidence, not proof. Large comparisons of generators on health
+records~\cite{yan2022benchmark,hernandez2025framework}, and the Synthcity
+library~\cite{qian2023synthcity}, score each model on how real its output
+looks, how useful it is and how much it reveals; in the study by Hernandez
+et al., the less complex models often did as well as the elaborate ones on
+the first two. Fang et
 al.~\cite{fang2025memorization} show that tabular diffusion models memorise
 training records, increasingly so with longer training.
 
