@@ -1,23 +1,79 @@
-% Every entry was checked against its publisher or proceedings page
-% (October 2026), except detrano1989 -- confirm it on PubMed before
-% submission.
+% Every entry was checked against its publisher, proceedings, Crossref,
+% DataCite or Europe PMC record (October 2026). Full author lists are given
+% except for PyTorch (21 authors), where "and others" is the usual form.
 
-@inproceedings{alaa2022faithful,
-  author    = {Alaa, Ahmed and van Breugel, Boris and Saveliev, Evgeny and van der Schaar, Mihaela},
-  title     = {How Faithful is your Synthetic Data? {S}ample-level Metrics for Evaluating and Auditing Generative Models},
-  booktitle = {Proceedings of the 39th International Conference on Machine Learning},
-  series    = {PMLR},
-  volume    = {162},
-  pages     = {290--306},
-  year      = {2022}
+% ---------------------------------------------------------------- data ---
+
+@article{detrano1989,
+  author  = {Detrano, R. and Janosi, A. and Steinbrunn, W. and Pfisterer, M. and Schmid, J.-J. and Sandhu, S. and Guppy, K. H. and Lee, S. and Froelicher, V.},
+  title   = {International application of a new probability algorithm for the diagnosis of coronary artery disease},
+  journal = {The American Journal of Cardiology},
+  volume  = {64},
+  number  = {5},
+  pages   = {304--310},
+  year    = {1989},
+  doi     = {10.1016/0002-9149(89)90524-9}
 }
 
-@inproceedings{chen2020ganleaks,
-  author    = {Chen, Dingfan and Yu, Ning and Zhang, Yang and Fritz, Mario},
-  title     = {{GAN-Leaks}: A Taxonomy of Membership Inference Attacks against Generative Models},
-  booktitle = {Proceedings of the 2020 ACM SIGSAC Conference on Computer and Communications Security (CCS)},
-  year      = {2020},
-  doi       = {10.1145/3372297.3417238}
+@misc{janosi1989heart,
+  author       = {Janosi, Andras and Steinbrunn, William and Pfisterer, Matthias and Detrano, Robert},
+  title        = {Heart Disease},
+  howpublished = {UCI Machine Learning Repository},
+  year         = {1989},
+  doi          = {10.24432/C52P4X}
+}
+
+@inproceedings{smith1988adap,
+  author    = {Smith, Jack W. and Everhart, J. E. and Dickson, W. C. and Knowler, W. C. and Johannes, R. S.},
+  title     = {Using the {ADAP} Learning Algorithm to Forecast the Onset of Diabetes Mellitus},
+  booktitle = {Proceedings of the Annual Symposium on Computer Application in Medical Care},
+  pages     = {261--265},
+  year      = {1988}
+}
+
+@article{vanschoren2014openml,
+  author  = {Vanschoren, Joaquin and van Rijn, Jan N. and Bischl, Bernd and Torgo, Luis},
+  title   = {{OpenML}: Networked Science in Machine Learning},
+  journal = {ACM SIGKDD Explorations Newsletter},
+  volume  = {15},
+  number  = {2},
+  pages   = {49--60},
+  year    = {2014},
+  doi     = {10.1145/2641190.2641198}
+}
+
+% ------------------------------------------------- generative models ---
+
+@inproceedings{goodfellow2014gan,
+  author    = {Goodfellow, Ian J. and Pouget-Abadie, Jean and Mirza, Mehdi and Xu, Bing and Warde-Farley, David and Ozair, Sherjil and Courville, Aaron and Bengio, Yoshua},
+  title     = {Generative Adversarial Nets},
+  booktitle = {Advances in Neural Information Processing Systems 27 (NIPS)},
+  pages     = {2672--2680},
+  year      = {2014}
+}
+
+@inproceedings{arjovsky2017wgan,
+  author    = {Arjovsky, Martin and Chintala, Soumith and Bottou, L{\'e}on},
+  title     = {{W}asserstein Generative Adversarial Networks},
+  booktitle = {Proceedings of the 34th International Conference on Machine Learning},
+  series    = {PMLR},
+  volume    = {70},
+  pages     = {214--223},
+  year      = {2017}
+}
+
+@inproceedings{gulrajani2017wgangp,
+  author    = {Gulrajani, Ishaan and Ahmed, Faruk and Arjovsky, Martin and Dumoulin, Vincent and Courville, Aaron},
+  title     = {Improved Training of {W}asserstein {GANs}},
+  booktitle = {Advances in Neural Information Processing Systems 30 (NeurIPS)},
+  year      = {2017}
+}
+
+@inproceedings{jang2017gumbel,
+  author    = {Jang, Eric and Gu, Shixiang and Poole, Ben},
+  title     = {Categorical Reparameterization with {G}umbel-Softmax},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2017}
 }
 
 @inproceedings{choi2017medgan,
@@ -30,47 +86,21 @@
   year      = {2017}
 }
 
-@article{detrano1989,
-  author  = {Detrano, Robert and others},
-  title   = {International application of a new probability algorithm for the diagnosis of coronary artery disease},
-  journal = {American Journal of Cardiology},
-  volume  = {64},
-  number  = {5},
-  pages   = {304--310},
-  year    = {1989},
-  note    = {VERIFY before submission}
+@inproceedings{xu2019ctgan,
+  author    = {Xu, Lei and Skoularidou, Maria and Cuesta-Infante, Alfredo and Veeramachaneni, Kalyan},
+  title     = {Modeling Tabular Data using Conditional {GAN}},
+  booktitle = {Advances in Neural Information Processing Systems 32 (NeurIPS)},
+  year      = {2019}
 }
 
-@article{esteban2017rcgan,
-  author  = {Esteban, Crist{\'o}bal and Hyland, Stephanie L. and R{\"a}tsch, Gunnar},
-  title   = {Real-valued (Medical) Time Series Generation with Recurrent Conditional {GANs}},
-  journal = {arXiv preprint arXiv:1706.02633},
-  year    = {2017}
-}
-
-@inproceedings{gulrajani2017wgangp,
-  author    = {Gulrajani, Ishaan and Ahmed, Faruk and Arjovsky, Martin and Dumoulin, Vincent and Courville, Aaron},
-  title     = {Improved Training of {W}asserstein {GANs}},
-  booktitle = {Advances in Neural Information Processing Systems 30 (NeurIPS)},
-  year      = {2017}
-}
-
-@article{hayes2019logan,
-  author  = {Hayes, Jamie and Melis, Luca and Danezis, George and De Cristofaro, Emiliano},
-  title   = {{LOGAN}: Membership Inference Attacks Against Generative Models},
-  journal = {Proceedings on Privacy Enhancing Technologies},
-  volume  = {2019},
-  number  = {1},
-  pages   = {133--152},
-  year    = {2019},
-  doi     = {10.2478/popets-2019-0008}
-}
-
-@inproceedings{jang2017gumbel,
-  author    = {Jang, Eric and Gu, Shixiang and Poole, Ben},
-  title     = {Categorical Reparameterization with {G}umbel-Softmax},
-  booktitle = {International Conference on Learning Representations (ICLR)},
-  year      = {2017}
+@inproceedings{zhao2021ctabgan,
+  author    = {Zhao, Zilong and Kunar, Aditya and Birke, Robert and Chen, Lydia Y.},
+  title     = {{CTAB-GAN}: Effective Table Data Synthesizing},
+  booktitle = {Proceedings of the 13th Asian Conference on Machine Learning},
+  series    = {PMLR},
+  volume    = {157},
+  pages     = {97--112},
+  year      = {2021}
 }
 
 @inproceedings{kotelnikov2023tabddpm,
@@ -83,42 +113,24 @@
   year      = {2023}
 }
 
-@inproceedings{li2019misgan,
-  author    = {Li, Steven Cheng-Xian and Jiang, Bo and Marlin, Benjamin M.},
-  title     = {{MisGAN}: Learning from Incomplete Data with Generative Adversarial Networks},
+@inproceedings{zhang2024tabsyn,
+  author    = {Zhang, Hengrui and Zhang, Jiani and Srinivasan, Balasubramaniam and Shen, Zhengyuan and Qin, Xiao and Faloutsos, Christos and Rangwala, Huzefa and Karypis, George},
+  title     = {Mixed-Type Tabular Data Synthesis with Score-based Diffusion in Latent Space},
   booktitle = {International Conference on Learning Representations (ICLR)},
-  year      = {2019}
+  year      = {2024}
 }
 
-@inproceedings{qian2023synthcity,
-  author    = {Qian, Zhaozhi and Davis, Rob and van der Schaar, Mihaela},
-  title     = {Synthcity: A Benchmark Framework for Diverse Use Cases of Tabular Synthetic Data},
-  booktitle = {Advances in Neural Information Processing Systems 36 (NeurIPS), Datasets and Benchmarks Track},
-  year      = {2023}
+@article{yoon2023ehrsafe,
+  author  = {Yoon, Jinsung and Mizrahi, Michel and Ghalaty, Nahid Farhady and Jarvinen, Thomas and Ravi, Ashwin S. and Brune, Peter and Kong, Fanyu and Anderson, Dave and Lee, George and Meir, Arie and Bandukwala, Farhana and Kanal, Elli and Ar{\i}k, Sercan {\"O}. and Pfister, Tomas},
+  title   = {{EHR-Safe}: Generating High-fidelity and Privacy-preserving Synthetic Electronic Health Records},
+  journal = {npj Digital Medicine},
+  volume  = {6},
+  pages   = {141},
+  year    = {2023},
+  doi     = {10.1038/s41746-023-00888-7}
 }
 
-@inproceedings{smith1988adap,
-  author    = {Smith, Jack W. and Everhart, J. E. and Dickson, W. C. and Knowler, W. C. and Johannes, R. S.},
-  title     = {Using the {ADAP} Learning Algorithm to Forecast the Onset of Diabetes Mellitus},
-  booktitle = {Proceedings of the Annual Symposium on Computer Application in Medical Care},
-  pages     = {261--265},
-  year      = {1988}
-}
-
-@inproceedings{stadler2022groundhog,
-  author    = {Stadler, Theresa and Oprisanu, Bristena and Troncoso, Carmela},
-  title     = {Synthetic Data -- Anonymisation Groundhog Day},
-  booktitle = {31st USENIX Security Symposium},
-  pages     = {1451--1468},
-  year      = {2022}
-}
-
-@inproceedings{xu2019ctgan,
-  author    = {Xu, Lei and Skoularidou, Maria and Cuesta-Infante, Alfredo and Veeramachaneni, Kalyan},
-  title     = {Modeling Tabular Data using Conditional {GAN}},
-  booktitle = {Advances in Neural Information Processing Systems 32 (NeurIPS)},
-  year      = {2019}
-}
+% ----------------------------------------------------- missing data ---
 
 @inproceedings{yoon2018gain,
   author    = {Yoon, Jinsung and Jordon, James and van der Schaar, Mihaela},
@@ -130,31 +142,11 @@
   year      = {2018}
 }
 
-@article{yoon2023ehrsafe,
-  author  = {Yoon, Jinsung and others},
-  title   = {{EHR-Safe}: Generating High-fidelity and Privacy-preserving Synthetic Electronic Health Records},
-  journal = {npj Digital Medicine},
-  volume  = {6},
-  pages   = {141},
-  year    = {2023},
-  doi     = {10.1038/s41746-023-00888-7}
-}
-
-@inproceedings{zhang2024tabsyn,
-  author    = {Zhang, Hengrui and others},
-  title     = {Mixed-Type Tabular Data Synthesis with Score-based Diffusion in Latent Space},
+@inproceedings{li2019misgan,
+  author    = {Li, Steven Cheng-Xian and Jiang, Bo and Marlin, Benjamin M.},
+  title     = {{MisGAN}: Learning from Incomplete Data with Generative Adversarial Networks},
   booktitle = {International Conference on Learning Representations (ICLR)},
-  year      = {2024}
-}
-
-@inproceedings{zhao2021ctabgan,
-  author    = {Zhao, Zilong and Kunar, Aditya and Birke, Robert and Chen, Lydia Y.},
-  title     = {{CTAB-GAN}: Effective Table Data Synthesizing},
-  booktitle = {Proceedings of the 13th Asian Conference on Machine Learning},
-  series    = {PMLR},
-  volume    = {157},
-  pages     = {97--112},
-  year      = {2021}
+  year      = {2019}
 }
 
 @article{bing2022healthgen,
@@ -172,16 +164,6 @@
   year      = {2023}
 }
 
-@article{wang2025reinvented,
-  author  = {Wang, Xinyue and Asif, Hafiz and Gupta, Shashank and Vaidya, Jaideep},
-  title   = {Data Synthesis Reinvented: Preserving Missing Patterns for Enhanced Analysis},
-  journal = {IEEE Transactions on Knowledge and Data Engineering},
-  volume  = {37},
-  number  = {7},
-  pages   = {3962--3975},
-  year    = {2025}
-}
-
 @inproceedings{wang2024igamt,
   author    = {Wang, Wenjie and Tang, Pengfei and Lou, Jian and Shao, Yuanming and Waller, Lance and Ko, Yi-an and Xiong, Li},
   title     = {{IGAMT}: Privacy-Preserving Electronic Health Record Synthesization with Heterogeneity and Irregularity},
@@ -193,9 +175,193 @@
   doi       = {10.1609/aaai.v38i14.29491}
 }
 
+@article{wang2025reinvented,
+  author  = {Wang, Xinyue and Asif, Hafiz and Gupta, Shashank and Vaidya, Jaideep},
+  title   = {Data Synthesis Reinvented: Preserving Missing Patterns for Enhanced Analysis},
+  journal = {IEEE Transactions on Knowledge and Data Engineering},
+  volume  = {37},
+  number  = {7},
+  pages   = {3962--3975},
+  year    = {2025}
+}
+
 @article{petrakos2025rct,
   author  = {Petrakos, Niki Z. and Moodie, Erica E. M. and Savy, Nicolas},
   title   = {Incorporating Missingness in a Framework for Generating Realistic Synthetic Randomized Controlled Trial Data},
   journal = {arXiv preprint arXiv:2512.00183},
   year    = {2025}
+}
+
+% ------------------------------------- synthetic data on these datasets ---
+
+@article{alqulaity2024cgan,
+  author  = {Alqulaity, Malak and Yang, Po},
+  title   = {Enhanced Conditional {GAN} for High-Quality Synthetic Tabular Data Generation in Mobile-Based Cardiovascular Healthcare},
+  journal = {Sensors},
+  volume  = {24},
+  number  = {23},
+  pages   = {7673},
+  year    = {2024},
+  doi     = {10.3390/s24237673}
+}
+
+@article{wanabubakar2025ctgan,
+  author  = {Wan Abu Bakar, Wan Aezwani and Josdi, Nur Laila Najwa and Man, Mustafa and Kadir, Evizal Abdul},
+  title   = {Evaluating {CTGAN}-Generated Synthetic Data for Heart Disease Prediction: Fidelity, Predictive Utility, and Feature Preservation},
+  journal = {International Journal of Advanced Computer Science and Applications},
+  volume  = {16},
+  number  = {12},
+  pages   = {1000--1009},
+  year    = {2025},
+  doi     = {10.14569/IJACSA.2025.0161296}
+}
+
+@inproceedings{subedi2025health,
+  author    = {Subedi, Prabina and Divakarla, Sri Ramya and Emani, Manaswini and Kochuvila, Sreeja and R., Sunitha},
+  title     = {Synthetic Data for Health Risk Prediction: An Evaluation using Machine Learning},
+  booktitle = {5th International Conference on Ubiquitous Computing and Intelligent Information Systems (ICUIS)},
+  publisher = {IEEE},
+  year      = {2025},
+  doi       = {10.1109/ICUIS67429.2025.11380688}
+}
+
+@article{lazzaro2026bayesian,
+  author  = {Lazzaro, I. and Milano, M. and Tucker, A. and Cannataro, M.},
+  title   = {Assessing the impact of synthetic data generated by {B}ayesian networks on heart disease prediction},
+  journal = {Journal of Computational Science},
+  volume  = {99},
+  pages   = {102940},
+  year    = {2026},
+  doi     = {10.1016/j.jocs.2026.102940}
+}
+
+% ------------------------------------------------------- evaluation ---
+
+@article{esteban2017rcgan,
+  author  = {Esteban, Crist{\'o}bal and Hyland, Stephanie L. and R{\"a}tsch, Gunnar},
+  title   = {Real-valued (Medical) Time Series Generation with Recurrent Conditional {GANs}},
+  journal = {arXiv preprint arXiv:1706.02633},
+  year    = {2017}
+}
+
+@article{goncalves2020synthetic,
+  author  = {Goncalves, Andre and Ray, Priyadip and Soper, Braden and Stevens, Jennifer and Coyle, Linda and Sales, Ana Paula},
+  title   = {Generation and evaluation of synthetic patient data},
+  journal = {BMC Medical Research Methodology},
+  volume  = {20},
+  pages   = {108},
+  year    = {2020},
+  doi     = {10.1186/s12874-020-00977-1}
+}
+
+@article{yan2022benchmark,
+  author  = {Yan, Chao and Yan, Yao and Wan, Zhiyu and Zhang, Ziqi and Omberg, Larsson and Guinney, Justin and Mooney, Sean D. and Malin, Bradley A.},
+  title   = {A Multifaceted benchmarking of synthetic electronic health record generation models},
+  journal = {Nature Communications},
+  volume  = {13},
+  pages   = {7609},
+  year    = {2022},
+  doi     = {10.1038/s41467-022-35295-1}
+}
+
+@article{hernandez2025framework,
+  author  = {Hernandez, Mikel and Osorio-Marulanda, Pablo A. and Catalina, Mikel and Loinaz, Lorea and Epelde, Gorka and Aginako, Naiara},
+  title   = {Comprehensive evaluation framework for synthetic tabular data in health: fidelity, utility and privacy analysis of generative models with and without privacy guarantees},
+  journal = {Frontiers in Digital Health},
+  volume  = {7},
+  pages   = {1576290},
+  year    = {2025},
+  doi     = {10.3389/fdgth.2025.1576290}
+}
+
+@inproceedings{qian2023synthcity,
+  author    = {Qian, Zhaozhi and Davis, Rob and van der Schaar, Mihaela},
+  title     = {Synthcity: A Benchmark Framework for Diverse Use Cases of Tabular Synthetic Data},
+  booktitle = {Advances in Neural Information Processing Systems 36 (NeurIPS), Datasets and Benchmarks Track},
+  year      = {2023}
+}
+
+@inproceedings{alaa2022faithful,
+  author    = {Alaa, Ahmed and van Breugel, Boris and Saveliev, Evgeny and van der Schaar, Mihaela},
+  title     = {How Faithful is your Synthetic Data? {S}ample-level Metrics for Evaluating and Auditing Generative Models},
+  booktitle = {Proceedings of the 39th International Conference on Machine Learning},
+  series    = {PMLR},
+  volume    = {162},
+  pages     = {290--306},
+  year      = {2022}
+}
+
+% ---------------------------------------------------------- privacy ---
+
+@article{hayes2019logan,
+  author  = {Hayes, Jamie and Melis, Luca and Danezis, George and De Cristofaro, Emiliano},
+  title   = {{LOGAN}: Membership Inference Attacks Against Generative Models},
+  journal = {Proceedings on Privacy Enhancing Technologies},
+  volume  = {2019},
+  number  = {1},
+  pages   = {133--152},
+  year    = {2019},
+  doi     = {10.2478/popets-2019-0008}
+}
+
+@inproceedings{chen2020ganleaks,
+  author    = {Chen, Dingfan and Yu, Ning and Zhang, Yang and Fritz, Mario},
+  title     = {{GAN-Leaks}: A Taxonomy of Membership Inference Attacks against Generative Models},
+  booktitle = {Proceedings of the 2020 ACM SIGSAC Conference on Computer and Communications Security (CCS)},
+  year      = {2020},
+  doi       = {10.1145/3372297.3417238}
+}
+
+@inproceedings{stadler2022groundhog,
+  author    = {Stadler, Theresa and Oprisanu, Bristena and Troncoso, Carmela},
+  title     = {Synthetic Data -- Anonymisation Groundhog Day},
+  booktitle = {31st USENIX Security Symposium},
+  pages     = {1451--1468},
+  year      = {2022}
+}
+
+@inproceedings{fang2025memorization,
+  author    = {Fang, Zhengyu and Jiang, Zhimeng and Chen, Huiyuan and Li, Xiao and Li, Jing},
+  title     = {Understanding and Mitigating Memorization in Diffusion Models for Tabular Data},
+  booktitle = {Proceedings of the 42nd International Conference on Machine Learning},
+  series    = {PMLR},
+  volume    = {267},
+  pages     = {15976--16005},
+  year      = {2025}
+}
+
+% --------------------------------------------------- tools and methods ---
+
+@inproceedings{kingma2015adam,
+  author    = {Kingma, Diederik P. and Ba, Jimmy},
+  title     = {Adam: A Method for Stochastic Optimization},
+  booktitle = {3rd International Conference on Learning Representations (ICLR)},
+  year      = {2015}
+}
+
+@article{breiman2001rf,
+  author  = {Breiman, Leo},
+  title   = {Random Forests},
+  journal = {Machine Learning},
+  volume  = {45},
+  number  = {1},
+  pages   = {5--32},
+  year    = {2001},
+  doi     = {10.1023/A:1010933404324}
+}
+
+@article{pedregosa2011sklearn,
+  author  = {Pedregosa, Fabian and Varoquaux, Ga{\"e}l and Gramfort, Alexandre and Michel, Vincent and Thirion, Bertrand and Grisel, Olivier and Blondel, Mathieu and Prettenhofer, Peter and Weiss, Ron and Dubourg, Vincent and Vanderplas, Jake and Passos, Alexandre and Cournapeau, David and Brucher, Matthieu and Perrot, Matthieu and Duchesnay, {\'E}douard},
+  title   = {Scikit-learn: Machine Learning in {P}ython},
+  journal = {Journal of Machine Learning Research},
+  volume  = {12},
+  pages   = {2825--2830},
+  year    = {2011}
+}
+
+@inproceedings{paszke2019pytorch,
+  author    = {Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam and Bradbury, James and others},
+  title     = {{PyTorch}: An Imperative Style, High-Performance Deep Learning Library},
+  booktitle = {Advances in Neural Information Processing Systems 32 (NeurIPS)},
+  year      = {2019}
 }

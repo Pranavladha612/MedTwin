@@ -1,8 +1,8 @@
 # MedTwin paper (Springer LNCS)
 
 - `main.tex` — the paper, in Springer's LNCS format (`llncs` class).
-- `references.bib` — bibliography. Every entry was checked online except
-  `detrano1989` (marked VERIFY): confirm it on PubMed before submitting.
+- `references.bib` — bibliography (39 entries, all cited). Every entry was
+  checked against its publisher, Crossref, DataCite or Europe PMC record.
 - `tables/` — generated from the saved results; never edit by hand:
   `python research/paper_tables.py`
 - `figures/` — copies of `../figures/heart_disease/fig_benchmark.png` and

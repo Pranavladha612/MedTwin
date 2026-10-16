@@ -61,13 +61,14 @@ utility matching the best baseline (TSTR/TRTR AUC ratio 0.975 and 0.983).
 Machine learning for clinical prediction depends on access to patient data
 that privacy law and institutional policy rightly restrict. Synthetic data
 --- records drawn from a generative model trained on real patients --- is
-one proposed way to share such data, and tabular generators such as
+one proposed way to share such data~\cite{goncalves2020synthetic,yan2022benchmark},
+and tabular generators such as
 CTGAN~\cite{xu2019ctgan}, TVAE~\cite{xu2019ctgan} and
 TabDDPM~\cite{kotelnikov2023tabddpm} are now standard tools for it.
 
 Clinical tables, however, are rarely complete, and their gaps are not
-random. In the UCI heart disease data, collected at four hospitals for
-Detrano et al.~\cite{detrano1989}, every Swiss patient has a serum
+random. In the UCI heart disease data~\cite{janosi1989heart}, collected at
+four hospitals for Detrano et al.~\cite{detrano1989}, every Swiss patient has a serum
 cholesterol of 0 (the test was not recorded), the number of major vessels
 coloured by fluoroscopy is missing for 96--99\% of patients at three of the
 four sites, and resting blood pressure is missing for 28\% of VA Long Beach
@@ -110,7 +111,10 @@ synthetic data look only at values. Our contributions are:
 \section{Related Work}
 
 \paragraph{Tabular and health-record generators.}
-medGAN~\cite{choi2017medgan} generated high-dimensional binary and count
+Generative adversarial networks (GANs)~\cite{goodfellow2014gan} train a
+generator against a discriminator; Wasserstein GANs~\cite{arjovsky2017wgan}
+and their gradient-penalty variant~\cite{gulrajani2017wgangp} make this
+training more stable. medGAN~\cite{choi2017medgan} generated high-dimensional binary and count
 EHR features. CTGAN~\cite{xu2019ctgan} handled mixed-type tables with
 mode-specific normalisation and a conditional generator trained by
 sampling; the same work proposed TVAE. CTAB-GAN~\cite{zhao2021ctabgan}
@@ -141,6 +145,23 @@ driven by hospital practice, in a simple flag encoding that also works for
 zero-coded gaps, and in a controlled ablation of that encoding against
 imputation under a multi-seed held-out protocol.
 
+\paragraph{Synthetic data for these datasets.}
+Recent studies generated synthetic versions of the same or similar data.
+Wan Abu Bakar et al.~\cite{wanabubakar2025ctgan} trained CTGAN on the 303
+Cleveland heart disease patients after filling missing values with the most
+common value, and report moderate train-on-synthetic, test-on-real accuracy
+(56\% on the five-level outcome). Subedi et al.~\cite{subedi2025health}
+trained CTGAN on the Pima diabetes data; a random forest fell from 82\%
+accuracy on real data to 63\% on synthetic data. Alqulaity and
+Yang~\cite{alqulaity2024cgan} proposed an enhanced conditional GAN for a
+single-hospital cardiovascular dataset of 218 patients, evaluated with
+distribution statistics only. Lazzaro et al.~\cite{lazzaro2026bayesian} used
+Bayesian networks trained on the Cleveland site to augment heart disease
+prediction. These studies use single runs, fill or drop missing values, and
+do not test on patients unseen by the generator or measure privacy; our
+evaluation addresses each of these points and uses all four heart disease
+sites, including the largely incomplete ones.
+
 \paragraph{Evaluation.}
 Train-on-synthetic, test-on-real (TSTR) was introduced for medical time
 series by Esteban et al.~\cite{esteban2017rcgan}. Alaa et
@@ -152,8 +173,12 @@ systematised by GAN-Leaks~\cite{chen2020ganleaks}. Stadler et
 al.~\cite{stadler2022groundhog} show that synthetic data does not, in
 general, offer a better privacy--utility trade-off than traditional
 anonymisation, so empirical privacy checks must not be read as guarantees.
-Synthcity~\cite{qian2023synthcity} collects generators and metrics in one
-benchmark framework.
+Benchmarks of synthetic health data~\cite{yan2022benchmark,hernandez2025framework}
+and the Synthcity framework~\cite{qian2023synthcity} combine fidelity,
+utility and privacy metrics; Hernandez et al. find that simpler generators
+often match complex ones on fidelity and utility. Fang et
+al.~\cite{fang2025memorization} show that tabular diffusion models memorise
+training records, increasingly so with longer training.
 
 % ---------------------------------------------------------------------------
 \section{Method}
@@ -181,7 +206,7 @@ column is one-hot encoded, with ``not measured'' as an extra category.
 
 \emph{Condition.} The site is not generated; it is a one-hot condition
 vector $c$. Datasets without a site column use a constant condition, which
-reduces the model to an unconditional GAN.
+reduces the model to an unconditional GAN~\cite{goodfellow2014gan}.
 
 \subsection{Conditional WGAN-GP}
 
@@ -212,8 +237,9 @@ are excluded; without this, a batch that happens to contain no patients of
 a rare category produces NaN gradients that corrupt training.
 
 We train for 600 epochs with batch size 64, five critic updates per
-generator update, and Adam (learning rate $10^{-4}$,
-$\beta = (0, 0.9)$).
+generator update, and Adam~\cite{kingma2015adam} (learning rate $10^{-4}$,
+$\beta = (0, 0.9)$). The model is implemented in
+PyTorch~\cite{paszke2019pytorch}.
 
 \subsection{Decoding}
 
@@ -280,12 +306,13 @@ report it.
 \label{sec:setup}
 
 \paragraph{Datasets.}
-\emph{Heart disease} (UCI) has 920 patients from Cleveland (304), Hungary
+\emph{Heart disease} (UCI~\cite{janosi1989heart,detrano1989}) has 920 patients from Cleveland (304), Hungary
 (293), VA Long Beach (200) and Switzerland (123), with 7 numeric and 7
 categorical columns plus the site; 55.3\% have disease (severity
 $> 0$). Five numeric columns are sometimes missing, and missingness is
 strongly site-dependent (Sect.~\ref{sec:missingness}). \emph{Pima
-diabetes}~\cite{smith1988adap} has 768 patients with 9 numeric columns and
+diabetes}~\cite{smith1988adap}, taken from OpenML (dataset
+37)~\cite{vanschoren2014openml}, has 768 patients with 9 numeric columns and
 no site; zeros in glucose, blood pressure, skin fold, insulin and BMI mean
 ``not measured'' (insulin: 48.7\% of patients), while 0 pregnancies is a
 real value. Both datasets run from settings files alone, with no code
@@ -311,11 +338,12 @@ and generate the site like any other column.
 \paragraph{Metrics.}
 \emph{Fidelity}: mean histogram overlap (20 bins) between real and
 synthetic distributions of four key numeric columns, on measured values.
-\emph{Detectability}: held-out accuracy of a random forest trained to tell
+\emph{Detectability}: held-out accuracy of a random forest~\cite{breiman2001rf} trained to tell
 real from synthetic records on a balanced sample (50\% = indistinguishable).
 \emph{Utility}: a random forest trained on synthetic (TSTR) or real
 training (TRTR) records predicts the binary outcome of held-out patients; we
-report TSTR AUC and the ratio TSTR/TRTR. \emph{DCR}: the share of synthetic
+report TSTR AUC and the ratio TSTR/TRTR. Classifiers and nearest-neighbour
+searches use scikit-learn~\cite{pedregosa2011sklearn}. \emph{DCR}: the share of synthetic
 records whose nearest real record is a training rather than a held-out
 patient, with equally sized real sets (50\% = no memorisation).
 \emph{Membership inference}: AUC of an attacker who scores each real patient
@@ -364,7 +392,8 @@ clearly above CTGAN.
 On diabetes, TabDDPM is the least detectable model (55.9\% against 64.0\%
 for MedTwin) but memorises its training patients: 60.8\% of its records are
 closer to a training than to a held-out patient, and membership inference
-reaches an AUC of 0.803 (MedTwin: 51.8\% and 0.494). For MedTwin, CTGAN and
+reaches an AUC of 0.803 (MedTwin: 51.8\% and 0.494), in line with the
+memorisation reported for tabular diffusion models~\cite{fang2025memorization}. For MedTwin, CTGAN and
 TVAE, mean DCR stays within 49.7--54.0\% and membership-inference AUC
 within 0.494--0.533 on both datasets, and no model produced an exact copy
 of a training record: these tests detect no memorisation. They are empirical checks against one
@@ -494,7 +523,9 @@ heart disease. With $\alpha \in \{0.5, 8\}$ or 300 epochs, no metric differs
 clearly from the default (the correlation gap was measured for the full
 model and its ablation only). Training for 1200 epochs gives the same realism
 and utility but starts to memorise: DCR rises from 53.2\% to 55.3\% and
-membership-inference AUC from 0.532 to 0.548, both clear in every seed.
+membership-inference AUC from 0.532 to 0.548, both clear in every seed
+--- the same trend with training length that Fang et
+al.~\cite{fang2025memorization} report for diffusion models.
 The results therefore do not hinge on these settings, and 600 epochs is a
 reasonable stopping point.
 

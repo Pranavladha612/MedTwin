@@ -223,16 +223,16 @@ inventions. Our project asks:</p>
 def ideas():
     rows = [
         ("Generative AI / generator", "A model that learns from examples and then produces new examples of the same kind."),
-        ("GAN (Generative Adversarial Network)", "Two networks that compete: a <i>generator</i> makes fake records, a <i>critic</i> tries to tell fake from real. Both improve until the fakes are hard to spot."),
-        ("Wasserstein GAN with gradient penalty (WGAN-GP)", "A more stable kind of GAN. The critic gives a &ldquo;realness score&rdquo; instead of a yes/no answer, and a penalty keeps training smooth."),
+        ("GAN (Generative Adversarial Network)", "Two networks that compete: a <i>generator</i> makes fake records, a <i>critic</i> tries to tell fake from real. Both improve until the fakes are hard to spot [15]."),
+        ("Wasserstein GAN with gradient penalty (WGAN-GP)", "A more stable kind of GAN. The critic gives a &ldquo;realness score&rdquo; instead of a yes/no answer, and a penalty keeps training smooth [16, 17]."),
         ("Conditioning", "Telling the generator what kind of record to make. We tell it the hospital, so it learns each hospital's habits."),
         ("Missing-value flag", "An extra yes/no value per column: &ldquo;was this measured?&rdquo; The generator learns these too, and leaves a value blank when it says &ldquo;no&rdquo;."),
         ("Held-out patients", "20% of real patients that no model ever sees during training. We test on them so the results are fair."),
         ("Seed", "A number that fixes the random choices. We repeat everything with 5 seeds to check results are not luck."),
-        ("TSTR", "Train on Synthetic, Test on Real: train a disease predictor on fake data and test it on real held-out patients."),
+        ("TSTR", "Train on Synthetic, Test on Real: train a disease predictor on fake data and test it on real held-out patients [20]."),
         ("AUC", "A score for how well a predictor separates two groups: 1.0 = perfect, 0.5 = coin flip."),
         ("Detectability", "How often a classifier can tell a fake record from a real one. 50% = impossible to tell (best)."),
-        ("Membership inference attack (MIA)", "An attack that tries to find out whether a given real patient was used to train the generator. AUC 0.5 = attack fails (good)."),
+        ("Membership inference attack (MIA)", "An attack that tries to find out whether a given real patient was used to train the generator. AUC 0.5 = attack fails (good) [21, 22]."),
         ("DCR (distance to closest record)", "Checks whether fake records sit suspiciously close to training patients. 50% = no sign of copying."),
         ("Ablation", "Switching off one part of the system to see how much that part matters."),
         ("Paired 95% confidence interval", "A statistical test across the 5 seeds. We call a difference &ldquo;clear&rdquo; only when the interval does not include zero."),
@@ -281,7 +281,7 @@ def data_section():
     ("Hospitals", "4: Cleveland, Hungary, Switzerland, VA Long Beach", "1 (one clinic)"),
     ("Prediction target", f"has heart disease (severity &gt; 0): {h['pos']:.1f}% yes", f"has diabetes: {d['pos']:.1f}% yes"),
     ("Missing values", "many, depending strongly on hospital", "zeros that mean &ldquo;not measured&rdquo;"),
-    ("Source", "UCI Machine Learning Repository [1]", "OpenML dataset 37 [2]"),
+    ("Source", "UCI Machine Learning Repository [1]; collected by Detrano et al. [13]", "OpenML dataset 37 [2]; Smith et al. [14]"),
 ], "", ["22%", "45%", "33%"])}
 <h3>Heart disease: the columns</h3>
 {table(["Column", "Meaning", "Type", "Missing"], rows, "compact", ["14%", "52%", "16%", "18%"])}
@@ -348,10 +348,10 @@ def specs():
         ("Generator outputs", "Sigmoid for numbers and flags (0&ndash;1); Gumbel-softmax (&tau; = 0.2) per category, exactly one-hot when sampling"),
         ("Critic layers", "Linear 512 &rarr; LeakyReLU &rarr; Dropout 0.3 &rarr; Linear 256 &rarr; LeakyReLU &rarr; Dropout 0.3 &rarr; Linear 1 (no sigmoid)"),
         ("Critic input", "record + hospital, so it judges realism per hospital"),
-        ("Loss", "Wasserstein loss + gradient penalty (&lambda; = 10) + correlation penalty (&alpha; = 2)"),
+        ("Loss", "Wasserstein loss [16] + gradient penalty (&lambda; = 10) [17] + correlation penalty (&alpha; = 2)"),
     ]
     train = [
-        ("Optimiser", "Adam, learning rate 0.0001, betas (0.0, 0.9) for both networks"),
+        ("Optimiser", "Adam [18], learning rate 0.0001, betas (0.0, 0.9) for both networks"),
         ("Epochs / batch size", f"{medtwin.EPOCHS} epochs, batch size 64"),
         ("Critic updates", "5 critic updates per generator update"),
         ("Records generated", f"{medtwin.N_SAMPLES} per run"),
@@ -365,8 +365,8 @@ def specs():
         ("MedTwin (ours)", "Conditional WGAN-GP with missing-value flags, 600 epochs", f"{rt[MEDTWIN]/60:.1f} min"),
     ]
     stack = [
-        ("Language", "Python 3.9"), ("Deep learning", "PyTorch 2.8.0"), ("Data", "pandas 2.3.3, NumPy 2.0.2"),
-        ("Machine learning / tests", "scikit-learn 1.6.1 (random forests, nearest neighbours, AUC)"),
+        ("Language", "Python 3.9"), ("Deep learning", "PyTorch 2.8.0 [27]"), ("Data", "pandas 2.3.3, NumPy 2.0.2"),
+        ("Machine learning / tests", "scikit-learn 1.6.1 [28] (random forests [19], nearest neighbours, AUC)"),
         ("Baselines", "ctgan 0.12.1 (CTGAN, TVAE); TabDDPM written in this project"),
         ("Statistics", "SciPy (paired t-tests)"), ("Charts", "matplotlib 3.9.4, seaborn 0.13.2"),
         ("Dashboard", "Streamlit 1.50.0"), ("Settings", "PyYAML 6.0.3"), ("Testing", "pytest (31 automated tests)"),
@@ -525,7 +525,7 @@ clearly better than CTGAN ({f(mean(h,'CTGAN','auc_ratio'))}).</li>
 ({f(mean(d,MEDTWIN,'auc_ratio'))}).</li>
 <li>TabDDPM is the hardest to spot ({f(mean(d,'TabDDPM','detectability_pct'),1)}%) <b>but it memorised its training
 patients</b>: {f(mean(d,'TabDDPM','dcr_closer_to_train_pct'),1)}% of its records sit closer to training patients and the
-membership attack reaches AUC {f(mean(d,'TabDDPM','mia_auc'))}. MedTwin shows no such leak ({f(mean(d,MEDTWIN,'mia_auc'))}).
+membership attack reaches AUC {f(mean(d,'TabDDPM','mia_auc'))}, matching recent findings that diffusion models for tables memorise [24]. MedTwin shows no such leak ({f(mean(d,MEDTWIN,'mia_auc'))}).
 This also shows why detectability alone must not be read as privacy.</li>
 </ul>
 
@@ -603,7 +603,8 @@ def comparison():
 <h2>9&nbsp; Comparison with previous work</h2>
 <p>We searched for work from the last five years on the same datasets or the same problem. Exact number-for-number
 comparison is usually not possible, because each paper uses different data, splits and measures. The table shows
-what each did and how our project relates.</p>
+what each did and how our project relates. Larger benchmark studies of synthetic health data [25, 26] compare many
+generators on realism, usefulness and privacy; we follow the same three-part view.</p>
 {table(["Work", "What they did", "Their result", "How we compare"], rows, "compact lit", ["21%", "27%", "22%", "30%"])}
 <p><b>In short:</b> on the same datasets, our results and testing are stronger than recent published work. On the core idea
 (keeping missing values), other groups were first, so our novelty is in <i>measuring</i> realistic holes, in hospital
@@ -638,11 +639,10 @@ def limitations():
 databases and data over time may behave differently.</li>
 <li><b>Still detectable.</b> A classifier can still spot our fake heart patients 62% of the time (50% would be perfect).</li>
 <li><b>Privacy is tested, not guaranteed.</b> We use attacks, not a mathematical guarantee such as differential
-privacy. Passing these attacks does not prove the data is safe.</li>
+privacy. Passing these attacks does not prove the data is safe [23].</li>
 <li><b>Missing-value privacy audit needs enough rare patients.</b> It works on heart disease but not on diabetes.</li>
 <li><b>Not compared with every method.</b> The newest missing-value generators (MissDiff, Wang et al.) and TabSyn
 were not run in our benchmark. TabDDPM is our own compact version.</li>
-<li><b>One reference needs checking.</b> The original heart disease paper (Detrano et al., 1989) is marked to verify.</li>
 </ul>
 </section>"""
 
@@ -689,22 +689,37 @@ def appendix():
         ("Tests", "python -m pytest tests -q"),
         ("This report", "python docs/build_report.py"),
     ]
+    # Numbered as cited in the text; checked against publisher, Crossref,
+    # DataCite or Europe PMC records (October 2026).
     refs = [
-        "Detrano R. et al. International application of a new probability algorithm for the diagnosis of coronary artery disease. Am. J. Cardiology 64(5), 1989 (to verify). UCI Heart Disease dataset.",
-        "Smith J.W. et al. Using the ADAP learning algorithm to forecast the onset of diabetes mellitus. Proc. SCAMC, 1988. OpenML dataset 37.",
-        "Xu L. et al. Modeling tabular data using conditional GAN (CTGAN, TVAE). NeurIPS 2019.",
-        "Kotelnikov A. et al. TabDDPM: Modelling tabular data with diffusion models. ICML 2023.",
-        "Wan Abu Bakar W.A. et al. Evaluating CTGAN-generated synthetic data for heart disease prediction. IJACSA 16(12), 2025.",
-        "Subedi P. et al. Synthetic data for health risk prediction: an evaluation using machine learning. IEEE ICUIS 2025.",
-        "Alqulaity M., Yang P. Enhanced conditional GAN for synthetic tabular data in mobile-based cardiovascular healthcare. Sensors 24(23), 2024.",
-        "Lazzaro et al. Assessing the impact of synthetic data generated by Bayesian networks on heart disease prediction. J. Computational Science 99, 2026.",
-        "Bing S. et al. Conditional generation of medical time series for extrapolation to underrepresented populations (HealthGen). arXiv 2201.08186, 2022.",
-        "Ouyang Y. et al. MissDiff: Training diffusion models on tabular data with missing values. ICML 2023 workshop.",
-        "Wang X., Asif H., Gupta S., Vaidya J. Data synthesis reinvented: preserving missing patterns for enhanced analysis. IEEE TKDE 37(7), 2025.",
-        "Wang W. et al. IGAMT: Privacy-preserving EHR synthesization with heterogeneity and irregularity. AAAI 2024.",
-        "Gulrajani I. et al. Improved training of Wasserstein GANs. NeurIPS 2017.",
-        "Stadler T., Oprisanu B., Troncoso C. Synthetic data &ndash; anonymisation groundhog day. USENIX Security 2022.",
-        "Esteban C., Hyland S., R&auml;tsch G. Real-valued (medical) time series generation with recurrent conditional GANs (TSTR). arXiv 1706.02633, 2017.",
+        "Janosi, A., Steinbrunn, W., Pfisterer, M., Detrano, R.: Heart Disease [dataset]. UCI Machine Learning Repository (1989). https://doi.org/10.24432/C52P4X",
+        "Vanschoren, J., van Rijn, J.N., Bischl, B., Torgo, L.: OpenML: networked science in machine learning. ACM SIGKDD Explorations Newsletter 15(2), 49&ndash;60 (2014). https://doi.org/10.1145/2641190.2641198 (Pima diabetes: OpenML dataset 37)",
+        "Xu, L., Skoularidou, M., Cuesta-Infante, A., Veeramachaneni, K.: Modeling tabular data using conditional GAN. In: Advances in Neural Information Processing Systems 32 (NeurIPS) (2019)",
+        "Kotelnikov, A., Baranchuk, D., Rubachev, I., Babenko, A.: TabDDPM: Modelling tabular data with diffusion models. In: Proc. 40th International Conference on Machine Learning, PMLR 202, 17564&ndash;17579 (2023)",
+        "Wan Abu Bakar, W.A., Josdi, N.L.N., Man, M., Kadir, E.A.: Evaluating CTGAN-generated synthetic data for heart disease prediction: fidelity, predictive utility, and feature preservation. International Journal of Advanced Computer Science and Applications 16(12), 1000&ndash;1009 (2025). https://doi.org/10.14569/IJACSA.2025.0161296",
+        "Subedi, P., Divakarla, S.R., Emani, M., Kochuvila, S., Sunitha, R.: Synthetic data for health risk prediction: an evaluation using machine learning. In: 5th International Conference on Ubiquitous Computing and Intelligent Information Systems (ICUIS), IEEE (2025). https://doi.org/10.1109/ICUIS67429.2025.11380688",
+        "Alqulaity, M., Yang, P.: Enhanced conditional GAN for high-quality synthetic tabular data generation in mobile-based cardiovascular healthcare. Sensors 24(23), 7673 (2024). https://doi.org/10.3390/s24237673",
+        "Lazzaro, I., Milano, M., Tucker, A., Cannataro, M.: Assessing the impact of synthetic data generated by Bayesian networks on heart disease prediction. Journal of Computational Science 99, 102940 (2026). https://doi.org/10.1016/j.jocs.2026.102940",
+        "Bing, S., Dittadi, A., Bauer, S., Schwab, P.: Conditional generation of medical time series for extrapolation to underrepresented populations (HealthGen). arXiv:2201.08186 (2022)",
+        "Ouyang, Y., Xie, L., Li, C., Cheng, G.: MissDiff: Training diffusion models on tabular data with missing values. ICML 2023 Workshop on Structured Probabilistic Inference and Generative Modeling. arXiv:2307.00467 (2023)",
+        "Wang, X., Asif, H., Gupta, S., Vaidya, J.: Data synthesis reinvented: preserving missing patterns for enhanced analysis. IEEE Transactions on Knowledge and Data Engineering 37(7), 3962&ndash;3975 (2025)",
+        "Wang, W., Tang, P., Lou, J., Shao, Y., Waller, L., Ko, Y., Xiong, L.: IGAMT: Privacy-preserving electronic health record synthesization with heterogeneity and irregularity. In: Proc. AAAI Conference on Artificial Intelligence 38(14), 15634&ndash;15643 (2024). https://doi.org/10.1609/aaai.v38i14.29491",
+        "Detrano, R., Janosi, A., Steinbrunn, W., Pfisterer, M., Schmid, J.J., Sandhu, S., Guppy, K.H., Lee, S., Froelicher, V.: International application of a new probability algorithm for the diagnosis of coronary artery disease. The American Journal of Cardiology 64(5), 304&ndash;310 (1989). https://doi.org/10.1016/0002-9149(89)90524-9",
+        "Smith, J.W., Everhart, J.E., Dickson, W.C., Knowler, W.C., Johannes, R.S.: Using the ADAP learning algorithm to forecast the onset of diabetes mellitus. In: Proc. Annual Symposium on Computer Application in Medical Care, 261&ndash;265 (1988)",
+        "Goodfellow, I.J., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., Courville, A., Bengio, Y.: Generative adversarial nets. In: Advances in Neural Information Processing Systems 27, 2672&ndash;2680 (2014)",
+        "Arjovsky, M., Chintala, S., Bottou, L.: Wasserstein generative adversarial networks. In: Proc. 34th International Conference on Machine Learning, PMLR 70, 214&ndash;223 (2017)",
+        "Gulrajani, I., Ahmed, F., Arjovsky, M., Dumoulin, V., Courville, A.: Improved training of Wasserstein GANs. In: Advances in Neural Information Processing Systems 30 (NeurIPS) (2017)",
+        "Kingma, D.P., Ba, J.: Adam: A method for stochastic optimization. In: 3rd International Conference on Learning Representations (ICLR) (2015)",
+        "Breiman, L.: Random forests. Machine Learning 45(1), 5&ndash;32 (2001). https://doi.org/10.1023/A:1010933404324",
+        "Esteban, C., Hyland, S.L., R&auml;tsch, G.: Real-valued (medical) time series generation with recurrent conditional GANs. arXiv:1706.02633 (2017)",
+        "Hayes, J., Melis, L., Danezis, G., De Cristofaro, E.: LOGAN: Membership inference attacks against generative models. Proceedings on Privacy Enhancing Technologies 2019(1), 133&ndash;152 (2019). https://doi.org/10.2478/popets-2019-0008",
+        "Chen, D., Yu, N., Zhang, Y., Fritz, M.: GAN-Leaks: A taxonomy of membership inference attacks against generative models. In: Proc. ACM SIGSAC Conference on Computer and Communications Security (CCS) (2020). https://doi.org/10.1145/3372297.3417238",
+        "Stadler, T., Oprisanu, B., Troncoso, C.: Synthetic data &ndash; anonymisation groundhog day. In: 31st USENIX Security Symposium, 1451&ndash;1468 (2022)",
+        "Fang, Z., Jiang, Z., Chen, H., Li, X., Li, J.: Understanding and mitigating memorization in diffusion models for tabular data. In: Proc. 42nd International Conference on Machine Learning, PMLR 267, 15976&ndash;16005 (2025)",
+        "Yan, C., Yan, Y., Wan, Z., Zhang, Z., Omberg, L., Guinney, J., Mooney, S.D., Malin, B.A.: A multifaceted benchmarking of synthetic electronic health record generation models. Nature Communications 13, 7609 (2022). https://doi.org/10.1038/s41467-022-35295-1",
+        "Hernandez, M., Osorio-Marulanda, P.A., Catalina, M., Loinaz, L., Epelde, G., Aginako, N.: Comprehensive evaluation framework for synthetic tabular data in health. Frontiers in Digital Health 7, 1576290 (2025). https://doi.org/10.3389/fdgth.2025.1576290",
+        "Paszke, A., Gross, S., Massa, F., Lerer, A., Bradbury, J., et al.: PyTorch: An imperative style, high-performance deep learning library. In: Advances in Neural Information Processing Systems 32 (NeurIPS) (2019)",
+        "Pedregosa, F., Varoquaux, G., Gramfort, A., et al.: Scikit-learn: Machine learning in Python. Journal of Machine Learning Research 12, 2825&ndash;2830 (2011)",
     ]
     reflist = "".join(f"<li>{r}</li>" for r in refs)
     return f"""
