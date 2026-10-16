@@ -16,12 +16,21 @@
 
 \graphicspath{{figures/}}
 
+% Newer llncs.cls defines these; fall back for older copies of the class.
+\providecommand{\discintname}{Disclosure of Interests}
+\providecommand{\ackname}{Acknowledgements}
+\makeatletter
+\@ifundefined{credits}{\newenvironment{credits}{\par\small}{\par}}{}
+\makeatother
+
 \begin{document}
 
 \title{Measuring What Is Missing: Fidelity and Privacy of Missing-Value Patterns in Synthetic Multi-Site Clinical Records}
 \titlerunning{Measuring What Is Missing}
 
-\author{Aarzoo Jain \and Pranav Ladha}
+% TODO: replace with each author's real ORCID iD (https://orcid.org)
+\author{Aarzoo Jain\orcidID{0000-0000-0000-0000} \and
+Pranav Ladha\orcidID{0000-0000-0000-0000}}
 \authorrunning{A. Jain and P. Ladha}
 \institute{Department of Data Science and Engineering, Manipal University Jaipur, Jaipur, India\\
 \email{aarzoo.23fe10cds00459@muj.manipal.edu}, \email{pranav.23fe10cds00455@muj.manipal.edu}}
@@ -29,29 +38,26 @@
 \maketitle
 
 \begin{abstract}
-When patient data cannot leave a hospital, artificially generated records
-that mimic it are one way to let others study it. Real clinical tables are incomplete in
-structured ways --- whether a test was done often depends on the hospital
---- and recent generators can keep these gaps. But there is no standard way
-to check whether the gaps are \emph{realistic}, and no study of whether
-keeping them \emph{leaks} who was in the training data. We propose
-missing-value fidelity scores (per-column and per-site missing rates and the
-distribution of whole missingness patterns), each calibrated against the gap
-between two real samples, and a missing-value privacy audit that attacks
-patients through their missingness patterns. We apply them to MedTwin, a
-conditional WGAN-GP that generates a ``measured'' flag per incomplete column
-conditioned on the hospital, and to CTGAN, TVAE and TabDDPM, on the four-site
-UCI heart disease data (920 patients) and Pima diabetes (768 patients), over
-five seeds with held-out patients. MedTwin reproduces missingness patterns
-almost as closely as a second real sample does (pattern distance 0.174
-against 0.152 for real data; baselines 0.209--0.683), and is the only model
-that matches site-specific missing rates. Keeping the gaps has a small,
-consistent privacy cost: a membership attack on patients with rare
-missingness patterns rises from AUC 0.531 to 0.575 when the flags are added,
-while other patients and overall privacy are unaffected and unique patterns
-are not copied. MedTwin also gives the highest histogram fidelity, the least
-detectable records on heart disease (61.5\% against 74.9--92.8\%) and
-utility matching the best baseline (TSTR/TRTR AUC ratio 0.975 and 0.983).
+Clinical tables are incomplete in structured ways: whether a test was done
+often depends on the hospital. Recent generators of synthetic patient data
+can keep these gaps, but there is no standard way to check that the gaps
+are \emph{realistic}, and no study of whether keeping them \emph{leaks} who
+was in the training data. We propose missing-value fidelity scores
+(per-column and per-site missing rates, and the distribution of whole
+missingness patterns), each calibrated against the gap between two real
+samples, and a privacy audit that attacks patients through their
+missingness patterns. We apply both to MedTwin, a conditional WGAN-GP that
+generates a ``measured'' flag per incomplete column for a given hospital,
+and to CTGAN, TVAE and TabDDPM, on four-site UCI heart disease (920
+patients) and Pima diabetes (768) data over five seeds with held-out
+patients. MedTwin's missingness patterns are almost as close to the real
+data as a second real sample (pattern distance 0.174 vs.\ 0.152;
+baselines 0.209--0.683), and it alone matches per-site missing rates.
+Keeping gaps has a small, consistent privacy cost: a membership attack on
+patients with rare patterns rises from AUC 0.531 to 0.575, while overall
+privacy is unchanged. MedTwin also has the highest fidelity, the least
+detectable records on heart disease (61.5\% vs.\ 74.9--92.8\%) and utility
+matching the best baseline.
 \keywords{Synthetic data \and Generative adversarial networks \and Missing data \and Electronic health records \and Privacy evaluation}
 \end{abstract}
 
@@ -596,9 +602,24 @@ private training, and comparison with missingness-preserving generators such
 as MissDiff~\cite{ouyang2023missdiff}.
 
 \paragraph{Code and data availability.}
+% TODO: replace with the public repository URL before submission.
 Code, settings files, per-seed results and the scripts that produce every
-table and figure in this paper are available from the authors; both
-datasets are public.
+table and figure in this paper are available at
+\url{https://github.com/USERNAME/REPOSITORY}. Both datasets are public
+(Sect.~\ref{sec:setup}).
+
+\begin{credits}
+\subsubsection{\ackname}
+% TODO: the authors must check that this statement is complete and true.
+An AI assistant (Claude, Anthropic) was used during this work to help write
+and test code, run and summarise experiments, search and check related
+literature, and draft and edit text. The authors reviewed, verified and
+take full responsibility for all code, results, citations and text.
+
+\subsubsection{\discintname}
+The authors have no competing interests to declare that are relevant to the
+content of this article.
+\end{credits}
 
 \bibliographystyle{splncs04}
 \bibliography{references}
