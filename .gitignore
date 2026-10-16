@@ -11,3 +11,6 @@ data/synthetic/diabetes/multi_seed/logs/
 
 # Intermediate file of docs/build_report.py (the PDF is kept)
 docs/report.html
+
+# LaTeX build output (the finished PDF is kept as paper/MedTwin_paper.pdf)
+paper/build/

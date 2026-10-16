@@ -380,14 +380,14 @@ statements only on DCR and membership inference against held-out patients.
 Arrows give the direction of better; $\to$ marks a target value.}
 \label{tab:heart}
 \centering\scriptsize\setlength{\tabcolsep}{3pt}
-\input{tables/benchmark_heart_disease}
+\resizebox{\textwidth}{!}{\input{tables/benchmark_heart_disease}}
 \end{table}
 
 \begin{table}[t]
 \caption{Pima diabetes, mean $\pm$ SD over five seeds (best mean in bold).}
 \label{tab:diabetes}
 \centering\scriptsize\setlength{\tabcolsep}{3pt}
-\input{tables/benchmark_diabetes}
+\resizebox{\textwidth}{!}{\input{tables/benchmark_diabetes}}
 \end{table}
 
 Tables~\ref{tab:heart} and~\ref{tab:diabetes} summarise the benchmark and
@@ -433,7 +433,7 @@ On diabetes only $\approx$8 patients per draw have a rare pattern and
 $\approx$2 patterns are unique, so its privacy columns are inconclusive.}
 \label{tab:missing}
 \centering\scriptsize\setlength{\tabcolsep}{2.2pt}
-\input{tables/missingness}
+\resizebox{\textwidth}{!}{\input{tables/missingness}}
 \end{table}
 
 Table~\ref{tab:missing} gives the missing-value fidelity scores. On heart
@@ -493,7 +493,7 @@ the full model (95\% CI excludes 0). Variants that do not apply to a
 dataset are omitted.}
 \label{tab:ablation}
 \centering\scriptsize\setlength{\tabcolsep}{2.5pt}
-\input{tables/ablation}
+\resizebox{\textwidth}{!}{\input{tables/ablation}}
 \end{table}
 
 Table~\ref{tab:ablation} removes one component at a time. Replacing the
@@ -523,11 +523,12 @@ contributor to the results.
 
 \begin{table}[t]
 \caption{Sensitivity of the full model on heart disease to the correlation
-weight $\alpha$ and the number of training epochs; $^*$ as in
+weight $\alpha$ (default 2) and the number of training epochs (default
+600); $^*$ as in
 Table~\ref{tab:ablation}.}
 \label{tab:sensitivity}
 \centering\scriptsize\setlength{\tabcolsep}{2.5pt}
-\input{tables/sensitivity}
+\resizebox{\textwidth}{!}{\input{tables/sensitivity}}
 \end{table}
 
 Table~\ref{tab:sensitivity} varies the two main hand-set hyperparameters on

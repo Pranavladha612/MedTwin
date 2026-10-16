@@ -12,11 +12,17 @@
 
 ## Building
 
-No LaTeX is installed on this machine. Easiest: on Overleaf, create a project
-from the "Springer Lecture Notes in Computer Science" template (it provides
-`llncs.cls` and `splncs04.bst`), then upload `main.tex`, `references.bib` and
+`MedTwin_paper.pdf` is the compiled paper (15 pages: about 12 of text and
+3 of references). To rebuild it after changes, with Tectonic
+(https://tectonic-typesetting.github.io, a single program that downloads
+the LaTeX packages it needs):
+
+    cd paper
+    tectonic --outdir build main.tex
+    copy build\main.pdf MedTwin_paper.pdf
+
+On this computer Tectonic is at `%LOCALAPPDATA%\tectonic\tectonic.exe`.
+
+Overleaf also works: create a project from the "Springer Lecture Notes in
+Computer Science" template, then upload `main.tex`, `references.bib` and
 the `tables/` and `figures/` folders, keeping their paths.
-
-Locally, with `llncs.cls` and `splncs04.bst` next to `main.tex`:
-
-    pdflatex main && bibtex main && pdflatex main && pdflatex main
