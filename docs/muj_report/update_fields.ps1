@@ -3,14 +3,15 @@
 #
 #   powershell -ExecutionPolicy Bypass -File docs\muj_report\update_fields.ps1
 
-$docx = Join-Path $PSScriptRoot "..\MedTwin_Project_Report_MUJ.docx" | Resolve-Path
-$pdf = [IO.Path]::ChangeExtension($docx.Path, ".pdf")
+param([string]$Docx = (Join-Path $PSScriptRoot "..\MedTwin_Project_Report_MUJ.docx"))
+$full = (Resolve-Path $Docx).Path
+$pdf = [IO.Path]::ChangeExtension($full, ".pdf")
 
 $word = New-Object -ComObject Word.Application
 $word.Visible = $false
 $word.DisplayAlerts = 0
 try {
-    $doc = $word.Documents.Open($docx.Path)
+    $doc = $word.Documents.Open($full)
     # Twice: the first pass can change line breaks and so page numbers
     1..2 | ForEach-Object {
         $doc.Repaginate()

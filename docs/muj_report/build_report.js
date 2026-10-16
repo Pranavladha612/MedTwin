@@ -20,7 +20,7 @@ const {
 const HERE = __dirname;
 const ROOT = path.resolve(HERE, "..", "..");
 const D = require("./data.json");
-const OUT = path.join(ROOT, "docs", "MedTwin_Project_Report_MUJ.docx");
+const OUT = process.env.MUJ_OUT || path.join(ROOT, "docs", "MedTwin_Project_Report_MUJ.docx");
 
 const MT = "MedTwin WGAN-GP";
 const H = D.heart, DB = D.diabetes;
@@ -103,7 +103,7 @@ function runs(text, base = {}) {
 
 const P = (text, opts = {}) => new Paragraph({
   alignment: opts.align || AlignmentType.JUSTIFIED,
-  spacing: { after: opts.after ?? 120, before: opts.before ?? 0, line: opts.line ?? 240 },
+  spacing: { after: opts.after ?? 0, before: opts.before ?? 0, line: opts.line ?? 240 },
   indent: opts.indent,
   keepNext: opts.keepNext,
   pageBreakBefore: opts.pageBreakBefore,
@@ -115,7 +115,7 @@ let listInstance = 0;
 const bullets = (items, level = 0) => items.map((t) => new Paragraph({
   numbering: { reference: "bullets", level },
   alignment: AlignmentType.JUSTIFIED,
-  spacing: { after: 60, line: 240 },
+  spacing: { after: 0, line: 240 },
   children: runs(t),
 }));
 function numbered(items) {
@@ -123,7 +123,7 @@ function numbered(items) {
   return items.map((t) => new Paragraph({
     numbering: { reference: "numbers", level: 0, instance: inst },
     alignment: AlignmentType.JUSTIFIED,
-    spacing: { after: 80, line: 240 },
+    spacing: { after: 0, line: 240 },
     children: runs(t),
   }));
 }
@@ -177,8 +177,9 @@ const border = { style: BorderStyle.SINGLE, size: 4, color: "808080" };
 const borders = { top: border, bottom: border, left: border, right: border };
 function cell(text, width, opts = {}) {
   const children = Array.isArray(text) ? text : [new Paragraph({
-    alignment: opts.align || AlignmentType.LEFT, spacing: { after: 0, line: 260 },
-    children: typeof text === "string" ? runs(text, { size: opts.size || 22, bold: opts.bold }) : text,
+    alignment: opts.align || AlignmentType.LEFT,
+    spacing: { after: 0, line: Math.round((opts.size || 24) * 11.17), lineRule: "exact" },
+    children: typeof text === "string" ? runs(text, { size: opts.size || 24, bold: opts.bold }) : text,
   })];
   return new TableCell({
     width: { size: width, type: WidthType.DXA }, borders, verticalAlign: VerticalAlign.CENTER,
@@ -193,7 +194,7 @@ function table(header, rows, widths, opts = {}) {
   return new Table({
     width: { size: total, type: WidthType.DXA }, columnWidths: widths,
     rows: [
-      new TableRow({ tableHeader: true, children: header.map((h, i) => cell(h, widths[i], { bold: true, fill: "D9E2F3", align: align(i), size: opts.size ? opts.size + 1 : 24 })) }),
+      new TableRow({ tableHeader: true, children: header.map((h, i) => cell(h, widths[i], { bold: true, fill: "D9E2F3", align: align(i), size: opts.size || 24 })) }),
       ...rows.map((r) => new TableRow({ cantSplit: true, children: r.map((c, i) => cell(String(c), widths[i], { align: align(i), size: opts.size, fill: r._fill })) })),
     ],
   });
@@ -317,7 +318,7 @@ function acknowledgments() {
 
 function abstract() {
   const md = (k) => hm(MT, k);
-  const AP = (t) => P(t, { line: 240, after: 120 });
+  const AP = (t) => P(t, { line: 240, after: 0 });
   return [
     unnumbered("ABSTRACT", { front: true, toc: "Abstract" }),
     AP("Patient data is essential for building medical machine-learning models, but privacy laws and hospital rules rightly restrict who may access it. Synthetic data — artificial patient records produced by a generative model that has learned the patterns of real records — is a promising way to share such data without exposing real people. Real clinical data, however, is incomplete in structured ways: whether a test was performed often depends on the hospital that recorded it. Most synthetic-data tools fill these gaps before learning, so the data they produce has no gaps at all, which makes it unrealistic and easy to tell apart from real records."),
@@ -352,9 +353,9 @@ function contentsTable() {
     const chap = c.level === 0 && (c.label.startsWith("Chapter") || c.label === "Last Chapter");
     const fill = chap ? "F2F2F2" : undefined;
     return new TableRow({ cantSplit: true, children: [
-      cell(c.label, w[0], { bold: true, fill, size: 21, pad: 6, align: c.level ? AlignmentType.CENTER : AlignmentType.LEFT }),
-      cell(c.title, w[1], { bold: c.level === 0 && !c.front, fill, size: 21, pad: 6 }),
-      refCell(c.id, w[2], 6),
+      cell(c.label, w[0], { bold: true, fill, size: 24, pad: 4, align: c.level ? AlignmentType.CENTER : AlignmentType.LEFT }),
+      cell(c.title, w[1], { bold: c.level === 0 && !c.front, fill, size: 24, pad: 4 }),
+      refCell(c.id, w[2], 4),
     ] });
   });
   return [
@@ -503,7 +504,7 @@ function chapter2() {
     P(`Early work on synthetic health records used GANs for binary and count features (medGAN ${cite("choi")}). CTGAN ${cite("xu")} introduced a conditional GAN for mixed tables of numbers and categories, and the same work proposed TVAE, a variational autoencoder for tables. CTAB-GAN ${cite("zhao")} improved the handling of mixed and long-tailed variables. Diffusion models now lead many tabular benchmarks: TabDDPM ${cite("kotelnikov")} and TabSyn ${cite("zhang")}. EHR-Safe ${cite("ehrsafe")} addresses the complexity of real electronic health records. Large benchmark studies ${cite("yan", "hernandez", "synthcity")} compare many generators on realism, usefulness and privacy, and recent work shows that tabular diffusion models can memorise their training records ${cite("fang")}.`),
     P(`Several recent studies generated synthetic versions of the same or similar data. Table 2.2 compares them with this project. Exact number-for-number comparison is usually not possible because each study uses different data, splits and measures.`),
     tcaption(2, "Comparison with recent related work"),
-    table(["Work", "What they did", "Their result", "How this project compares"], lit, scale([1900, 2350, 2000, 2416]), { size: 18 }),
+    table(["Work", "What they did", "Their result", "How this project compares"], lit, scale([1900, 2350, 2000, 2416]), { size: 20 }),
     after(),
     section("2.4", "Research Gap"),
     P("From the survey we identified the following gaps, which this project addresses:"),
@@ -602,7 +603,7 @@ function chapter3() {
     sub("Step 7: Evaluation protocol"),
     P(`All four methods receive the same data, the same missing-value flags, the same cleaning and the same tests. Each experiment is repeated with five seeds, and methods are compared seed by seed with paired 95% confidence intervals. Table 3.6 lists every measure used; those marked “new” were developed in this project.`),
     tcaption(3, "Evaluation measures"),
-    table(["Measure", "Question it answers", "Best", "Group"], measures, scale([2300, 4000, 1000, 1366]), { size: 19 }),
+    table(["Measure", "Question it answers", "Best", "Group"], measures, scale([2300, 4000, 1000, 1366]), { size: 20 }),
     after(),
     sub("Step 8: New missing-value measures"),
     P("A patient's **missingness pattern** is the list of which of their values are blank, together with their hospital. Using this idea we defined:"),
@@ -718,7 +719,7 @@ function chapter5() {
     P("All results are averages over five repeated experiments ± standard deviation, measured on real patients that the models never saw. Arrows show what is better: ↑ higher, ↓ lower, → closer to the given value. A difference is called **clear** when its paired 95% confidence interval excludes zero."),
     section("5.1", "Heart Disease: MedTwin Compared with Other Methods"),
     tcaption(5, "Heart disease results (mean ± SD over five seeds)"),
-    table(benchHead, benchRows(H), bw, { center: true, size: 18 }),
+    table(benchHead, benchRows(H), bw, { center: true, size: 20 }),
     after(),
     ...figure(5, "figures/heart_disease/fig_benchmark.png", "Heart disease comparison of the four methods (mean ± SD over five seeds; dashed lines show the ideal value)"),
     P("**Results:**"),
@@ -730,7 +731,7 @@ function chapter5() {
     P(`**Analysis:** generating each patient for a hospital and generating missing values, instead of filling them in, gives MedTwin records that a classifier finds much harder to tell apart from real patients, without losing usefulness. Detectability (${m(hm(MT, "detectability_pct"), 1)}%) is still above the ideal 50%, so there is room for improvement.`),
     section("5.2", "Diabetes: The Same Picture"),
     tcaption(5, "Pima diabetes results (mean ± SD over five seeds)"),
-    table(benchHead, benchRows(DB), bw, { center: true, size: 18 }),
+    table(benchHead, benchRows(DB), bw, { center: true, size: 20 }),
     after(),
     ...bullets([
       `MedTwin again has the best fidelity (${m(dm(MT, "fidelity_pct"), 1)}%) and ties for usefulness (AUC ratio ${m(dm(MT, "auc_ratio"))}).`,
@@ -742,7 +743,7 @@ function chapter5() {
     table(["Data", "Rate gap", "Site gap", "Pattern distance"], [
       Object.assign(["Heart disease", "", "", ""], { _fill: "F2F2F2" }), ...missRows(H, true),
       Object.assign(["Diabetes (one clinic, so no site gap)", "", "", ""], { _fill: "F2F2F2" }), ...missRows(DB, false),
-    ], scale([3266, 1800, 1800, 1800]), { center: true, size: 19 }),
+    ], scale([3266, 1800, 1800, 1800]), { center: true, size: 20 }),
     after(),
     ...bullets([
       `MedTwin's pattern distance on heart disease (${m(hm(MT, "pattern_tvd"))}) is close to the gap between two real samples (${m(hm(MT, "pattern_tvd_ref"))}) and clearly better than every other method in all five seeds (TVAE ${m(hm("TVAE", "pattern_tvd"))}, TabDDPM ${m(hm("TabDDPM", "pattern_tvd"))}, CTGAN ${m(hm("CTGAN", "pattern_tvd"))}).`,
@@ -755,7 +756,7 @@ function chapter5() {
     section("5.4", "Does Keeping Missing Values Cost Privacy?"),
     tcaption(5, "Missing-value privacy audit, heart disease (mean ± SD; 0.5 or 0 is ideal)"),
     table(["Variant", "MIA rare patterns", "MIA common patterns", "MIA all patients", "Unique leak (points)"], privRows,
-      scale([2666, 1500, 1500, 1500, 1500]), { center: true, size: 19 }),
+      scale([2666, 1500, 1500, 1500, 1500]), { center: true, size: 20 }),
     after(),
     P(`**Results:** on heart disease about ${f(hm(MT, "n_rare_patients").mean, 0)} of the 368 attacked patients per test have a rare missingness pattern. For them, the membership attack reaches an AUC of **${m(hv("full", "rare_pattern_dist_mia_auc"))}** against MedTwin, compared with ${m(hv("no_missing_flags", "rare_pattern_dist_mia_auc"))} when MedTwin is trained without the missing-value flags — higher in all five seeds. For patients with common patterns and over all patients the difference is not clear. Patterns unique to one training patient do not reappear more often than those of unseen patients, so the model is not copying patterns.`),
     P(`**Analysis:** keeping realistic gaps makes the data more realistic and leaves overall privacy unchanged, but patients with *unusual* gaps become slightly easier to single out. The effect is modest, but it concerns exactly the group a data owner would worry about. On diabetes only about ${f(dm(MT, "n_rare_patients").mean, 0)} patients per test have rare patterns, too few for a conclusion.`),
@@ -764,7 +765,7 @@ function chapter5() {
     table(["Variant", "Detect. % (→50)", "Corr. gap (↓)", "AUC ratio (→1)", "MIA AUC (→0.5)"], [
       Object.assign(["Heart disease", "", "", "", ""], { _fill: "F2F2F2" }), ...ablRows(H, ["full", "no_missing_flags", "no_zero_flags", "no_condition", "no_corr_loss"]),
       Object.assign(["Diabetes", "", "", "", ""], { _fill: "F2F2F2" }), ...ablRows(DB, ["full", "no_missing_flags", "no_corr_loss"]),
-    ], scale([2866, 1450, 1450, 1450, 1450]), { center: true, size: 19 }),
+    ], scale([2866, 1450, 1450, 1450, 1450]), { center: true, size: 20 }),
     after(),
     ...bullets([
       `**Missing-value flags matter most:** without them detectability rises from ${m(hv("full", "detectability_pct"), 1)}% to ${m(hv("no_missing_flags", "detectability_pct"), 1)}% (heart) and from ${m(dv("full", "detectability_pct"), 1)}% to ${m(dv("no_missing_flags", "detectability_pct"), 1)}% (diabetes). Filling gaps with typical values makes synthetic patients easy to spot, consistent with the bias of “impute-then-generate” reported in ${cite("missdiff")}.`,
@@ -774,7 +775,7 @@ function chapter5() {
     ]),
     section("5.6", "Sensitivity to Settings"),
     tcaption(5, "Sensitivity of MedTwin to its main settings, heart disease (* = clear difference from the default)"),
-    table(["Setting", "Fidelity %", "Detect. %", "AUC ratio", "DCR %", "MIA AUC"], sensRows, scale([2466, 1240, 1240, 1240, 1240, 1240]), { center: true, size: 19 }),
+    table(["Setting", "Fidelity %", "Detect. %", "AUC ratio", "DCR %", "MIA AUC"], sensRows, scale([2466, 1240, 1240, 1240, 1240, 1240]), { center: true, size: 20 }),
     after(),
     P(`Changing the correlation weight or training for 300 epochs makes no clear difference. Training twice as long (1200 epochs) gives the same realism and usefulness but starts to memorise: DCR rises from ${m(hv("full", "dcr_closer_to_train_pct"), 1)}% to ${m(hv("epochs_1200", "dcr_closer_to_train_pct"), 1)}% and MIA AUC from ${m(hv("full", "mia_auc"))} to ${m(hv("epochs_1200", "mia_auc"))}. The results therefore do not depend on lucky settings, and 600 epochs is a good stopping point.`),
     section("5.7", "Quality of the Generated Values"),
@@ -857,9 +858,9 @@ function references() {
   return [
     new Paragraph({ heading: HeadingLevel.HEADING_1, alignment: AlignmentType.CENTER, pageBreakBefore: true, spacing: { after: 300 },
       children: [new Bookmark({ id, children: [new TextRun({ text: "References" })] })] }),
-    ...ORDER.map((k, i) => new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { after: 100, line: 300 },
+    ...ORDER.map((k, i) => new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { after: 0, line: 240 },
       indent: { left: 567, hanging: 567 }, tabStops: [{ type: TabStopType.LEFT, position: 567 }],
-      children: [new TextRun({ text: `[${i + 1}]\t`, size: 22 }), new TextRun({ text: REFS[k], size: 22 })] })),
+      children: [new TextRun({ text: `[${i + 1}]\t`, size: 24 }), new TextRun({ text: REFS[k], size: 24 })] })),
   ];
 }
 
@@ -939,11 +940,11 @@ function annexures() {
       ["Sensitivity study", "python research/ablation.py --study sensitivity"],
       ["Figures", "python research/visualizer.py --benchmark"],
       ["Automated tests", "python -m pytest tests -q"],
-    ], scale([3000, 5666]), { size: 19 }),
+    ], scale([3000, 5666]), { size: 20 }),
     after(),
     sub("Annexure D: Project timeline"),
     P("An early version of the project (April 2026) used 9 columns, filled missing values and tested on patients the model had seen. It was rebuilt to handle all columns with missing values and hospitals, to test on unseen patients and to compare against other methods. The main recorded steps since then are:"),
-    table(["Date", "Step"], log, scale([1700, 6966]), { size: 19 }),
+    table(["Date", "Step"], log, scale([1700, 6966]), { size: 20 }),
   ];
 }
 
@@ -987,10 +988,10 @@ function build() {
     },
     numbering: { config: [
       { reference: "bullets", levels: [
-        { level: 0, format: LevelFormat.BULLET, text: "•", alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 567, hanging: 284 } } } },
-        { level: 1, format: LevelFormat.BULLET, text: "◦", alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 1134, hanging: 284 } } } } ] },
+        { level: 0, format: LevelFormat.BULLET, text: "•", alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 844, hanging: 360 } } } },
+        { level: 1, format: LevelFormat.BULLET, text: "◦", alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 1564, hanging: 360 } } } } ] },
       { reference: "numbers", levels: [
-        { level: 0, format: LevelFormat.DECIMAL, text: "%1.", alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 567, hanging: 340 } } } } ] },
+        { level: 0, format: LevelFormat.DECIMAL, text: "%1.", alignment: AlignmentType.LEFT, style: { paragraph: { indent: { left: 844, hanging: 360 } } } } ] },
     ] },
     sections: [
       { properties: { page }, children: [...cover(), ...certificate()] },
