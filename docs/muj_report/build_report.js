@@ -103,7 +103,7 @@ function runs(text, base = {}) {
 
 const P = (text, opts = {}) => new Paragraph({
   alignment: opts.align || AlignmentType.JUSTIFIED,
-  spacing: { after: opts.after ?? 120, before: opts.before ?? 0, line: opts.line ?? 360 },
+  spacing: { after: opts.after ?? 120, before: opts.before ?? 0, line: opts.line ?? 240 },
   indent: opts.indent,
   keepNext: opts.keepNext,
   pageBreakBefore: opts.pageBreakBefore,
@@ -115,7 +115,7 @@ let listInstance = 0;
 const bullets = (items, level = 0) => items.map((t) => new Paragraph({
   numbering: { reference: "bullets", level },
   alignment: AlignmentType.JUSTIFIED,
-  spacing: { after: 60, line: 340 },
+  spacing: { after: 60, line: 240 },
   children: runs(t),
 }));
 function numbered(items) {
@@ -123,7 +123,7 @@ function numbered(items) {
   return items.map((t) => new Paragraph({
     numbering: { reference: "numbers", level: 0, instance: inst },
     alignment: AlignmentType.JUSTIFIED,
-    spacing: { after: 80, line: 340 },
+    spacing: { after: 80, line: 240 },
     children: runs(t),
   }));
 }
@@ -132,27 +132,42 @@ function numbered(items) {
 const CONTENTS = []; // {level, label, title, id}
 let bmCount = 0;
 const newId = (p) => `${p}_${++bmCount}`;
+// Chapter pages start with the title alone (template: "INTRODUCTION",
+// "Results and Analysis"); the contents table carries "Chapter n".
 function chapter(num, title) {
   const id = newId("ch");
   CONTENTS.push({ level: 0, label: `Chapter ${num}`, title: title.toUpperCase(), id });
-  return [
-    new Paragraph({ pageBreakBefore: true, alignment: AlignmentType.CENTER, spacing: { after: 60 },
-      children: [new TextRun({ text: `CHAPTER ${num}`, bold: true, size: 26, font: FONT })] }),
-    new Paragraph({ heading: HeadingLevel.HEADING_1, alignment: AlignmentType.CENTER, spacing: { after: 300 },
-      children: [new Bookmark({ id, children: [new TextRun({ text: title.toUpperCase() })] })] }),
-  ];
+  return [new Paragraph({ heading: HeadingLevel.HEADING_1, alignment: AlignmentType.CENTER, pageBreakBefore: true,
+    spacing: { after: 300 }, children: [new Bookmark({ id, children: [new TextRun({ text: title })] })] })];
 }
+// Sections are written "1.1) Title", 16 pt bold, centred (template)
 function section(num, title) {
   const id = newId("sec");
   CONTENTS.push({ level: 1, label: num, title, id });
-  return new Paragraph({ heading: HeadingLevel.HEADING_2, spacing: { before: 240, after: 120 }, keepNext: true,
-    children: [new Bookmark({ id, children: [new TextRun({ text: `${num}  ${title}` })] })] });
+  return new Paragraph({ heading: HeadingLevel.HEADING_2, alignment: AlignmentType.CENTER, spacing: { before: 240, after: 160 },
+    keepNext: true, children: [new Bookmark({ id, children: [new TextRun({ text: `${num}) ${title}` })] })] });
+}
+// A section that opens its own page under a plain title (template's last
+// chapter: "Conclusions", then "Future Scope of Work")
+function pageSection(num, title, chapterEntry) {
+  const id = newId("sec");
+  const ids = [];
+  if (chapterEntry) {
+    const cid = newId("ch");
+    CONTENTS.push({ level: 0, label: chapterEntry.label, title: chapterEntry.title, id: cid });
+    ids.push(cid);
+  }
+  CONTENTS.push({ level: 1, label: num, title, id });
+  return new Paragraph({ heading: HeadingLevel.HEADING_1, alignment: AlignmentType.CENTER, pageBreakBefore: true,
+    spacing: { after: 300 }, children: [
+      ...ids.map((cid) => new Bookmark({ id: cid, children: [new TextRun({ text: "" })] })),
+      new Bookmark({ id, children: [new TextRun({ text: title })] })] });
 }
 const sub = (title) => new Paragraph({ heading: HeadingLevel.HEADING_3, spacing: { before: 180, after: 80 }, keepNext: true,
   children: [new TextRun({ text: title })] });
 function unnumbered(title, opts = {}) {
   const id = newId("fm");
-  CONTENTS.push({ level: opts.level ?? 0, label: "", title, id, front: opts.front });
+  CONTENTS.push({ level: opts.level ?? 0, label: "", title: opts.toc ?? title, id, front: opts.front });
   return new Paragraph({ heading: HeadingLevel.HEADING_1, alignment: AlignmentType.CENTER, pageBreakBefore: opts.pageBreak !== false,
     spacing: { after: 300 }, children: [new Bookmark({ id, children: [new TextRun({ text: title })] })] });
 }
@@ -163,7 +178,7 @@ const borders = { top: border, bottom: border, left: border, right: border };
 function cell(text, width, opts = {}) {
   const children = Array.isArray(text) ? text : [new Paragraph({
     alignment: opts.align || AlignmentType.LEFT, spacing: { after: 0, line: 260 },
-    children: typeof text === "string" ? runs(text, { size: opts.size || 20, bold: opts.bold }) : text,
+    children: typeof text === "string" ? runs(text, { size: opts.size || 22, bold: opts.bold }) : text,
   })];
   return new TableCell({
     width: { size: width, type: WidthType.DXA }, borders, verticalAlign: VerticalAlign.CENTER,
@@ -178,7 +193,7 @@ function table(header, rows, widths, opts = {}) {
   return new Table({
     width: { size: total, type: WidthType.DXA }, columnWidths: widths,
     rows: [
-      new TableRow({ tableHeader: true, children: header.map((h, i) => cell(h, widths[i], { bold: true, fill: "D9E2F3", align: align(i), size: opts.size })) }),
+      new TableRow({ tableHeader: true, children: header.map((h, i) => cell(h, widths[i], { bold: true, fill: "D9E2F3", align: align(i), size: opts.size ? opts.size + 1 : 24 })) }),
       ...rows.map((r) => new TableRow({ cantSplit: true, children: r.map((c, i) => cell(String(c), widths[i], { align: align(i), size: opts.size, fill: r._fill })) })),
     ],
   });
@@ -211,7 +226,7 @@ function figure(chap, rel, caption, widthPx = 560) {
     new Paragraph({ alignment: AlignmentType.CENTER, keepNext: true, spacing: { before: 120, after: 60 },
       children: [image(path.join(ROOT, rel), widthPx)] }),
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 240 }, children: [
-      new Bookmark({ id, children: [new TextRun({ text: `Figure ${n}: `, bold: true, size: 22 }), new TextRun({ text: caption, size: 22 })] }),
+      new Bookmark({ id, children: [new TextRun({ text: `Figure ${n}: `, bold: true, size: 24 }), new TextRun({ text: caption, size: 24 })] }),
     ] }),
   ];
 }
@@ -220,7 +235,7 @@ function tcaption(chap, caption) {
   const id = newId("tab");
   TABLES.push({ chap, n, caption, id });
   return new Paragraph({ alignment: AlignmentType.CENTER, keepNext: true, spacing: { before: 200, after: 100 }, children: [
-    new Bookmark({ id, children: [new TextRun({ text: `Table ${n}: `, bold: true, size: 22 }), new TextRun({ text: caption, size: 22 })] }),
+    new Bookmark({ id, children: [new TextRun({ text: `Table ${n}: `, bold: true, size: 24 }), new TextRun({ text: caption, size: 24 })] }),
   ] });
 }
 const after = () => new Paragraph({ spacing: { after: 120 }, children: [] });
@@ -239,27 +254,27 @@ function cover() {
   const L = (text, o = {}) => new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: o.after ?? 120, before: o.before ?? 0 },
     children: [new TextRun({ text, bold: o.bold, italics: o.italics, size: o.size || 24, font: FONT })] });
   return [
-    L("A Project Report", { bold: true, size: 32, before: 600 }),
-    L("on", { italics: true }),
+    L("A Project Report", { bold: true, size: 36, before: 400 }),
+    L("on", { italics: true, size: 30 }),
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 120, after: 200 },
-      children: [new TextRun({ text: TITLE.toUpperCase(), bold: true, size: 32, font: FONT })] }),
+      children: [new TextRun({ text: TITLE.toUpperCase(), bold: true, size: 40, font: FONT })] }),
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 200 }, children: [
-      new TextRun({ text: "carried out as part of the ", italics: true }),
-      new TextRun({ text: "Project ", bold: true, italics: true }), highlight("(Subject Code)"),
-      new TextRun({ text: " Submitted", italics: true })] }),
+      new TextRun({ text: "carried out as part of the ", italics: true, size: 24 }),
+      new TextRun({ text: "Project ", bold: true, italics: true, size: 28 }), new TextRun({ text: "(Subject Code)", bold: true, italics: true, size: 28, highlight: "yellow" }),
+      new TextRun({ text: " Submitted", italics: true, size: 24 })] }),
     L("by", { italics: true, after: 160 }),
-    ...STUDENTS.map(([n, r]) => L(`${n} (${r})`, { bold: true, after: 40 })),
-    L("in partial fulfilment for the award of the degree", { italics: true, before: 200 }),
-    L("of", { bold: true }),
-    L("BACHELOR OF TECHNOLOGY (B.Tech)", { bold: true }),
-    L("in"),
-    L("Department of Data Science and Engineering", { after: 300 }),
+    ...STUDENTS.map(([n, r]) => L(`${n} (${r})`, { bold: true, size: 28, after: 40 })),
+    L("in partial fulfilment for the award of the degree", { italics: true, size: 28, before: 200 }),
+    L("of", { bold: true, size: 30 }),
+    L("BACHELOR OF TECHNOLOGY (B.Tech)", { bold: true, size: 30 }),
+    L("in", { size: 30 }),
+    L("Department of Data Science and Engineering", { size: 30, after: 300 }),
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 300 },
       children: [image(path.join(HERE, "assets", "muj_logo.jpeg"), 250)] }),
-    L("School of Computer Science and Engineering,", { bold: true, after: 200 }),
-    L("MANIPAL UNIVERSITY JAIPUR", { bold: true, after: 40 }),
-    L("RAJASTHAN, INDIA", { bold: true, after: 300 }),
-    new Paragraph({ alignment: AlignmentType.CENTER, children: [highlight("December 2026")] }),
+    L("School of Computer Science and Engineering,", { bold: true, size: 30, after: 200 }),
+    L("MANIPAL UNIVERSITY JAIPUR", { bold: true, size: 30, after: 40 }),
+    L("RAJASTHAN, INDIA", { bold: true, size: 30, after: 300 }),
+    new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: "December 2026", bold: true, size: 30, highlight: "yellow" })] }),
   ];
 }
 
@@ -271,7 +286,7 @@ function certificate() {
       children: [new TextRun({ text: "Date: " }), highlight("__________")] }),
     new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 400 },
       children: [new TextRun({ text: "CERTIFICATE", bold: true, size: 32, font: FONT })] }),
-    new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { line: 400, after: 200 }, children: [
+    new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { line: 360, after: 200 }, children: [
       new TextRun("This is to certify that the project entitled "),
       new TextRun({ text: `“${TITLE}”`, bold: true }),
       new TextRun(` has been carried out by ${who}, students of the Department of Data Science and Engineering, Manipal University Jaipur, in partial fulfilment of the requirements for the award of the degree of `),
@@ -279,21 +294,22 @@ function certificate() {
       new TextRun(". The work presented in this report is a bonafide record of the work done by them under my guidance and supervision during "),
       highlight("[start month, year]"), new TextRun(" to "), highlight("[end month, year]"), new TextRun("."),
     ] }),
-    new Paragraph({ spacing: { before: 1400 }, alignment: AlignmentType.RIGHT, children: [new TextRun({ text: "Dr. Chirag Joshi", bold: true })] }),
-    new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: "Assistant Professor (Selection Grade)", bold: true })] }),
-    new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: "Department of Data Science & Engineering", bold: true, size: 22 })] }),
-    new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: "Manipal University Jaipur", bold: true, size: 22 })] }),
+    new Paragraph({ spacing: { before: 1400 }, alignment: AlignmentType.RIGHT, children: [new TextRun({ text: "Dr. Chirag Joshi", bold: true, size: 28 })] }),
+    new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: "Assistant Professor (Selection Grade)", bold: true, size: 28 })] }),
+    new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: "Department of Data Science & Engineering", bold: true, size: 24 })] }),
+    new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: "Manipal University Jaipur", bold: true, size: 24 })] }),
   ];
 }
 
 function acknowledgments() {
+  const AK = (t) => P(t, { line: 297, run: { size: 24 } });
   return [
-    unnumbered("ACKNOWLEDGMENTS", { front: true, pageBreak: false }),
-    P("We would like to express our sincere gratitude to our project guide, **Dr. Chirag Joshi**, Assistant Professor (Selection Grade), Department of Data Science & Engineering, Manipal University Jaipur, for his constant guidance, encouragement and valuable feedback throughout this project. His suggestions on how to evaluate synthetic data fairly, and his insistence on testing every claim, shaped both the direction and the quality of this work."),
-    P("We are thankful to the Head of the Department and all faculty members of the Department of Data Science and Engineering for providing the academic environment, resources and support needed to carry out this project. We also thank the School of Computer Science and Engineering and Manipal University Jaipur for the opportunity to undertake this work as part of our B.Tech programme."),
-    P("We acknowledge the creators of the public UCI Heart Disease and Pima Indians Diabetes datasets, and the authors of the open-source libraries used in this project, without whom this work would not have been possible."),
-    P("Parts of the code, analysis and text of this project were developed with the help of an AI assistant (Claude, Anthropic). All results were produced by running the project's code, and we have reviewed and verified the code, results and text and take full responsibility for them."),
-    P("Finally, we are deeply grateful to our families and friends for their continuous support and motivation."),
+    unnumbered("ACKNOWLEDGMENTS", { front: true, pageBreak: false, toc: "Acknowledgement" }),
+    AK("We would like to express our sincere gratitude to our project guide, **Dr. Chirag Joshi**, Assistant Professor (Selection Grade), Department of Data Science & Engineering, Manipal University Jaipur, for his constant guidance, encouragement and valuable feedback throughout this project. His suggestions on how to evaluate synthetic data fairly, and his insistence on testing every claim, shaped both the direction and the quality of this work."),
+    AK("We are thankful to the Head of the Department and all faculty members of the Department of Data Science and Engineering for providing the academic environment, resources and support needed to carry out this project. We also thank the School of Computer Science and Engineering and Manipal University Jaipur for the opportunity to undertake this work as part of our B.Tech programme."),
+    AK("We acknowledge the creators of the public UCI Heart Disease and Pima Indians Diabetes datasets, and the authors of the open-source libraries used in this project, without whom this work would not have been possible."),
+    AK("Parts of the code, analysis and text of this project were developed with the help of an AI assistant (Claude, Anthropic). All results were produced by running the project's code, and we have reviewed and verified the code, results and text and take full responsibility for them."),
+    AK("Finally, we are deeply grateful to our families and friends for their continuous support and motivation."),
     new Paragraph({ spacing: { before: 600 }, alignment: AlignmentType.RIGHT, children: [new TextRun({ text: "Pranav Ladha", bold: true })] }),
     ...STUDENTS.slice(1).map(([n]) => new Paragraph({ alignment: AlignmentType.RIGHT, children: [new TextRun({ text: n, bold: true })] })),
   ];
@@ -301,9 +317,9 @@ function acknowledgments() {
 
 function abstract() {
   const md = (k) => hm(MT, k);
-  const AP = (t) => P(t, { line: 312, after: 100 });
+  const AP = (t) => P(t, { line: 240, after: 120 });
   return [
-    unnumbered("ABSTRACT", { front: true }),
+    unnumbered("ABSTRACT", { front: true, toc: "Abstract" }),
     AP("Patient data is essential for building medical machine-learning models, but privacy laws and hospital rules rightly restrict who may access it. Synthetic data — artificial patient records produced by a generative model that has learned the patterns of real records — is a promising way to share such data without exposing real people. Real clinical data, however, is incomplete in structured ways: whether a test was performed often depends on the hospital that recorded it. Most synthetic-data tools fill these gaps before learning, so the data they produce has no gaps at all, which makes it unrealistic and easy to tell apart from real records."),
     AP(`This project presents **MedTwin**, a conditional Wasserstein generative adversarial network with gradient penalty (WGAN-GP) that treats “not measured” as part of the record. For every column that can be missing it learns a yes/no measurement flag; a separate flag reproduces values that are exactly zero; and every synthetic patient is generated for a specific hospital, so that each hospital's measurement habits are learned. We also propose two new evaluation tools: missing-value fidelity scores, which measure whether the gaps in synthetic data are realistic per column, per hospital and as whole patterns, and a missing-value privacy audit, which tests whether keeping realistic gaps makes patients easier to identify.`),
     AP(`MedTwin was compared with three established methods (CTGAN, TVAE and TabDDPM) on the four-hospital UCI Heart Disease data (${H.n} patients) and the Pima Indians Diabetes data (${DB.n} patients), over five repeated experiments, always testing on real patients that no model had seen. MedTwin produced the most realistic records: a classifier could tell its heart-disease patients from real ones only ${m(md("detectability_pct"), 1)}% of the time, against ${m(hm("TabDDPM", "detectability_pct"), 1)}–${m(hm("CTGAN", "detectability_pct"), 1)}% for the other methods (50% is ideal). A disease predictor trained only on its synthetic data kept ${f(md("auc_ratio").mean * 100, 1)}% of the performance of one trained on real data, tied with the best other method. Its missing-value patterns were almost as close to the real data as a second sample of real patients (pattern distance ${m(md("pattern_tvd"))} against ${m(md("pattern_tvd_ref"))}), and it was the only method that placed gaps at the right hospitals. Privacy attacks found no sign of memorisation, whereas TabDDPM clearly memorised its training patients on the diabetes data. Finally, we found a small but consistent privacy cost of keeping realistic gaps for patients with unusual missing-value patterns — a new finding that we report openly.`),
@@ -315,10 +331,10 @@ function abstract() {
 const refCell = (id, width, pad) => cell([new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 0 },
   children: [new PageReference(id)] })], width, { pad });
 
-function listTable(title, items, label) {
+function listTable(title, items, label, tocTitle) {
   const w = scale([1300, 6266, 1100]);
   return [
-    unnumbered(title, { front: true }),
+    unnumbered(title, { front: true, toc: tocTitle }),
     new Table({
       width: { size: TEXT_W, type: WidthType.DXA }, columnWidths: w,
       rows: [
@@ -333,16 +349,16 @@ function listTable(title, items, label) {
 function contentsTable() {
   const w = scale([1500, 6266, 1100]);
   const rows = CONTENTS.filter((c) => !c.skipToc).map((c) => {
-    const chap = c.level === 0 && c.label.startsWith("Chapter");
+    const chap = c.level === 0 && (c.label.startsWith("Chapter") || c.label === "Last Chapter");
     const fill = chap ? "F2F2F2" : undefined;
     return new TableRow({ cantSplit: true, children: [
-      cell(c.label, w[0], { bold: chap, fill, size: 19, pad: 15, align: c.level ? AlignmentType.RIGHT : AlignmentType.LEFT }),
-      cell(c.title, w[1], { bold: c.level === 0, fill, size: 19, pad: 15 }),
-      refCell(c.id, w[2], 15),
+      cell(c.label, w[0], { bold: true, fill, size: 21, pad: 6, align: c.level ? AlignmentType.CENTER : AlignmentType.LEFT }),
+      cell(c.title, w[1], { bold: c.level === 0 && !c.front, fill, size: 21, pad: 6 }),
+      refCell(c.id, w[2], 6),
     ] });
   });
   return [
-    unnumbered("CONTENTS", { front: true }),
+    unnumbered("Contents", { front: true }),
     new Table({ width: { size: TEXT_W, type: WidthType.DXA }, columnWidths: w, rows: [
       new TableRow({ tableHeader: true, children: [cell("", w[0], { fill: "D9E2F3" }), cell("Title", w[1], { bold: true, fill: "D9E2F3" }),
         cell("Page No", w[2], { bold: true, fill: "D9E2F3", align: AlignmentType.CENTER })] }),
@@ -365,14 +381,14 @@ function abbreviations() {
     ["VA", "Veterans Affairs (VA Long Beach hospital)"], ["WGAN-GP", "Wasserstein GAN with Gradient Penalty"],
     ["YAML", "YAML Ain't Markup Language (settings file format)"],
   ];
-  return [unnumbered("LIST OF ABBREVIATIONS", { front: true }), table(["Abbreviation", "Full Form"], rows, scale([2200, 6466]))];
+  return [unnumbered("List of Abbreviations", { front: true }), table(["Abbreviation", "Full Form"], rows, scale([2200, 6466]))];
 }
 
 // ------------------------------------------------------------ chapter 1 ---
 function chapter1() {
   const mbs = H.missing_by_site;
   return [
-    ...chapter(1, "Introduction"),
+    ...chapter(1, "INTRODUCTION"),
     section("1.1", "Introduction to Work Done / Motivation (Overview, Applications & Advantages)"),
     sub("Overview"),
     P(`Machine learning is increasingly used in healthcare to predict diseases, support doctors in diagnosis and plan treatment. To build such models, researchers need large amounts of real patient data. This data is highly sensitive, and laws such as HIPAA (USA) and GDPR (Europe), together with hospital ethics rules, rightly restrict who can access it. As a result, students, researchers and smaller organisations often cannot obtain the data they need, and useful work is slowed down or never started.`),
@@ -451,7 +467,7 @@ function chapter2() {
     [`HealthGen ${cite("healthgen")}, MissDiff ${cite("missdiff")}, Wang et al. ${cite("reinvented")}, IGAMT ${cite("igamt")}`, "Generators that keep missing values (time series, diffusion, plug-in, private EHR)", "Show that keeping missingness matters", "Same goal; we add hospital-conditioned gaps, scores for gap realism and the first audit of their privacy cost"],
   ];
   return [
-    ...chapter(2, "Background Material"),
+    ...chapter(2, "BACKGROUND MATERIAL"),
     section("2.1", "Conceptual Overview (Concepts / Theory Used)"),
     sub("1. Synthetic data"),
     P(`Synthetic data is artificial data produced by a model that has learned the patterns of real data. A good synthetic dataset must pass three tests at the same time ${cite("goncalves", "hernandez")}: it must be **realistic** (it looks like real data, both column by column and in how columns relate), **useful** (models trained on it work on real data) and **private** (it does not reveal which real people were used to make it).`),
@@ -539,7 +555,7 @@ function chapter3() {
     ["Unique-pattern leak (new)", "Do one-of-a-kind gap patterns of training patients reappear?", "0", "Privacy of gaps"],
   ];
   return [
-    ...chapter(3, "Methodology"),
+    ...chapter(3, "METHODOLOGY"),
     section("3.1", "Detailed Methodology that will be Adopted"),
     P("The project was carried out in eight stages, summarised in the block diagram of Fig. 3.1 (Section 3.2). Each stage is described below."),
     sub("Step 1: Data collection and understanding"),
@@ -637,7 +653,7 @@ function chapter4() {
     ["MedTwin (ours)", `Conditional WGAN-GP with missing-value flags; ${D.settings.epochs} epochs`, `${rt(MT)} min`],
   ];
   return [
-    ...chapter(4, "Implementation"),
+    ...chapter(4, "IMPLEMENTATION"),
     section("4.1", "Modules"),
     P("The system is organised into small, separately tested modules. Table 4.1 lists the main files and their purpose."),
     tcaption(4, "Software modules"),
@@ -805,8 +821,7 @@ function chapter6() {
     out.push(...bullets([`**Significance:** ${sig}`]));
   });
   return [
-    ...chapter(6, "Conclusions & Future Scope"),
-    section("6.1", "Conclusions"),
+    pageSection("6.1", "Conclusions", { label: "Last Chapter", title: "CONCLUSIONS & FUTURE SCOPE" }),
     P("This project designed, implemented and evaluated MedTwin, a generative AI system that produces realistic, useful and private synthetic patient records while keeping the real pattern of missing values. The key conclusions are:"),
     sub("1. Realistic synthetic patients, including their gaps"),
     ...bullets([
@@ -829,7 +844,7 @@ function chapter6() {
       "**Significance:** data owners should be aware of this small, consistent cost for patients with unusual gaps; it points to clear future work.",
     ]),
     P(`**Limitations:** both datasets are small (under 1000 patients); detectability is still above the ideal 50%; privacy was tested with attacks rather than guaranteed mathematically ${cite("stadler")}; the privacy audit of gaps needs enough rare-pattern patients and was inconclusive on diabetes; and the newest missing-value-aware generators were not yet included in the comparison.`),
-    section("6.2", "Future Scope of Work"),
+    pageSection("6.2", "Future Scope of Work"),
     P("The work done in this project provides a solid base for further research. The following directions are recommended:"),
     ...out,
   ];
@@ -841,7 +856,7 @@ function references() {
   CONTENTS.push({ level: 0, label: "", title: "REFERENCES", id });
   return [
     new Paragraph({ heading: HeadingLevel.HEADING_1, alignment: AlignmentType.CENTER, pageBreakBefore: true, spacing: { after: 300 },
-      children: [new Bookmark({ id, children: [new TextRun({ text: "REFERENCES" })] })] }),
+      children: [new Bookmark({ id, children: [new TextRun({ text: "References" })] })] }),
     ...ORDER.map((k, i) => new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { after: 100, line: 300 },
       indent: { left: 567, hanging: 567 }, tabStops: [{ type: TabStopType.LEFT, position: 567 }],
       children: [new TextRun({ text: `[${i + 1}]\t`, size: 22 }), new TextRun({ text: REFS[k], size: 22 })] })),
@@ -870,14 +885,14 @@ function annexures() {
   ];
   return [
     new Paragraph({ heading: HeadingLevel.HEADING_1, alignment: AlignmentType.CENTER, pageBreakBefore: true, spacing: { after: 300 },
-      children: [new Bookmark({ id, children: [new TextRun({ text: "ANNEXURES" })] })] }),
+      children: [new Bookmark({ id, children: [new TextRun({ text: "Annexures" })] })] }),
     sub("Annexure A: Sample synthetic patients"),
     P("The first eight synthetic heart disease patients generated by MedTwin (seed 0). Blank values are shown as “not measured”. None of these records belongs to a real patient."),
     tcaption("A", "Sample of MedTwin's synthetic heart disease patients"),
     table(show, rows, scale(show.map(() => 1)), { size: 15 }),
     after(),
     sub("Annexure B: Key code snippets"),
-    P("**B.1 Creating the missing-value and zero flags** (core/ingestion.py):", { keepNext: true }),
+    P("**B.1 Creating the missing-value and zero flags** (core/ingestion.py):", { keepNext: true, align: AlignmentType.LEFT }),
     ...code([
       "flags = pd.DataFrame(",
       "    {missing_flag(c): df[c].isna().astype(float) for c in self.flagged_cols},",
@@ -887,7 +902,7 @@ function annexures() {
       "    flags[zero_flag(col)] = (df[col] == 0).astype(float)",
     ]),
     after(),
-    P("**B.2 Generator output layer** (core/generator.py): sigmoid for numbers and flags, Gumbel-softmax for each category.", { keepNext: true }),
+    P("**B.2 Generator output layer** (core/generator.py): sigmoid for numbers and flags, Gumbel-softmax for each category.", { keepNext: true, align: AlignmentType.LEFT }),
     ...code([
       "def forward(self, z, cond, hard=False):",
       "    logits = self.model(torch.cat([z, cond], dim=1))",
@@ -902,7 +917,7 @@ function annexures() {
       "    return torch.cat(outputs, dim=1)",
     ]),
     after(),
-    P("**B.3 Pattern distance between real and synthetic gaps** (core/missingness.py):", { keepNext: true }),
+    P("**B.3 Pattern distance between real and synthetic gaps** (core/missingness.py):", { keepNext: true, align: AlignmentType.LEFT }),
     ...code([
       "p_ref = patterns(reference, cols).value_counts(normalize=True)",
       "p_oth = patterns(other, cols).value_counts(normalize=True)",
@@ -942,14 +957,14 @@ function build() {
   const ann = annexures();
 
   // Front-matter entries appear before the lists, chapters after
-  const front = [...listTable("LIST OF FIGURES", FIGURES, "Figure"), ...listTable("LIST OF TABLES", TABLES, "Table")];
+  const front = [...listTable("LIST OF FIGURES", FIGURES, "Figure", "List Of Figures"), ...listTable("LIST OF TABLES", TABLES, "Table", "List Of Tables")];
   const abbr = abbreviations();
   // Order contents: front matter first (ack, abstract, lists, abbreviations), then chapters
   const isFront = (c) => c.front;
   const frontEntries = CONTENTS.filter(isFront);
   const rest = CONTENTS.filter((c) => !isFront(c));
   CONTENTS.length = 0;
-  CONTENTS.push(...frontEntries.filter((c) => c.title !== "CONTENTS"), ...rest);
+  CONTENTS.push(...frontEntries.filter((c) => c.title !== "Contents"), ...rest);
   const tocFinal = contentsTable();
   CONTENTS.length = 0;
 
@@ -960,14 +975,14 @@ function build() {
   const doc = new Document({
     creator: "Pranav Ladha", title: TITLE, description: "MedTwin B.Tech project report",
     styles: {
-      default: { document: { run: { font: FONT, size: 24 } } },
+      default: { document: { run: { font: FONT, size: 28 } } },
       paragraphStyles: [
         { id: "Heading1", name: "Heading 1", basedOn: "Normal", next: "Normal", quickFormat: true,
           run: { size: 32, bold: true, font: FONT }, paragraph: { spacing: { before: 0, after: 240 }, outlineLevel: 0 } },
         { id: "Heading2", name: "Heading 2", basedOn: "Normal", next: "Normal", quickFormat: true,
-          run: { size: 27, bold: true, font: FONT }, paragraph: { spacing: { before: 240, after: 120 }, outlineLevel: 1 } },
+          run: { size: 32, bold: true, font: FONT }, paragraph: { spacing: { before: 240, after: 160 }, outlineLevel: 1 } },
         { id: "Heading3", name: "Heading 3", basedOn: "Normal", next: "Normal", quickFormat: true,
-          run: { size: 24, bold: true, font: FONT }, paragraph: { spacing: { before: 180, after: 80 }, outlineLevel: 2 } },
+          run: { size: 28, bold: true, font: FONT }, paragraph: { spacing: { before: 180, after: 80 }, outlineLevel: 2 } },
       ],
     },
     numbering: { config: [
