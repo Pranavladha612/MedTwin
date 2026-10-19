@@ -75,7 +75,7 @@ TabDDPM~\cite{kotelnikov2023tabddpm} are widely used tabular generators
 for it.
 
 Clinical tables are rarely complete, and the gaps follow a pattern. In the UCI heart disease data~\cite{janosi1989heart}, collected at
-four hospitals for Detrano et al.~\cite{detrano1989}, every Swiss patient has a serum
+four hospitals, every Swiss patient has a serum
 cholesterol of 0 (the test was not recorded), the number of major vessels
 coloured by fluoroscopy is missing for 96--99\% of patients at three of the
 four sites, and resting blood pressure is missing for 28\% of VA Long Beach
@@ -86,7 +86,7 @@ usually imputed first, and the generated cohort then contains invented
 measurements that no real record had.
 
 Recent generators can keep missing values in synthetic
-data~\cite{bing2022healthgen,ouyang2023missdiff,wang2025reinvented,wang2024igamt}.
+data~\cite{ouyang2023missdiff,wang2025reinvented,wang2024igamt}.
 Nobody has yet settled how to check whether the generated gaps are
 realistic, or whether they leak who was in the training data. A
 missingness pattern can identify a patient as well as a value can (think of
@@ -125,16 +125,13 @@ while a second learns to separate them from real ones, and the two get better
 by competing. Replacing the second network's real/fake
 decision with an estimate of the Wasserstein distance~\cite{arjovsky2017wgan},
 kept smooth by a gradient penalty~\cite{gulrajani2017wgangp}, makes training
-much less likely to collapse. medGAN~\cite{choi2017medgan} generated high-dimensional binary and count
-EHR features. CTGAN~\cite{xu2019ctgan} handled mixed-type tables with
+much less likely to collapse. CTGAN~\cite{xu2019ctgan} handled mixed-type tables with
 mode-specific normalisation and a conditional generator trained by
 sampling; the same work proposed TVAE. CTAB-GAN~\cite{zhao2021ctabgan}
 extended this to mixed and long-tailed variables. Diffusion models now lead
 general tabular benchmarks: TabDDPM~\cite{kotelnikov2023tabddpm} combines
 Gaussian and multinomial diffusion, and TabSyn~\cite{zhang2024tabsyn} runs
-score-based diffusion in a learned latent space. For real EHRs,
-EHR-Safe~\cite{yoon2023ehrsafe} addresses heterogeneity, sparsity and
-variable-length sequences. MedTwin builds on WGAN-GP~\cite{gulrajani2017wgangp}
+score-based diffusion in a learned latent space. MedTwin builds on WGAN-GP~\cite{gulrajani2017wgangp}
 with Gumbel-softmax categorical outputs~\cite{jang2017gumbel}.
 
 \paragraph{Missing data.}
@@ -142,36 +139,28 @@ GAIN~\cite{yoon2018gain} imputes missing entries adversarially, with a
 discriminator that guesses which entries were observed.
 MisGAN~\cite{li2019misgan} learns a mask generator alongside the data
 generator so that the missingness pattern is itself modelled. More recent
-work makes the synthetic records themselves incomplete. HealthGen~\cite{bing2022healthgen} generates medical time series that keep their
-informative missingness; MissDiff~\cite{ouyang2023missdiff} trains
+work makes the synthetic records themselves incomplete. MissDiff~\cite{ouyang2023missdiff} trains
 diffusion models directly on incomplete tables and shows that
 ``impute-then-generate'' biases the learned distribution; Wang et
 al.~\cite{wang2025reinvented} preserve both the observed and the missing
-data distributions in a way that plugs into existing generators;
+data distributions in a way that plugs into existing generators; and
 IGAMT~\cite{wang2024igamt} targets longitudinal records whose
 measurements are both incomplete and unevenly timed, and trains with
-differential privacy; and Petrakos et al.~\cite{petrakos2025rct} model the
-dropout process when synthesising randomised-trial data. MedTwin shares their goal.
+differential privacy. MedTwin shares their goal.
 It differs in using an explicit site condition for missingness that is
 driven by hospital practice, in a simple flag encoding that also works for
 zero-coded gaps, and in a controlled ablation of that encoding against
 imputation under a multi-seed held-out protocol.
 
 \paragraph{Synthetic data for these datasets.}
-Recent studies generated synthetic versions of the same or similar data.
+Two recent studies generated synthetic versions of the same data.
 Wan Abu Bakar et al.~\cite{wanabubakar2025ctgan} trained CTGAN on the 303
 Cleveland heart disease patients after filling missing values with the most
 common value, and report moderate train-on-synthetic, test-on-real accuracy
 (56\% on the five-level outcome). Subedi et al.~\cite{subedi2025health}
 trained CTGAN on the Pima diabetes data; a random forest fell from 82\%
-accuracy on real data to 63\% on synthetic data. Alqulaity and
-Yang~\cite{alqulaity2024cgan} gave continuous and categorical columns
-separate sub-networks in a conditional GAN and tested it on 218
-cardiovascular patients from one hospital, reporting only how closely the
-distributions match. Lazzaro et al.~\cite{lazzaro2026bayesian} used
-Bayesian networks trained on the Cleveland site to augment heart disease
-prediction. Each of these studies uses a single run and fills or drops missing
-values. None of them tests on patients the generator never saw, and none
+accuracy on real data to 63\% on synthetic data. Both studies use a single
+run and fill or drop missing values. Neither tests on patients the generator never saw, and neither
 measures privacy. Our evaluation does both, over several seeds, and uses
 all four heart disease sites, including the ones where most values are
 missing.
@@ -182,16 +171,13 @@ series by Esteban et al.~\cite{esteban2017rcgan}. Alaa et
 al.~\cite{alaa2022faithful} separate fidelity, diversity and generalisation
 (not copying training records). Distance to closest record is a common
 privacy check~\cite{zhao2021ctabgan}, and membership inference attacks on
-generative models were shown by LOGAN~\cite{hayes2019logan} and
-systematised by GAN-Leaks~\cite{chen2020ganleaks}. Stadler et
+generative models were first shown by LOGAN~\cite{hayes2019logan}. Stadler et
 al.~\cite{stadler2022groundhog} attacked many generators and found that
 the privacy a synthetic release gives varies a lot and is hard to predict in
 advance. Passing a few attacks is evidence of privacy, but it does not prove
 it. Large comparisons of generators on health
-records~\cite{yan2022benchmark,hernandez2025framework}, and the Synthcity
-library~\cite{qian2023synthcity}, score each model on realism, usefulness
-and privacy. In the study by Hernandez et al., simpler models often did as
-well as the elaborate ones on realism and usefulness. Fang et
+records~\cite{goncalves2020synthetic,yan2022benchmark} score each model on
+realism, usefulness and privacy, and no single model wins on all three. Fang et
 al.~\cite{fang2025memorization} show that tabular diffusion models memorise
 training records, increasingly so with longer training.
 
@@ -252,9 +238,9 @@ are excluded; without this, a batch that happens to contain no patients of
 a rare category produces NaN gradients that corrupt training.
 
 We train for 600 epochs with batch size 64, five critic updates per
-generator update, and Adam~\cite{kingma2015adam} (learning rate $10^{-4}$,
+generator update, and the Adam optimiser (learning rate $10^{-4}$,
 $\beta = (0, 0.9)$). The model is implemented in
-PyTorch~\cite{paszke2019pytorch}.
+PyTorch.
 
 \subsection{Decoding}
 
@@ -321,13 +307,13 @@ report it.
 \label{sec:setup}
 
 \paragraph{Datasets.}
-\emph{Heart disease} (UCI~\cite{janosi1989heart,detrano1989}) has 920 patients from Cleveland (304), Hungary
+\emph{Heart disease} (UCI~\cite{janosi1989heart}) has 920 patients from Cleveland (304), Hungary
 (293), VA Long Beach (200) and Switzerland (123), with 7 numeric and 7
 categorical columns plus the site; 55.3\% have disease (severity
 $> 0$). Five numeric columns are sometimes missing, and missingness is
 strongly site-dependent (Sect.~\ref{sec:missingness}). \emph{Pima
 diabetes}~\cite{smith1988adap}, taken from OpenML (dataset
-37)~\cite{vanschoren2014openml}, has 768 patients with 9 numeric columns and
+37), has 768 patients with 9 numeric columns and
 no site; zeros in glucose, blood pressure, skin fold, insulin and BMI mean
 ``not measured'' (insulin: 48.7\% of patients), while 0 pregnancies is a
 real value. Both datasets run from settings files alone, with no code
@@ -358,7 +344,7 @@ real from synthetic records on a balanced sample (50\% = indistinguishable).
 \emph{Utility}: a random forest trained on synthetic (TSTR) or real
 training (TRTR) records predicts the binary outcome of held-out patients; we
 report TSTR AUC and the ratio TSTR/TRTR. Classifiers and nearest-neighbour
-searches use scikit-learn~\cite{pedregosa2011sklearn}. \emph{DCR}: the share of synthetic
+searches use scikit-learn. \emph{DCR}: the share of synthetic
 records whose nearest real record is a training rather than a held-out
 patient, with equally sized real sets (50\% = no memorisation).
 \emph{Membership inference}: AUC of an attacker who scores each real patient
