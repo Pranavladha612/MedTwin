@@ -20,7 +20,7 @@ Weight clipping in [3] could still make training unstable. This paper replaces i
 
 ## [5] Janosi et al., 1989: Heart Disease (UCI Machine Learning Repository)
 
-This is the heart disease dataset we use. It holds 920 patients from four hospitals: the Cleveland Clinic, the Hungarian Institute of Cardiology in Budapest, University Hospitals in Zurich and Basel (Switzerland), and the VA Medical Center in Long Beach. Most studies use 14 of its attributes and the presence of coronary artery disease as the target. Because each hospital recorded different tests, the missing values depend strongly on the hospital. That is the main problem our project tackles.
+This is the heart disease dataset we use. It holds 920 patients from four sites: Cleveland (USA), Budapest (Hungary), Switzerland, where the data came from two university hospitals, and the VA hospital in Long Beach (USA). Most studies use 14 of its attributes and the presence of coronary artery disease as the target. Because each hospital recorded different tests, the missing values depend strongly on the hospital. That is the main problem our project tackles.
 
 ## [6] Smith et al., 1988: Using the ADAP learning algorithm to forecast the onset of diabetes mellitus
 
