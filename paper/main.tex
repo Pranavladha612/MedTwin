@@ -69,52 +69,53 @@ matching the best baseline.
 \section{Introduction}
 
 Machine learning for clinical prediction depends on access to patient data
-that privacy law and institutional policy rightly restrict. Synthetic data
---- records drawn from a generative model trained on real patients --- is
+that privacy law and institutional policy rightly restrict. Synthetic data,
+meaning records drawn from a generative model trained on real patients, is
 one proposed way to share such data~\cite{goncalves2020synthetic,yan2022benchmark},
-and tabular generators such as
-CTGAN~\cite{xu2019ctgan}, TVAE~\cite{xu2019ctgan} and
-TabDDPM~\cite{kotelnikov2023tabddpm} are now standard tools for it.
+and CTGAN~\cite{xu2019ctgan}, TVAE~\cite{xu2019ctgan} and
+TabDDPM~\cite{kotelnikov2023tabddpm} are widely used tabular generators
+for it.
 
-Clinical tables, however, are rarely complete, and their gaps are not
-random. In the UCI heart disease data~\cite{janosi1989heart}, collected at
+Clinical tables are rarely complete, and the gaps follow a pattern. In the UCI heart disease data~\cite{janosi1989heart}, collected at
 four hospitals for Detrano et al.~\cite{detrano1989}, every Swiss patient has a serum
 cholesterol of 0 (the test was not recorded), the number of major vessels
 coloured by fluoroscopy is missing for 96--99\% of patients at three of the
 four sites, and resting blood pressure is missing for 28\% of VA Long Beach
 patients but almost no one elsewhere. A faithful synthetic version of this
-cohort must reproduce \emph{which} tests were performed \emph{where}. Yet
-most tabular generators require complete input, so missing values are
+cohort has to reproduce \emph{which} tests were performed \emph{where}.
+Most tabular generators need complete input, though, so missing values are
 usually imputed first, and the generated cohort then contains invented
 measurements that no real record had.
 
 Recent generators can keep missing values in synthetic
 data~\cite{bing2022healthgen,ouyang2023missdiff,wang2025reinvented,wang2024igamt}.
-Two questions, however, have no standard answer: \emph{are the generated
-gaps realistic}, and \emph{do they leak who was in the training data}? A
-missingness pattern can be as identifying as a value --- the one patient at
-a site who did have a rare test stands out --- yet privacy evaluations of
-synthetic data look only at values. Our contributions are:
+Nobody has yet settled how to check whether the generated gaps are
+realistic, or whether they leak who was in the training data. A
+missingness pattern can identify a patient as well as a value can (think of
+the one patient at a site who did have a rare test), but privacy
+evaluations of synthetic data only look at values. This paper makes four
+contributions.
 \begin{enumerate}
-\item \textbf{Missing-value fidelity scores.} We measure how well synthetic
-  data reproduces per-column missing rates, per-site missing rates, and the
-  joint distribution of whole missingness patterns. Each score is reported
-  next to a real-vs-real reference --- the gap between held-out and training
-  patients --- so ``good'' has a concrete meaning.
-\item \textbf{A missing-value privacy audit.} We test whether keeping gaps
-  exposes training patients: membership attacks restricted to patients with
-  rare missingness patterns, compared with common ones, and a test of whether
-  patterns unique to a training patient reappear in the synthetic data.
-\item \textbf{MedTwin, a site-conditioned generator.} A conditional
-  WGAN-GP~\cite{gulrajani2017wgangp} with a generated ``measured'' flag per
-  incomplete column, a flag for values spiked at zero, recognition of zeros
-  that encode ``not measured'', and a correlation-matching loss, all
-  conditioned on the hospital.
-\item \textbf{A five-seed benchmark with ablations.} Against CTGAN, TVAE and
-  TabDDPM on two datasets, with held-out patients, paired confidence
-  intervals, ablations of every component, and a sensitivity check. We also
-  separate realism from privacy, arguing that real-vs-synthetic
-  detectability, sometimes reported as a privacy score, is not one.
+\item We define missing-value fidelity scores. They measure how well
+  synthetic data reproduces the missing rate of each column, the missing
+  rate of each column at each site, and the distribution of whole
+  missingness patterns. Each score sits next to a real-vs-real reference
+  (the gap between held-out and training patients), which tells the reader
+  what a good value looks like.
+\item We audit whether keeping gaps exposes training patients. A
+  membership attack is run separately on patients with rare and with common
+  missingness patterns, and we check whether a pattern held by only one
+  training patient shows up again in the synthetic data.
+\item We describe MedTwin, a conditional
+  WGAN-GP~\cite{gulrajani2017wgangp} conditioned on the hospital. It
+  generates a ``measured'' flag for every incomplete column and a flag for
+  values stuck at zero, treats zeros that stand for ``not measured'' as
+  gaps, and adds a loss that matches correlations.
+\item We compare MedTwin with CTGAN, TVAE and TabDDPM on two datasets over
+  five seeds, with held-out patients, paired confidence intervals, an
+  ablation of each component and a sensitivity check. Along the way we argue
+  that real-vs-synthetic detectability, which some papers report as a
+  privacy score, measures realism instead.
 \end{enumerate}
 
 % ---------------------------------------------------------------------------
@@ -122,11 +123,11 @@ synthetic data look only at values. Our contributions are:
 
 \paragraph{Tabular and health-record generators.}
 In a GAN~\cite{goodfellow2014gan}, one network learns to produce samples
-while a second learns to separate them from real ones, and each improves
-by competing with the other. Replacing the second network's real/fake
+while a second learns to separate them from real ones, and the two get better
+by competing. Replacing the second network's real/fake
 decision with an estimate of the Wasserstein distance~\cite{arjovsky2017wgan},
-kept smooth by a gradient penalty~\cite{gulrajani2017wgangp}, makes this
-competition far less prone to collapse. medGAN~\cite{choi2017medgan} generated high-dimensional binary and count
+kept smooth by a gradient penalty~\cite{gulrajani2017wgangp}, makes training
+much less likely to collapse. medGAN~\cite{choi2017medgan} generated high-dimensional binary and count
 EHR features. CTGAN~\cite{xu2019ctgan} handled mixed-type tables with
 mode-specific normalisation and a conditional generator trained by
 sampling; the same work proposed TVAE. CTAB-GAN~\cite{zhao2021ctabgan}
@@ -171,10 +172,11 @@ separate sub-networks in a conditional GAN and tested it on 218
 cardiovascular patients from one hospital, reporting only how closely the
 distributions match. Lazzaro et al.~\cite{lazzaro2026bayesian} used
 Bayesian networks trained on the Cleveland site to augment heart disease
-prediction. These studies use single runs, fill or drop missing values, and
-do not test on patients unseen by the generator or measure privacy; our
-evaluation addresses each of these points and uses all four heart disease
-sites, including the largely incomplete ones.
+prediction. Each of these studies uses a single run and fills or drops missing
+values. None of them tests on patients the generator never saw, and none
+measures privacy. Our evaluation does both, over several seeds, and uses
+all four heart disease sites, including the ones where most values are
+missing.
 
 \paragraph{Evaluation.}
 Train-on-synthetic, test-on-real (TSTR) was introduced for medical time
@@ -185,14 +187,13 @@ privacy check~\cite{zhao2021ctabgan}, and membership inference attacks on
 generative models were shown by LOGAN~\cite{hayes2019logan} and
 systematised by GAN-Leaks~\cite{chen2020ganleaks}. Stadler et
 al.~\cite{stadler2022groundhog} attacked many generators and found that
-how much privacy a synthetic release actually protects varies widely and is
-hard to predict in advance; passing a handful of attacks is therefore
-evidence, not proof. Large comparisons of generators on health
+the privacy a synthetic release gives varies a lot and is hard to predict in
+advance. Passing a few attacks is evidence of privacy, but it does not prove
+it. Large comparisons of generators on health
 records~\cite{yan2022benchmark,hernandez2025framework}, and the Synthcity
-library~\cite{qian2023synthcity}, score each model on how real its output
-looks, how useful it is and how much it reveals; in the study by Hernandez
-et al., the less complex models often did as well as the elaborate ones on
-the first two. Fang et
+library~\cite{qian2023synthcity}, score each model on realism, usefulness
+and privacy. In the study by Hernandez et al., simpler models often did as
+well as the elaborate ones on realism and usefulness. Fang et
 al.~\cite{fang2025memorization} show that tabular diffusion models memorise
 training records, increasingly so with longer training.
 
@@ -263,9 +264,9 @@ To sample $n$ records we draw sites with their training frequencies, so
 site proportions match the real data exactly. Numeric outputs are mapped
 back to clinical units; a zero flag $\geq 0.5$ sets the value to 0, and a
 measurement flag $\geq 0.5$ blanks it (``not measured'' takes precedence).
-Records outside the plausible clinical ranges are removed --- ranges chosen
-to include every measured real value, so no real patient would be
-filtered --- and values are rounded to their recorded precision (e.g.\ ST
+Records outside the plausible clinical ranges are removed. The ranges
+include every measured real value, so no real patient would be
+filtered. Values are rounded to their recorded precision (e.g.\ ST
 depression to 0.1), with counts and scores clipped to their ranges.
 
 % ---------------------------------------------------------------------------
@@ -413,7 +414,7 @@ memorisation reported for tabular diffusion models~\cite{fang2025memorization}. 
 TVAE, mean DCR stays within 49.7--54.0\% and membership-inference AUC
 within 0.494--0.533 on both datasets, and no model produced an exact copy
 of a training record: these tests detect no memorisation. They are empirical checks against one
-attacker, not a formal guarantee.
+attacker and give no formal guarantee.
 
 \begin{figure}[t]
 \centering
@@ -473,14 +474,14 @@ site: real (blue) and MedTwin (orange).}
 
 \subsection{The privacy cost of keeping missing values}
 
-Keeping gaps has a small but consistent cost, concentrated on unusual
-patients. On heart disease about 64 of the 368 attacked patients per draw
+Keeping gaps has a small cost, and it falls on patients with unusual
+patterns. On heart disease about 64 of the 368 attacked patients per draw
 have a rare missingness pattern. For them, the membership attack reaches an
 AUC of 0.575 against MedTwin, compared with 0.531 for the same model trained
-without measurement flags --- higher in every one of the five seeds. For
+without measurement flags, and it is higher in all five seeds. For
 patients with common patterns (0.542 against 0.516) and over all patients
 (0.532 against 0.515) the difference is not clear. The attack works through
-distances, not through copied patterns: patterns unique to one patient
+distances and does not rely on copied patterns. Patterns unique to one patient
 reappear no more often when that patient was in training than when they were
 held out (unique leak $-4.7 \pm 25.3$ points). Between models the rare-pattern
 AUCs (0.50--0.57) do not differ clearly. On diabetes, with only about eight
@@ -512,16 +513,16 @@ Removing the correlation loss changes no realism, utility or privacy
 metric, but clearly worsens the correlation gap on both datasets in every
 seed: between numeric columns it nearly doubles (heart disease 0.041 $\to$
 0.075; diabetes 0.034 $\to$ 0.063), and over all encoded features it grows
-from 0.025 to 0.030 and from 0.027 to 0.048. The loss therefore does what it
-is designed to do --- preserve pairwise structure --- without trading off
-anything else. No component changes utility, DCR or membership inference:
-their effect is on realism (detectability and correlations), not on what
-the data can be used for or on privacy.
+from 0.025 to 0.030 and from 0.027 to 0.048. So the loss keeps pairwise structure, which is its job, and costs
+nothing elsewhere. No component changes utility, DCR or membership
+inference. The components change how real the records look
+(detectability and correlations) and leave usefulness and privacy where
+they were.
 
 The plausibility filter is not ablated: across all runs it removed no
 record, because the Sigmoid outputs map back into the range of the training
-data, which lies within the clinical ranges. It is a safeguard, not a
-contributor to the results.
+data, which lies within the clinical ranges. It is only a safeguard and
+plays no part in the results.
 
 \subsection{Sensitivity to hyperparameters}
 
@@ -540,11 +541,10 @@ heart disease. With $\alpha \in \{0.5, 8\}$ or 300 epochs, no metric differs
 clearly from the default (the correlation gap was measured for the full
 model and its ablation only). Training for 1200 epochs gives the same realism
 and utility but starts to memorise: DCR rises from 53.2\% to 55.3\% and
-membership-inference AUC from 0.532 to 0.548, both clear in every seed
---- the same trend with training length that Fang et
-al.~\cite{fang2025memorization} report for diffusion models.
-The results therefore do not hinge on these settings, and 600 epochs is a
-reasonable stopping point.
+membership-inference AUC from 0.532 to 0.548, both clear in every seed.
+Fang et al.~\cite{fang2025memorization} report the same trend with
+training length for diffusion models. The results do not depend on these
+settings, and 600 epochs is a sensible place to stop.
 
 % ---------------------------------------------------------------------------
 \section{Discussion and Limitations}
@@ -555,37 +555,35 @@ alone raises detectability from 62\% to 84\% on heart disease and from
 64\% to 81\% on diabetes, and the zero flag and site conditioning add
 further, smaller gains. Imputing missing values, as most pipelines do
 before synthesis, yields records that look plausible column by column yet
-are easy to tell apart from real ones --- consistent with the bias of
-``impute-then-generate'' reported for MissDiff~\cite{ouyang2023missdiff}.
-The correlation loss, in turn, preserves pairwise structure without
-affecting the other metrics.
+are easy to tell apart from real ones. MissDiff~\cite{ouyang2023missdiff}
+reports the same bias for ``impute-then-generate''. The correlation loss
+keeps pairwise structure and leaves the other metrics alone.
 
-The missing-value scores make a difference that standard metrics hide
-visible. CTGAN, TVAE and TabDDPM are given exactly the same measurement flags
+The missing-value scores show a difference that standard metrics
+miss. CTGAN, TVAE and TabDDPM are given exactly the same measurement flags
 as MedTwin, and their overall missing rates are close to real (rate gap
 0.028--0.059), yet their missingness patterns are far from real because
-nothing ties a gap to its hospital. Reporting only per-column rates, or only
-value distributions, would miss this. The privacy audit adds a caution:
-keeping realistic gaps slightly exposes the patients whose gaps are unusual.
-The effect is modest (AUC 0.575) and does not appear as copied patterns, but
-it is exactly the group a data custodian would worry about; coarsening or
-merging rare patterns before release is a natural mitigation to test.
+nothing ties a gap to its hospital. A report of per-column rates or value distributions alone would not
+show this. The privacy audit adds a warning. Keeping realistic gaps
+slightly exposes the patients whose gaps are unusual. The effect is small
+(AUC 0.575) and does not show up as copied patterns, but these are the
+patients a data custodian would worry about most. Merging rare patterns
+before release is an obvious fix to try.
 
-Several limitations apply. Both datasets are small (under 1000 patients)
+This study has limits. Both datasets are small (under 1000 patients)
 and single-table; larger and longitudinal EHRs may behave differently. The
 missing-value privacy audit needs enough rare-pattern patients: it is
 conclusive on heart disease but not on diabetes, and the unique-pattern test
 rests on about 14 patterns per draw, so its spread is wide.
 Detectability remains well above 50\%, so the synthetic records are still
-distinguishable from real ones. Our privacy evidence is empirical --- one
-distance-based membership attack and DCR --- and MedTwin applies no
+distinguishable from real ones. Our privacy evidence is empirical (one
+distance-based membership attack and DCR), and MedTwin applies no
 differential privacy; following Stadler et al.~\cite{stadler2022groundhog},
 these results should not be read as a privacy guarantee. TabDDPM is our own
 compact reimplementation, and neither TabSyn~\cite{zhang2024tabsyn} nor the
 missingness-preserving generators discussed in Sect.~2
 (MissDiff~\cite{ouyang2023missdiff}, Wang et al.~\cite{wang2025reinvented})
-were included as baselines; comparing against them is the most important
-next step. Finally, generated missingness reproduces
+were included as baselines; that comparison should come next. Finally, generated missingness reproduces
 the observed pattern, which here reflects site practice; we make no claim
 about the underlying missingness mechanism.
 
@@ -593,13 +591,13 @@ about the underlying missingness mechanism.
 \section{Conclusion}
 
 We proposed scores that measure whether synthetic clinical data has
-realistic gaps --- per column, per site, and as whole patterns, each against a
-real-vs-real reference --- and an audit of whether those gaps leak training
+realistic gaps (per column, per site and as whole patterns, each
+against a real-vs-real reference), and an audit of whether those gaps leak training
 patients. On two public datasets and five seeds, a site-conditioned
 generator, MedTwin, reproduces missingness patterns almost as closely as a
 second real sample, while standard generators given the same flags do not.
-Keeping gaps carries a small, consistent privacy cost for patients with rare
-patterns, not visible in overall privacy metrics. MedTwin also matches the
+Keeping gaps has a small privacy cost for patients with rare
+patterns, which overall privacy metrics do not show. MedTwin also matches the
 best baseline's downstream utility, has the highest fidelity, and is the
 least detectable model on the multi-site data. Future work includes
 mitigations for rare patterns, larger and longitudinal cohorts, differentially

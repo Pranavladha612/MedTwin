@@ -118,11 +118,11 @@ def cover():
 <section class='cover'>
   <div class='cover-top'>Project report &middot; Department of Data Science and Engineering, Manipal University Jaipur</div>
   <h1>MedTwin</h1>
-  <div class='subtitle'>Realistic and private synthetic patient data &mdash; including the values that were never measured</div>
+  <div class='subtitle'>Realistic and private synthetic patient data, including the values that were never measured</div>
   <div class='cover-desc'>
-    A generative AI system that creates fake-but-realistic patient records from real hospital data,
-    tested on two public medical datasets against three well-known methods, with new ways to measure
-    whether the <em>missing</em> parts of the data are realistic and whether they leak private information.
+    A model that creates realistic fake patient records from real hospital data. We tested it on two
+    public medical datasets against three widely used methods, and built new ways to check whether the
+    <em>missing</em> parts of the fake data are realistic and whether they leak private information.
   </div>
   <div class='cover-authors'>Pranav Ladha &nbsp;&middot;&nbsp; Devisha Jain &nbsp;&middot;&nbsp; Nandini Nahata &nbsp;&middot;&nbsp; Jiya Gakhar</div>
   <div class='cover-date'>October 2026</div>
@@ -151,33 +151,30 @@ def summary():
     return f"""
 <section>
 <h2>1&nbsp; Summary</h2>
-<p><b>What.</b> MedTwin is a program that learns from real patient records and then creates new,
-fake patient records that look and behave like the real ones. Nobody in the fake data is a real person.
-Researchers can use such data to build and test medical AI without seeing private patient files.</p>
-<p><b>Why it is hard.</b> Real hospital data has holes. Different hospitals measure different things:
-in our heart data, <i>no</i> Swiss patient has a cholesterol value and almost no Hungarian patient has a
-vessel-count result. Most existing tools fill these holes with guesses before learning, so their fake data
-has no holes at all &mdash; which makes it unrealistic and easy to spot.</p>
-<p><b>How.</b> MedTwin is a type of AI called a <i>conditional Wasserstein GAN</i>. For every value that can be
-missing it also learns a yes/no &ldquo;was this measured?&rdquo; flag, and it creates each patient <i>for a
-specific hospital</i>, so it learns each hospital's habits. We also built new tests that measure whether the
-holes in fake data are realistic and whether keeping them puts privacy at risk.</p>
-<p><b>Results</b> (five repeated experiments, tested on real patients the AI never saw):</p>
-<ul>
-<li><b>Most realistic.</b> A classifier can tell our fake heart patients from real ones only {h_det}% of the time
-  (50% = pure guessing). The other three methods: {f(mean('h','TabDDPM','detectability_pct'),1)}%,
-  {f(mean('h','TVAE','detectability_pct'),1)}% and {f(mean('h','CTGAN','detectability_pct'),1)}%.</li>
-<li><b>Just as useful.</b> A disease predictor trained only on our fake data works
-  {f(mean('h',MEDTWIN,'auc_ratio')*100,1)}% as well as one trained on real data (heart disease) and
-  {f(mean('d',MEDTWIN,'auc_ratio')*100,1)}% as well (diabetes), tied with the best other method.</li>
-<li><b>Realistic holes.</b> The missing-value patterns in our fake data are almost as close to the real data as a
-  second sample of real patients is. Only MedTwin puts the holes at the right hospitals.</li>
-<li><b>No copying found.</b> Privacy attacks found no sign that MedTwin memorised real patients. One other method
-  (TabDDPM) clearly did on the diabetes data.</li>
-<li><b>An honest catch.</b> Keeping realistic holes makes patients with <i>unusual</i> holes slightly easier to
-  identify (attack score {am('h','full','rare_pattern_dist_mia_auc')} vs {am('h','no_missing_flags','rare_pattern_dist_mia_auc')}
-  without the flags). This is a new finding that we report openly.</li>
-</ul>
+<p>MedTwin is a program that learns from real patient records and then makes new, fake patient records
+that look and behave like the real ones. Nobody in the fake data is a real person, so researchers can use it to
+build and test medical AI without seeing private patient files.</p>
+<p>The hard part is that real hospital data has holes, and different hospitals measure different things. In
+our heart data, <i>no</i> Swiss patient has a cholesterol value and almost no Hungarian patient has a
+vessel-count result. Most existing tools fill these holes with guesses before learning. Their fake data then
+has no holes at all, which looks wrong and is easy to spot.</p>
+<p>MedTwin is a <i>conditional Wasserstein GAN</i>. For every value that can be missing, it also learns a
+yes/no &ldquo;was this measured?&rdquo; flag. It also creates each patient <i>for a specific hospital</i>, so it
+picks up each hospital's habits. On top of the model, we built new tests that check whether the holes in fake
+data are realistic and whether keeping them puts privacy at risk.</p>
+<p>We repeated every experiment five times and always tested on real patients the model never saw. A
+classifier could tell our fake heart patients from real ones {h_det}% of the time, where 50% would be pure
+guessing. For the other three methods the figure was {f(mean('h','TabDDPM','detectability_pct'),1)}%,
+{f(mean('h','TVAE','detectability_pct'),1)}% and {f(mean('h','CTGAN','detectability_pct'),1)}%. A disease
+predictor trained only on our fake data worked {f(mean('h',MEDTWIN,'auc_ratio')*100,1)}% as well as one trained
+on real data for heart disease, and {f(mean('d',MEDTWIN,'auc_ratio')*100,1)}% as well for diabetes. That is
+level with the best other method.</p>
+<p>The missing-value patterns in our fake data are almost as close to the real data as a second sample of
+real patients, and MedTwin is the only method that puts the holes at the right hospitals. Privacy attacks found
+no sign that MedTwin memorised real patients, though TabDDPM clearly did on the diabetes data. There is one
+catch. Keeping realistic holes makes patients with <i>unusual</i> holes slightly easier to identify (attack score
+{am('h','full','rare_pattern_dist_mia_auc')} against {am('h','no_missing_flags','rare_pattern_dist_mia_auc')}
+without the flags).</p>
 </section>"""
 
 
@@ -187,21 +184,21 @@ def problem():
 <h2>2&nbsp; The problem in simple words</h2>
 <h3>Medical AI needs data that is hard to share</h3>
 <p>To build a computer program that predicts, for example, heart disease, we need many real patient records.
-These records are private. Laws such as HIPAA (USA) and GDPR (Europe), and hospital rules, rightly limit who
+These records are private. Laws such as HIPAA in the USA and GDPR in Europe, and hospital rules, limit who
 can see them. So students, researchers and companies often cannot get the data they need.</p>
 <h3>The idea: synthetic data</h3>
-<p><b>Synthetic data</b> means fake records produced by a computer model that has learned the patterns in real
-records. A good synthetic patient looks real &mdash; an older patient tends to have a lower maximum heart rate, a
-sick patient tends to have chest pain &mdash; but does not belong to any real person. If the fake data is good
+<p>Synthetic data means fake records produced by a computer model that has learned the patterns in real
+records. A good synthetic patient looks real (an older patient tends to have a lower maximum heart rate, and a
+sick patient tends to have chest pain), but does not belong to any real person. If the fake data is good
 enough, people can share it instead of the real data.</p>
-<p>A synthetic dataset must pass three tests at the same time:</p>
+<p>People usually judge a synthetic dataset on the three questions below.</p>
 <table class='three'>
 <tr><td><b>1. Realistic</b><br>Does it look like real data, column by column and in how columns relate?</td>
 <td><b>2. Useful</b><br>Does a model trained on the fake data work on real patients?</td>
 <td><b>3. Private</b><br>Is it impossible to work out which real patients were used to make it?</td></tr>
 </table>
 <h3>The twist: real data has holes</h3>
-<p>Real medical tables are incomplete, and not at random. Whether a test was done depends on the hospital, the
+<p>Real medical tables have gaps, and the gaps follow a pattern. Whether a test was done depends on the hospital, the
 doctor and the patient. In the heart disease data we use:</p>
 <ul>
 <li>every Swiss patient has cholesterol recorded as 0, which really means &ldquo;not measured&rdquo;;</li>
@@ -209,8 +206,8 @@ doctor and the patient. In the heart disease data we use:</p>
 <li>resting blood pressure is missing for 28% of patients at VA Long Beach but almost nobody elsewhere.</li>
 </ul>
 <p>Most synthetic-data tools cannot handle holes, so people fill them with a typical value (for example the
-median) first. The fake data then has no holes, which is not how real data looks, and the filled-in values are
-inventions. Our project asks:</p>
+median) first. The fake data then has no holes, unlike real data, and the filled-in values were never measured on
+anyone. This led to three questions:</p>
 <div class='box goal'><div class='box-title'>Project questions</div>
 <ol>
 <li>Can we generate realistic, useful synthetic patients <i>including</i> their holes, hospital by hospital?</li>
@@ -317,23 +314,23 @@ def pipeline():
 <p>The whole system is one pipeline. Each step is a separate, tested part of the code.</p>
 <div class='pipeline'>{boxes}</div>
 <h3>Step by step</h3>
-<p><b>Settings file.</b> Everything specific to a dataset lives in a small settings file (for example
+<p>Everything specific to a dataset lives in a small settings file (for example
 <code>configs/heart_disease.yaml</code>): which columns are numbers or categories, which column is the hospital,
-which zeros mean &ldquo;not measured&rdquo;, and the medically possible range of each value. Switching to a new
-dataset means writing a new settings file, not changing code &mdash; that is how we added the diabetes data.</p>
-<p><b>Handling missing values (the key idea).</b> For every number column that is sometimes missing, MedTwin adds a
-yes/no <i>measured flag</i>. The generator learns these flags together with the values, so it learns <i>which</i>
+which zeros mean &ldquo;not measured&rdquo;, and the medically possible range of each value. A new dataset only
+needs a new settings file and no code changes. That is how we added the diabetes data.</p>
+<p>The main idea is how MedTwin handles missing values. For every number column that is sometimes missing,
+it adds a yes/no <i>measured flag</i>. The generator learns these flags together with the values, so it learns <i>which</i>
 values tend to be missing and <i>where</i>. When it creates a patient and the flag says &ldquo;not measured&rdquo;,
-the value is left blank. For categories, &ldquo;not measured&rdquo; is simply one more category.</p>
-<p><b>The zero flag.</b> 40% of heart patients have an ST depression of exactly 0. A neural network cannot easily
-produce one exact number, so MedTwin learns a separate yes/no &ldquo;is it exactly zero?&rdquo; flag.</p>
-<p><b>Hospital conditioning.</b> The hospital is not generated &mdash; it is <i>given</i> to the generator. MedTwin
-creates each patient for a chosen hospital, and the critic judges whether the patient is realistic <i>for that
+the value is left blank. For categories, &ldquo;not measured&rdquo; is just one more category.</p>
+<p>40% of heart patients have an ST depression of exactly 0. A neural network cannot easily produce one exact
+number, so MedTwin learns a separate yes/no &ldquo;is it exactly zero?&rdquo; flag, which we call the zero flag.</p>
+<p>The hospital is not generated. It is <i>given</i> to the generator, which is called hospital conditioning.
+MedTwin creates each patient for a chosen hospital, and the critic judges whether the patient is realistic <i>for that
 hospital</i>. This is how site-specific habits (like no cholesterol test in Switzerland) are learned.</p>
-<p><b>Correlation loss.</b> Besides fooling the critic, the generator is also penalised when the correlations
-between columns in its output differ from those in real data. This keeps relationships like
-&ldquo;older &rarr; lower maximum heart rate&rdquo; intact.</p>
-<p><b>Cleaning.</b> Generated values are rounded the way hospitals record them (for example ST depression to 0.1)
+<p>Besides trying to fool the critic, the generator is penalised when the correlations between columns in its
+output differ from those in real data (the correlation loss). This keeps relationships such as
+&ldquo;older &rarr; lower maximum heart rate&rdquo; in place.</p>
+<p>Finally, generated values are rounded the way hospitals record them (for example ST depression to 0.1)
 and checked against medical ranges. The ranges were chosen to include every real measured value.</p>
 </section>"""
 
@@ -402,8 +399,8 @@ def specs():
 {table(["Area", "Tools and versions"], stack, "compact", ["28%", "72%"])}</div>
 <h3>Code structure</h3>
 {table(["File / folder", "Purpose"], code, "compact", ["40%", "60%"])}
-<p class='small'>Reproducibility: every experiment can be rerun from the code. When we reran all experiments after adding new
-measurements, all 400 previously saved results came out exactly the same.</p>
+<p class='small'>Every experiment can be rerun from the code. When we reran all of them after adding new measurements,
+all 400 saved results came out exactly the same.</p>
 </section>"""
 
 
@@ -426,27 +423,23 @@ def testing():
 <section>
 <h2>7&nbsp; How we test it</h2>
 <h3>A fair test setup</h3>
-<ul>
-<li><b>Unseen patients.</b> 20% of real patients are held out and never shown to any model. Usefulness and privacy
-are measured against them. (Testing on patients the model saw would make results look better than they are.)</li>
-<li><b>Five repeats.</b> Everything is repeated with 5 seeds. Each seed holds out different patients and starts the
-models differently. We report the average and the spread (&plusmn; standard deviation).</li>
-<li><b>Same treatment for all.</b> All four methods get the same data, the same missing-value flags, the same
-cleaning and the same tests.</li>
-<li><b>Paired statistics.</b> Methods are compared seed by seed. A difference is called <i>clear</i> only if its
-95% confidence interval does not include zero.</li>
-</ul>
+<p>20% of real patients are held out and never shown to any model, and usefulness and privacy are measured
+against them. Testing on patients the model had seen would make the results look better than they are.
+Everything is repeated with 5 seeds. Each seed holds out different patients and starts the models differently,
+and we report the average and the spread (&plusmn; standard deviation).</p>
+<p>All four methods get the same data, missing-value flags, cleaning and tests. Methods are compared seed by
+seed, and we call a difference <i>clear</i> only if its 95% confidence interval does not include zero.</p>
 <h3>What we measure</h3>
 {table(["Measure", "Question it answers", "Best value", "Group"], rows, "compact", ["22%", "50%", "13%", "15%"])}
-{box("Detectability is not privacy", "<p>Some papers call the &ldquo;can a classifier spot the fakes?&rdquo; score a privacy score. It is not: a model that simply copied real patients would be impossible to spot and still leak everything. We use it only for realism, and judge privacy with DCR and membership attacks.</p>", "note")}
+{box("Detectability is not privacy", "<p>Some papers call the &ldquo;can a classifier spot the fakes?&rdquo; score a privacy score. That is a mistake. A model that just copied real patients would be impossible to spot and would still leak everything. We use it only for realism, and judge privacy with DCR and membership attacks.</p>", "note")}
 <h3>The new missing-value measures, in simple words</h3>
-<p>A patient's <b>missingness pattern</b> is the list of which of their values are blank, plus their hospital &mdash;
+<p>A patient's <i>missingness pattern</i> is the list of which of their values are blank, plus their hospital,
 for example &ldquo;Hungary: cholesterol measured, vessel scan missing, thalassemia missing&rdquo;.</p>
 <ul>
-<li><b>Pattern distance</b> compares how often each pattern appears in fake and in real data (0 = identical,
+<li>The pattern distance compares how often each pattern appears in fake and in real data (0 = identical,
 1 = completely different). Because the score depends on sample size, we also compute it between two groups of
 <i>real</i> patients. A fake dataset that scores close to this real-vs-real value is as good as more real data.</li>
-<li><b>Rare-pattern attack</b> runs the membership attack only on patients whose pattern is rare (held by at most
+<li>The rare-pattern attack runs the membership attack only on patients whose pattern is rare (held by at most
 2% of patients) and compares with everyone else. If keeping holes hurts privacy, rare patients suffer most.</li>
 </ul>
 </section>"""
@@ -511,11 +504,11 @@ are described in the text.</p>
 {table(head, bench_rows(h, cols), "results")}
 {figure("figures/heart_disease/fig_benchmark.png", "Heart disease comparison, averages over 5 seeds with spread. Dashed lines show the ideal value.")}
 <ul>
-<li><b>Realism:</b> MedTwin has the best fidelity ({f(mean(h,MEDTWIN,'fidelity_pct'),1)}%) and by far the lowest
+<li>MedTwin has the best fidelity ({f(mean(h,MEDTWIN,'fidelity_pct'),1)}%) and much the lowest
 detectability ({f(mean(h,MEDTWIN,'detectability_pct'),1)}%, against {f(mean(h,'TabDDPM','detectability_pct'),1)}&ndash;{f(mean(h,'CTGAN','detectability_pct'),1)}%). Both differences are clear against every method.</li>
-<li><b>Usefulness:</b> AUC ratio {f(mean(h,MEDTWIN,'auc_ratio'))} &mdash; statistically tied with TVAE ({f(mean(h,'TVAE','auc_ratio'))}),
-clearly better than CTGAN ({f(mean(h,'CTGAN','auc_ratio'))}).</li>
-<li><b>Privacy:</b> DCR and MIA are close to the ideal for all methods; no method copied a real patient.</li>
+<li>Its AUC ratio is {f(mean(h,MEDTWIN,'auc_ratio'))}, statistically tied with TVAE ({f(mean(h,'TVAE','auc_ratio'))})
+and clearly better than CTGAN ({f(mean(h,'CTGAN','auc_ratio'))}).</li>
+<li>DCR and MIA are close to the ideal for all methods, and no method copied a real patient.</li>
 </ul>
 
 <h3>8.2&nbsp; Diabetes: the same picture</h3>
@@ -523,10 +516,10 @@ clearly better than CTGAN ({f(mean(h,'CTGAN','auc_ratio'))}).</li>
 <ul>
 <li>MedTwin again has the best fidelity ({f(mean(d,MEDTWIN,'fidelity_pct'),1)}%) and ties for usefulness
 ({f(mean(d,MEDTWIN,'auc_ratio'))}).</li>
-<li>TabDDPM is the hardest to spot ({f(mean(d,'TabDDPM','detectability_pct'),1)}%) <b>but it memorised its training
-patients</b>: {f(mean(d,'TabDDPM','dcr_closer_to_train_pct'),1)}% of its records sit closer to training patients and the
+<li>TabDDPM is the hardest to spot ({f(mean(d,'TabDDPM','detectability_pct'),1)}%) but it memorised its training
+patients. {f(mean(d,'TabDDPM','dcr_closer_to_train_pct'),1)}% of its records sit closer to training patients and the
 membership attack reaches AUC {f(mean(d,'TabDDPM','mia_auc'))}, matching recent findings that diffusion models for tables memorise [24]. MedTwin shows no such leak ({f(mean(d,MEDTWIN,'mia_auc'))}).
-This also shows why detectability alone must not be read as privacy.</li>
+It is a good example of why detectability should not be read as privacy.</li>
 </ul>
 
 <h3>8.3&nbsp; Are the missing values realistic?</h3>
@@ -550,12 +543,12 @@ conditioning it rises to {am(h,'no_condition','pattern_tvd')} and the site gap t
 <p>Yes, a little, for one group. On heart disease about {f(mean(h,MEDTWIN,'n_rare_patients'),0)} of the 368 attacked
 patients have a <i>rare</i> missingness pattern. For them, the membership attack reaches AUC
 <b>{am(h,'full','rare_pattern_dist_mia_auc')}</b> against MedTwin, compared with {am(h,'no_missing_flags','rare_pattern_dist_mia_auc')}
-when MedTwin is trained without the missing-value flags &mdash; higher in all 5 seeds. For patients with common
+when MedTwin is trained without the missing-value flags, and it is higher in all 5 seeds. For patients with common
 patterns ({am(h,'full','common_pattern_dist_mia_auc')} vs {am(h,'no_missing_flags','common_pattern_dist_mia_auc')}) and overall
 ({am(h,'full','mia_auc')} vs {am(h,'no_missing_flags','mia_auc')}) there is no clear difference. One-of-a-kind patterns of
 training patients do not reappear more often than those of unseen patients, so the model is not copying patterns.
 On diabetes only about {f(mean(d,MEDTWIN,'n_rare_patients'),0)} patients per test have rare patterns, too few for a conclusion.</p>
-{box("What this means", "<p>Realistic holes make the data more realistic and keep overall privacy unchanged, but patients with <i>unusual</i> holes become slightly easier to single out. Data owners should know this; merging rare patterns before release is a possible fix to test next.</p>", "goal")}
+{box("What this means", "<p>Realistic holes make the data more realistic and leave overall privacy where it was, but patients with <i>unusual</i> holes become slightly easier to single out. Data owners should know this. Merging rare patterns before release is one fix worth testing.</p>", "goal")}
 
 <h3>8.5&nbsp; What each part contributes (ablation)</h3>
 <p class='tlabel'><b>Heart disease</b> (<sup>*</sup> = clear difference from the full model)</p>
@@ -563,20 +556,20 @@ On diabetes only about {f(mean(d,MEDTWIN,'n_rare_patients'),0)} patients per tes
 <p class='tlabel'><b>Diabetes</b></p>
 {table(ahead, abl_rows(d, ["full", "no_missing_flags", "no_corr_loss"]), "results")}
 <ul>
-<li><b>Missing-value flags</b> matter most: without them detectability rises from {am(h,'full','detectability_pct',1)}% to
+<li>The missing-value flags matter most. Without them, detectability rises from {am(h,'full','detectability_pct',1)}% to
 {am(h,'no_missing_flags','detectability_pct',1)}% (heart) and from {am(d,'full','detectability_pct',1)}% to {am(d,'no_missing_flags','detectability_pct',1)}% (diabetes).
 Filling holes with typical values makes fake patients easy to spot.</li>
-<li><b>Zero flag</b> and <b>hospital conditioning</b> also clearly help realism ({am(h,'no_zero_flags','detectability_pct',1)}% and {am(h,'no_condition','detectability_pct',1)}% without them).</li>
-<li><b>Correlation loss</b> does not change realism or usefulness, but without it the correlation gap nearly doubles
+<li>The zero flag and hospital conditioning also clearly help realism ({am(h,'no_zero_flags','detectability_pct',1)}% and {am(h,'no_condition','detectability_pct',1)}% without them).</li>
+<li>The correlation loss does not change realism or usefulness. Without it, though, the correlation gap nearly doubles
 ({am(h,'full','corr_gap_numeric')} &rarr; {am(h,'no_corr_loss','corr_gap_numeric')} heart; {am(d,'full','corr_gap_numeric')} &rarr; {am(d,'no_corr_loss','corr_gap_numeric')} diabetes).</li>
-<li>No part changes usefulness or overall privacy. The medical range check never removed a patient: it is only a safety net.</li>
+<li>No part changes usefulness or overall privacy. The medical range check never removed a patient, so it is only a safety net.</li>
 </ul>
 
 <h3>8.6&nbsp; Do results depend on our chosen settings?</h3>
 {table(["Setting (heart disease)", "Fidelity %", "Detect. %", "AUC ratio", "DCR %", "MIA AUC"], srows, "results")}
 <p>Changing the correlation weight (0.5 or 8 instead of 2) or training for 300 epochs makes no clear difference.
-Training twice as long (1200 epochs) starts to memorise: DCR and MIA rise clearly. So 600 epochs is a good choice,
-and the results do not depend on lucky settings.</p>
+Training twice as long (1200 epochs) starts to memorise: DCR and MIA rise clearly. So 600 epochs is a sensible choice,
+and the results do not rest on lucky settings.</p>
 
 <h3>8.7&nbsp; A closer look at the generated values</h3>
 {figure("figures/heart_disease/fig_continuous.png", "Distributions of the number columns (heart disease): real (blue) vs MedTwin (orange), measured values only.")}
@@ -601,14 +594,14 @@ def comparison():
     return f"""
 <section>
 <h2>9&nbsp; Comparison with previous work</h2>
-<p>We searched for work from the last five years on the same datasets or the same problem. Exact number-for-number
-comparison is usually not possible, because each paper uses different data, splits and measures. The table shows
+<p>We searched for work from the last five years on the same datasets or the same problem. Their numbers usually
+cannot be compared directly with ours, because each paper uses different data, splits and measures. The table shows
 what each did and how our project relates. Larger benchmark studies of synthetic health data [25, 26] compare many
-generators on realism, usefulness and privacy; we follow the same three-part view.</p>
+generators on realism, usefulness and privacy, and we judge our model the same way.</p>
 {table(["Work", "What they did", "Their result", "How we compare"], rows, "compact lit", ["21%", "27%", "22%", "30%"])}
-<p><b>In short:</b> on the same datasets, our results and testing are stronger than recent published work. On the core idea
-(keeping missing values), other groups were first, so our novelty is in <i>measuring</i> realistic holes, in hospital
-conditioning, and in showing their privacy cost.</p>
+<p>On the same datasets, our results and our testing go further than recent published work. Other groups were
+first to keep missing values in synthetic data. What we add is a way to <i>measure</i> whether the holes are
+realistic, hospital conditioning, and evidence of what the holes cost in privacy.</p>
 </section>"""
 
 
@@ -617,15 +610,15 @@ def novelty():
 <section>
 <h2>10&nbsp; What is new in this project</h2>
 <ol class='spaced'>
-<li><b>Scores for realistic missing values.</b> Missing rate per column, per hospital, and the full pattern of
-which values go missing together &mdash; each compared with the gap between two real samples, so &ldquo;good&rdquo;
-has a clear meaning. Existing papers do not use a common measure for this.</li>
-<li><b>A privacy audit for missing values.</b> The first test of whether realistic holes make patients easier to
-identify. We found a small, consistent cost for patients with rare patterns that standard privacy tests do not show.</li>
-<li><b>Hospital-aware generation of holes.</b> MedTwin is the only tested method that puts holes at the right
-hospital, because each patient is generated for a given hospital.</li>
-<li><b>A careful, honest evaluation.</b> Unseen test patients, five repeats, paired statistics, ablation of every part,
-a settings check, and a clear separation of realism from privacy.</li>
+<li>We score how realistic the missing values are: the missing rate per column and per hospital, and the
+full pattern of which values go missing together. Each score is shown next to the gap between two real samples,
+so the reader can see what a good value looks like. Existing papers have no common measure for this.</li>
+<li>We test whether realistic holes make patients easier to identify. As far as we know, nobody had checked this
+before. Patients with rare patterns pay a small cost that standard privacy tests do not show.</li>
+<li>MedTwin is the only tested method that puts holes at the right hospital, because each patient is generated
+for a given hospital.</li>
+<li>The evaluation uses unseen test patients, five repeats and paired statistics. It also switches off each part
+of the model in turn, checks the main settings, and keeps realism and privacy apart.</li>
 </ol>
 </section>"""
 
@@ -635,14 +628,15 @@ def limitations():
 <section class='cont'>
 <h2>11&nbsp; Limitations</h2>
 <ul>
-<li><b>Small datasets.</b> Both datasets have fewer than 1000 patients and one table each. Larger hospital
-databases and data over time may behave differently.</li>
-<li><b>Still detectable.</b> A classifier can still spot our fake heart patients 62% of the time (50% would be perfect).</li>
-<li><b>Privacy is tested, not guaranteed.</b> We use attacks, not a mathematical guarantee such as differential
-privacy. Passing these attacks does not prove the data is safe [23].</li>
-<li><b>Missing-value privacy audit needs enough rare patients.</b> It works on heart disease but not on diabetes.</li>
-<li><b>Not compared with every method.</b> The newest missing-value generators (MissDiff, Wang et al.) and TabSyn
-were not run in our benchmark. TabDDPM is our own compact version.</li>
+<li>Both datasets have fewer than 1000 patients and one table each. Larger hospital databases and data
+collected over time may behave differently.</li>
+<li>A classifier can still spot our fake heart patients 62% of the time (50% would be perfect).</li>
+<li>We tested privacy with attacks. There is no mathematical guarantee such as differential privacy, and
+passing these attacks does not prove the data is safe [23].</li>
+<li>The missing-value privacy audit needs enough patients with rare patterns. It works on heart disease but
+not on diabetes.</li>
+<li>The newest missing-value generators (MissDiff, Wang et al.) and TabSyn were not run in our benchmark, and
+TabDDPM is our own compact version.</li>
 </ul>
 </section>"""
 
