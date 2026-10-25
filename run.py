@@ -18,7 +18,7 @@ def launch_project():
 
     # 1. Run the AI Generator
     print("\n[1/2] Executing AI Generation & Clinical Grounding...")
-    subprocess.run(["python", "main.py"])
+    subprocess.run([sys.executable, "main.py"])
 
     # 2. Small delay to ensure files are written
     time.sleep(2)
@@ -26,7 +26,7 @@ def launch_project():
     # 3. Launch the Dashboard
     print("\n[2/2] Launching Clinical Dashboard...")
     try:
-        subprocess.run(["streamlit", "run", "app/dashboard.py"])
+        subprocess.run([sys.executable, "-m", "streamlit", "run", "app/dashboard.py"])
     except KeyboardInterrupt:
         print("\n🛑 MedTwin System Shutting Down.")
 
